@@ -43,7 +43,39 @@ var levelList = [
                 delayBetweenSpawn: 7,
             },
         ]
-    }
+    },
+    {
+        levelName: 'lvlPencil',
+        mapName: 'mapPencil',
+        wave: [
+            //wave 1
+            {
+                waitForPreviousWave: false,
+                startDelay: 0,
+                spawnOnPath: 0,
+                strength: 5,
+                amount: 20,
+                delayBetweenSpawn: 5,
+            },
+
+        ]
+    },
+    {
+        levelName: 'lvlGreenLand',
+        mapName: 'mapDrawnGreenLand',
+        wave: [
+            //wave 1
+            {
+                waitForPreviousWave: false,
+                startDelay: 0,
+                spawnOnPath: 0,
+                strength: 5,
+                amount: 20,
+                delayBetweenSpawn: 5,
+            },
+
+        ]
+    },
 
     
 ];

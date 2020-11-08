@@ -51,6 +51,7 @@ function keySet(keyEvent, setTo) {
 }
 
 function keyPressed(evt) {
+	cheats(evt.key);
 	// console.log("Key pressed: "+evt.keyCode);
 	keySet(evt, true);
 

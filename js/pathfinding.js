@@ -3,7 +3,7 @@
 // 2 = South
 // 3 = West
 
-function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
+function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurrets) {
   //copy mapGrid array to a temp array
   var grid = JSON.parse(JSON.stringify(gameLoop.returnMapOfPath(pathNumber)));
 
@@ -28,7 +28,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
     var currentLocation = queue.shift();
 
     // Explore North
-    var newLocation = exploreInDirection(currentLocation, 0, grid, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 0, grid, ignoreTurretSpawns, ignoreTurrets);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -36,7 +36,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
     }
 
     // Explore East
-    var newLocation = exploreInDirection(currentLocation, 1, grid, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 1, grid, ignoreTurretSpawns, ignoreTurrets);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -44,7 +44,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
     }
 
     // Explore South
-    var newLocation = exploreInDirection(currentLocation, 2, grid, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 2, grid, ignoreTurretSpawns, ignoreTurrets);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -52,7 +52,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
     }
 
     // Explore West
-    var newLocation = exploreInDirection(currentLocation, 3, grid, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 3, grid, ignoreTurretSpawns, ignoreTurrets);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -66,7 +66,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
 };
 
   // Explore the grid in different directions
-  function exploreInDirection(currentLocation, direction, grid, ignoreTurrets) {
+  function exploreInDirection(currentLocation, direction, grid, ignoreTurretSpawns, ignoreTurrets) {
   var newPath = currentLocation.path.slice();
   newPath.push(direction);
 
@@ -89,7 +89,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
     path: newPath,
     block: 'Unknown'
   };
-  newLocation.block = locationStatus(newLocation, grid, ignoreTurrets);
+  newLocation.block = locationStatus(newLocation, grid, ignoreTurretSpawns, ignoreTurrets);
 
   // If this new location is valid, mark it as 'Visited'
   if (newLocation.block === 'Valid') {
@@ -104,7 +104,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurrets) {
 // (a location is "valid" if it is on the grid, is not an "obstacle",
 // and has not yet been visited by our algorithm)
 // Returns "Valid", "Invalid", "Blocked", or "Goal"
-function locationStatus(location, grid, ignoreTurrets) {
+function locationStatus(location, grid, ignoreTurretSpawns, ignoreTurrets) {
   var dft = location.distY;
   var dfl = location.distX;
 
@@ -119,19 +119,24 @@ function locationStatus(location, grid, ignoreTurrets) {
   }
 
   //If its a block that the object can walk on
-  if(!ignoreTurrets)
+  if(!ignoreTurrets && !ignoreTurretSpawns)
   {
     if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5) {
       return 'Valid';
     }
   }
-  else
+  else if(!ignoreTurrets && ignoreTurretSpawns)
   {
     if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5 || grid[dfl][dft] == 4) {
       return 'Valid';
     }
   }
-
+  else if(ignoreTurrets && ignoreTurretSpawns)
+  {
+    if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5 || grid[dfl][dft] == 4 || grid[dfl][dft] == 6) {
+      return 'Valid';
+    }
+  }
   //If the path is blocked
   return 'Blocked';
 };

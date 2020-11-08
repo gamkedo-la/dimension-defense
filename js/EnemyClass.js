@@ -19,7 +19,7 @@ function EnemyClass(){
 	this.gumsForMe;
 	this.myGum = false;
 	this.hasVisitedAltar = false;
-	this.health = 5
+	this.health = 20;
 	this.isDead = false;
 
 	//move things here
@@ -66,9 +66,9 @@ function EnemyClass(){
 	//Inititalize
 	this.init = function(indexX, indexY, pathNumber)
 	{
-		this.r = 20;
+		this.r = 10;
 		this.color = "red";
-		this.speed = 2;
+		this.speed = 3;
 		this.pathNumber = pathNumber;
 
 		this.indexX = indexX;
@@ -101,14 +101,20 @@ function EnemyClass(){
 
 	this.findPathTo = function(goalIndexPos)
 	{
-		let testPath = findPath(this, goalIndexPos, this.pathNumber, false);
+		let testPath = findPath(this, goalIndexPos, this.pathNumber, false, false);
 		if(testPath != false)
 		{
 			return testPath;
 		}
-		else
+		testPath = findPath(this, goalIndexPos, this.pathNumber, true, false);
+		if(testPath != false)
 		{
-			return findPath(this, goalIndexPos, this.pathNumber, true);
+			return testPath;
+		}
+		testPath = findPath(this, goalIndexPos, this.pathNumber, true, true);
+		if(testPath != false)
+		{
+			return testPath;
 		}
 	}
 

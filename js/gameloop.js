@@ -28,7 +28,7 @@ gameLoop = new function(){
 		//Just a place holder until wave system is done
 		for(let i = 0; i < this.mapStartPos.length; i++)
 		{
-			if(gameTimer % 150 == 0 && this.mapStartPos[i] != false)
+			if(gameTimer % 100 == 0 && this.mapStartPos[i] != false)
 			{
 				this.spawnEnemy(this.mapStartPos[i].indexX, this.mapStartPos[i].indexY, i);
 				this.test++;		
@@ -106,6 +106,11 @@ gameLoop = new function(){
 		let newTurret = new BasicTuretClass();
 		newTurret.init(atIndexX, atIndexY);
 		this.turretList.push(newTurret);
+
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			this.map[this.pathList[i]][atIndexX][atIndexY] = 6;	
+		}
 				
 	}
 
@@ -198,10 +203,11 @@ gameLoop = new function(){
 		this.mapStartPos = [];
 		this.mapGoalPos = [];
 		this.mapGumAltarPos = [];
-		
+
 		this.gums = [];
 		this.waveList = [];
 		this.enemyList = [];
+		this.turretList = [];
 	}
 
 	this.generateWaveVarsFromLevelList = function(waveListToProcess)
@@ -228,7 +234,7 @@ gameLoop = new function(){
 
 		this.rows = mapToProcess.rows;
 		this.cols = mapToProcess.cols;
-		this.map = mapToProcess.map;
+		this.map = JSON.parse(JSON.stringify(mapToProcess.map));
 
 		for(let i = 0; i < mapToProcess.map.length; i++)
 		{
