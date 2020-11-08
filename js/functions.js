@@ -1,32 +1,40 @@
+function collisionCheckRoundShapes(obj1x, obj1y,obj1r, obj2x, obj2y, obj2r)
+{
+    let distX = obj1x - obj2x;
+	let distY = obj1y - obj2y;
+	let distR = obj1r + obj2r;
 
-function returnPixelPosFromIndexPos(tileIndexNumber, offsetAxis) {
-    switch (offsetAxis)
+    if ( distR > Math.sqrt((distX * distX) + (distY * distY)))
     {
-        case undefined:
-            offsetAxis = 0;
-            break;
-        case 'x':
-            offsetAxis = offsetX;
-            break;
-        case 'y':
-            offsetAxis = offsetY;
-            break;
-    }
-	return tileIndexNumber * TILE_SIZE - offsetAxis;
+		return true;
+	} else {
+		return false;
+	}
 }
 
-function returnIndexPosFromPixelPos(pixelCoordinate, offsetAxis) {
+function returnPixelPosFromIndexPos(tileIndexNumber, offsetAxis)
+{
     switch (offsetAxis)
     {
-        case undefined:
-            offsetAxis = 0;
-            break;
         case 'x':
-            offsetAxis = offsetX;
-            break;
+            return tileIndexNumber * TILE_SIZE - offsetX;
         case 'y':
-            offsetAxis = offsetY;
-            break;
+            return tileIndexNumber * TILE_SIZE - offsetY;
+    }
+}
+
+function returnIndexPosFromPixelPos(pixelCoordinate, offsetAxis)
+{
+    switch (offsetAxis)
+    {
+        case 'x':
+            return Math.floor((pixelCoordinate - offsetX) / TILE_SIZE);
+        case 'y':
+            return Math.floor((pixelCoordinate - offsetY) / TILE_SIZE);
     }    
-	return Math.floor((pixelCoordinate - offsetAxis) / TILE_SIZE);
+	
+}
+
+function getAngleBetween2PointsInRadian(p1X, p1Y, p2X, p2Y){
+    return  Math.atan2(p2Y - p1Y, p2X - p1X);
 }

@@ -3,7 +3,7 @@ function drawBitmapCenteredWithRotation(imgName, atX,atY, withAng) {
 	ctx.save();
 	ctx.translate(atX, atY);
 	ctx.rotate(withAng);
-	ctx.drawImage(image.get(imgName), image.get(imgName).width/2, image.get(imgName).height/2);
+	ctx.drawImage(image.get(imgName), -image.get(imgName).width/2, -image.get(imgName).height/2);
 	ctx.restore();
 }
 

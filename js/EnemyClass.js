@@ -1,7 +1,7 @@
 
 function EnemyClass(){
 	
-	this.radius;
+	this.r;
 	this.color;
 
 	this.x;
@@ -13,54 +13,103 @@ function EnemyClass(){
 
 	this.speed;
 	this.status;
-	this.onMapPath;
-
+	this.pathNumber;
 	this.pathQueue;
-	this.hasGum = false;
+
+	this.gumsForMe;
+	this.myGum = false;
+	this.hasVisitedAltar = false;
+	this.health = 5
 	this.isDead = false;
 
 	//move things here
 	this.move = function (){
-		if(this.pathQueue.length == 0 && !this.hasGum)
+		this.indexX = returnIndexPosFromPixelPos(this.x, 'x');
+		this.indexY = returnIndexPosFromPixelPos(this.y, 'y');
+
+		if(this.pathQueue.length == 0 && !this.hasVisitedAltar)
 		{
-			this.hasGum = true;
-			this.findPathTo(gameLoop.returnGoalPos(this.pathNumber))
+			for(let i = 0; i < this.gumsForMe.length; i++)
+			{
+				if(this.collisionCheckWithGum(this.gumsForMe[i]) && gameLoop.gums[this.gumsForMe[i]].hasOwner == false)
+				{
+					this.myGum = this.gumsForMe[i];
+					gameLoop.gums[i].hasOwner = true;			
+					break;
+				}
+			}
+			this.pathQueue = this.findPathTo(gameLoop.returnGoalPos(this.pathNumber))
+			this.hasVisitedAltar = true;
 		}
-		else if (this.pathQueue.length == 0 && this.hasGum)
+		else if (this.pathQueue.length == 0 && this.hasVisitedAltar)
 		{
 			this.isDead = true;
 		}
-		
+
 		this.walk();
+		if(this.myGum != false)
+		{
+			gameLoop.gums[this.myGum].x = this.x;
+			gameLoop.gums[this.myGum].y = this.y;
+		}
+		
 	}
 
 
 	//draw things here
 	this.draw = function(){
 
-		colorCircle(this.x, this.y, this.radius, this.color);
+		colorCircle(this.x, this.y, this.r, this.color);
 
 	}
 
 	//Inititalize
 	this.init = function(indexX, indexY, pathNumber)
 	{
-		this.radius = 20;
+		this.r = 20;
 		this.color = "red";
 		this.speed = 2;
+		this.pathNumber = pathNumber;
 
 		this.indexX = indexX;
 		this.indexY = indexY;
 
-		this.x = returnPixelPosFromIndexPos(indexX, 'x') + TILE_SIZE / 2;
-		this.y = returnPixelPosFromIndexPos(indexY, 'y') - TILE_SIZE / 2
-		this.pathNumber = pathNumber;
-		this.pathQueue = this.findPathTo(gameLoop.returnGumPos(this.pathNumber))
+		this.x = returnPixelPosFromIndexPos(indexX, 'x') + TILE_SIZE / 2 ;
+		this.y = returnPixelPosFromIndexPos(indexY, 'y') + TILE_SIZE / 2;
+
+		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
+		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
 	}
+
+	this.collisionCheckWithGum = function(gumListIndex)
+	{
+		if(collisionCheckRoundShapes(this.x, this.y, this.r, gameLoop.gums[gumListIndex].x, gameLoop.gums[gumListIndex].y, gameLoop.gums[gumListIndex].r) )
+		{
+			return true;
+		}		
+		return false;
+	}
+
+	this.takeHit = function(damageAmount)
+	{
+		this.health -= damageAmount;
+		if(this.health <= 0){
+			this.isDead = true;
+		}
+	}
+
 
 	this.findPathTo = function(goalIndexPos)
 	{
-		return findPath(this, goalIndexPos, this.pathNumber);
+		let testPath = findPath(this, goalIndexPos, this.pathNumber, false);
+		if(testPath != false)
+		{
+			return testPath;
+		}
+		else
+		{
+			return findPath(this, goalIndexPos, this.pathNumber, true);
+		}
 	}
 
 	this.walk = function(){

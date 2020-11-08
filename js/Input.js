@@ -19,13 +19,10 @@ function setupInput() {
 	document.addEventListener('keyup', keyReleased);
 } 
 
-  function mouseclicked(evt) {
+function mouseclicked(evt) {
 	switch (scene) {
-		case 'mainMenu':
-			mainMenu.onMouseClicked();
-			break;
-		case 'mapEditor':
-			mapEditor.onMouseClicked();
+		case 'game':
+			gameLoop.onMouseClicked();
 			break;
 	}
 	
@@ -50,18 +47,7 @@ function updateMousePos(evt) {
 }
 
 function keySet(keyEvent, setTo) {
-/*	if(keyEvent.keyCode == blueWarrior.controlKeyLeft) {
-		blueWarrior.keyHeld_West = setTo;
-	}
-	if(keyEvent.keyCode == blueWarrior.controlKeyRight) {
-		blueWarrior.keyHeld_East = setTo;
-	}
-	if(keyEvent.keyCode == blueWarrior.controlKeyUp) {
-		blueWarrior.keyHeld_North = setTo;
-	}
-	if(keyEvent.keyCode == blueWarrior.controlKeyDown) {
-		blueWarrior.keyHeld_South = setTo;
-	}*/
+
 }
 
 function keyPressed(evt) {

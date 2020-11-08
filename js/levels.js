@@ -1,7 +1,7 @@
 var levelList = [
     {
         levelName: 'testOne',
-        mapName: 'yay2',
+        mapName: 'test2',
         wave: [
             //wave 1
             {

@@ -295,10 +295,10 @@ mapEditor = new function(){
 					
 						switch (this.buttonList[i].name) {
 							case 'upBTN':
-								offsetY -= this.offsetAmount;
+								offsetY += this.offsetAmount;
 								return;
 							case 'downBTN':
-								offsetY += this.offsetAmount;
+								offsetY -= this.offsetAmount;
 								return;
 							case 'leftBTN':
 								offsetX -= this.offsetAmount;

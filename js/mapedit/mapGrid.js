@@ -9,7 +9,7 @@ mapGrid = new function(){
 	// 2 = Enemy path way
 	// 3 = Enemy Goal
 	// 4 = player turret spawn Point
-	// 5 = Gum spawn place
+	// 5 = Gum Altar
 
 
 	this.rows = 7;

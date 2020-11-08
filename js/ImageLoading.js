@@ -4,14 +4,12 @@ var picsToLoad = 0; // set automatically based on imageArray in loadImages()
 image = new function (){
 	//Put all images here
 	this.InitImageList = [
-		{imgName: 'test', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'yay2', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'yay3', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'yay1', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'test', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'yay2', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'yay3', fileName: "testGrid.png", type: 'gameMap'},
-		{imgName: 'yay1', fileName: "testGrid.png", type: 'gameMap'},
+		{imgName: 'test1', fileName: "testGrid.png", type: 'gameMap'},
+		{imgName: 'test2', fileName: "test2.png", type: 'gameMap'},
+
+		{imgName: 'basicTurret', fileName: "basicTurret.png", type: 'turret'},
+
+		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 	];
 
 	//creating different lists upfront

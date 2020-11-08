@@ -12,24 +12,26 @@ gameLoop = new function(){
 
 	this.map = [];
 	this.pathList = [];
-	this.turretPosList = [];
-	this.startPosList = [];
-	this.goalPosList = [];
-	this.gumPosList = [];
+	this.mapTurretPos = [];
+	this.mapStartPos = [];
+	this.mapGoalPos = [];
+	this.mapGumAltarPos = [];
 
+	this.gums = [];
 	this.waveList = [];
 	this.enemyList = [];
+	this.turretList = [];
 
 	//move things here
 	this.move = function (){
 		gameTimer++;
-
 		//Just a place holder until wave system is done
-		for(let i = 0; i < this.startPosList.length; i++)
+		for(let i = 0; i < this.mapStartPos.length; i++)
 		{
-			if(gameTimer % 200 == 0 && this.startPosList[i] != false)
+			if(gameTimer % 150 == 0 && this.mapStartPos[i] != false)
 			{
-				this.spawnEnemy(this.startPosList[i].indexX, this.startPosList[i].indexY, i)				
+				this.spawnEnemy(this.mapStartPos[i].indexX, this.mapStartPos[i].indexY, i);
+				this.test++;		
 			}
 		}
 
@@ -46,6 +48,11 @@ gameLoop = new function(){
 			}
 		}
 
+		for (let i = 0; i < this.turretList.length; i++)
+		{
+			this.turretList[i].move();
+		}
+
 	}
 
 
@@ -58,6 +65,48 @@ gameLoop = new function(){
 		{
 			this.enemyList[i].draw();
 		}
+
+		for(let i = 0; i < this.gums.length; i++)
+		{
+			drawImageWithAngle("gum1", this.gums[i].x, this.gums[i].y, 0);
+		}
+
+		for (let i = 0; i < this.turretList.length; i++)
+		{
+			this.turretList[i].draw();
+		}
+
+	}
+
+	this.onMouseClicked = function()
+	{
+		let mouseIDX = returnIndexPosFromPixelPos(mouseX, 'x');
+		let mouseIDY = returnIndexPosFromPixelPos(mouseY, 'y');
+
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
+		{
+			for(let t = 0; t < this.turretList.length; t++)
+			{
+				if(this.turretList[t].indexX == mouseIDX && this.turretList[t].indexY == mouseIDY)
+				{
+					console.log("A turret is already here.");
+					return;
+				}
+			}
+
+			this.spawnTurret(mouseIDX, mouseIDY);
+
+		}
+		
+
+	}
+
+	this.spawnTurret = function(atIndexX, atIndexY)
+	{
+		let newTurret = new BasicTuretClass();
+		newTurret.init(atIndexX, atIndexY);
+		this.turretList.push(newTurret);
+				
 	}
 
 	this.spawnEnemy = function(atIndexX, atIndexY, pathNumber)
@@ -68,25 +117,39 @@ gameLoop = new function(){
 				
 	}
 
-	this.returnGumPos = function(onPath)
+	this.returnGumAltarPos = function(pathNumber)
 	{
-		return this.gumPosList[onPath]
+		return this.mapGumAltarPos[pathNumber];
 	}
 
-	this.returnGoalPos = function(onPath)
+	this.returnGoalPos = function(pathNumber)
 	{
-		return this.gumPosList[onPath]
+		return this.mapGoalPos[pathNumber];
 	}
 
 	this.returnMapOfPath = function(pathNumber)
 	{
-		return this.map[pathNumber]
+		return this.map[pathNumber];
+	}
+
+	this.returnGumListIndex = function(fromAltar)
+	{
+		let cacheGums = [];
+		for(let i = 0; i < this.gums.length; i++)
+		{
+			if(this.gums[i].fromAltar == fromAltar)
+			{
+				cacheGums.push(i);
+			}
+		}
+		return cacheGums;
 	}
 
 	//Inititalize
 	this.init = function(levelName)
 	{
 		this.resetGame();
+
 		for (let i = 0; i < levelList.length; i++)
 		{
 			if(levelName == levelList[i].levelName)
@@ -106,6 +169,23 @@ gameLoop = new function(){
 			}
 		}
 
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			for(let gi = 0; gi < 50; gi++)
+			{
+				this.gums.push(
+					{
+						x: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexX, 'x') + TILE_SIZE / 2, 
+						y: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexY, 'y') + TILE_SIZE / 2,
+						r: 20,
+						fromAltar: this.pathList[i],
+						hasOwner: false,
+						dead: false
+					}
+				)
+			}
+		}
+
 	}
 
 	this.resetGame = function()
@@ -114,11 +194,12 @@ gameLoop = new function(){
 
 		this.map = [];
 		this.pathList = [];
-		this.turretPosList = [];
-		this.startPosList = [];
-		this.goalPosList = [];
-		this.gumPosList = [];
-	
+		this.mapTurretPos = [];
+		this.mapStartPos = [];
+		this.mapGoalPos = [];
+		this.mapGumAltarPos = [];
+		
+		this.gums = [];
 		this.waveList = [];
 		this.enemyList = [];
 	}
@@ -137,6 +218,14 @@ gameLoop = new function(){
 
 	this.generateMapVarsFromEditorMapList = function(mapToProcess)
 	{	
+		//map Legend:
+		// 0 = empty
+		// 1 = Enemy Start spawn point
+		// 2 = Enemy path way
+		// 3 = Enemy Goal
+		// 4 = player turret spawn Point
+		// 5 = Gum Altar
+
 		this.rows = mapToProcess.rows;
 		this.cols = mapToProcess.cols;
 		this.map = mapToProcess.map;
@@ -153,29 +242,38 @@ gameLoop = new function(){
 							case 0:
 								break;
 							case 1:
-								this.startPosList[i] = {indexX: x, indexY: y};
+								this.mapStartPos[i] = {indexX: x, indexY: y};
 								break;
 							case 2:
 								if(!this.pathList.includes(i)) this.pathList.push(i);								
 								break;
 							case 3:
-								this.goalPosList[i] = {indexXx: x, indexY: y};
+								this.mapGoalPos[i] = {indexX: x, indexY: y};
 								break;
 							case 4:
-								this.turretPosList.push({indexX: x, indexY: y});
+								this.mapTurretPos.push({indexX: x, indexY: y});
 								break;
 							case 5:
-								this.gumPosList[i] = {indexX: x, indexY: y};
+								this.mapGumAltarPos[i] = {indexX: x, indexY: y};
 								break;
 						}
 					}
 				}
 			}else{
-				this.startPosList[i] = false;
-				this.goalPosList[i] = false;
-				this.turretPosList[i] = false;
-				this.gumPosList[i] = false;
+				this.mapStartPos[i] = false;
+				this.mapGoalPos[i] = false;
+				this.mapGumAltarPos[i] = false;
 			}
 		}
+
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			for(let t = 0; t < this.mapTurretPos.length; t++)
+			{
+				this.map[this.pathList[i]][this.mapTurretPos[t].indexX][this.mapTurretPos[t].indexY] = 4;
+			} 		
+		}
+
 	}
+
 }

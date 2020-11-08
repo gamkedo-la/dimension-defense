@@ -122,7 +122,7 @@ function locationStatus(location, grid) {
   }
 
   //If its a block that the object can walk on
-  if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5) {
+  if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5 || grid[dfl][dft] == 4) {
     return 'Valid';
   }
 
