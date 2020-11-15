@@ -1,81 +1,107 @@
 var levelList = [
-    {
-        levelName: 'testOne',
-        mapName: 'test2',
-        wave: [
-            //wave 1
-            {
-                waitForPreviousWave: false,
-                startDelay: 0,
-                spawnOnPath: 0,
-                strength: 5,
-                amount: 20,
-                delayBetweenSpawn: 5,
-            },
 
-            //wave 2
-            {
-                waitForPreviousWave: true,
-                startDelay: 0,
-                spawnOnPath: 1,
-                strength: 5,
-                amount: 30,
-                delayBetweenSpawn: 3,
-            },
-
-            //wave 2
-            {
-                waitForPreviousWave: false,
-                startDelay: 0,
-                spawnOnPath: 2,
-                strength: 5,
-                amount: 10,
-                delayBetweenSpawn: 10,
-            },
-
-            //wave 3
-            {
-                waitForPreviousWave: false,
-                startDelay: 0,
-                spawnOnPath: 0,
-                strength: 5,
-                amount: 20,
-                delayBetweenSpawn: 7,
-            },
-        ]
-    },
     {
         levelName: 'lvlPencil',
         mapName: 'mapPencil',
-        wave: [
-            //wave 1
-            {
-                waitForPreviousWave: false,
-                startDelay: 0,
-                spawnOnPath: 0,
-                strength: 5,
-                amount: 20,
-                delayBetweenSpawn: 5,
-            },
+        waveStartDelay: [1, 20],
+        wave: 
+        [
+            //wave 1 
+            [
+                {
+                    enemyType: 'red',
+                    spawnOnPath: 0,
+                    amountToSpawn: 3,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'green',
+                    spawnOnPath: 0,
+                    amountToSpawn: 4,
+                    delayBetweenSpawn: 3,
+                },
+                {
+                    enemyType: 'blue',
+                    spawnOnPath: 0,
+                    amountToSpawn: 2,                    
+                    delayBetweenSpawn: 4,
+                },
 
+            ],
+            //wave 2
+            [
+                {
+                    enemyType: 'orange',
+                    spawnOnPath: 0,
+                    amountToSpawn: 3,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'yellow',
+                    spawnOnPath: 0,
+                    amountToSpawn: 4,
+                    delayBetweenSpawn: 4,
+                },
+                {
+                    enemyType: 'blue',
+                    spawnOnPath: 0,
+                    amountToSpawn: 2,                    
+                    delayBetweenSpawn: 7,
+                },
+            ],
         ]
     },
+
     {
         levelName: 'lvlGreenLand',
-        mapName: 'mapDrawnGreenLand',
-        wave: [
-            //wave 1
-            {
-                waitForPreviousWave: false,
-                startDelay: 0,
-                spawnOnPath: 0,
-                strength: 5,
-                amount: 20,
-                delayBetweenSpawn: 5,
-            },
+        mapName: 'mapDrawnLand',
+        waveStartDelay: [1, 20],
+        wave: 
+        [
+            //wave 1 
+            [
+                {
+                    enemyType: 'red',
+                    spawnOnPath: 0,
+                    amountToSpawn: 8,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'green',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'blue',
+                    spawnOnPath: 0,
+                    amountToSpawn: 2,                    
+                    delayBetweenSpawn: 3,
+                },
 
+            ],
+            //wave 2
+            [
+                {
+                    enemyType: 'orange',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'yellow',
+                    spawnOnPath: 0,
+                    amountToSpawn: 4,
+                    delayBetweenSpawn: 4,
+                },
+                {
+                    enemyType: 'blue',
+                    spawnOnPath: 0,
+                    amountToSpawn: 2,                    
+                    delayBetweenSpawn: 7,
+                },
+            ],
         ]
     },
-
     
 ];

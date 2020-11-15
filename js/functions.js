@@ -35,6 +35,12 @@ function returnIndexPosFromPixelPos(pixelCoordinate, offsetAxis)
 	
 }
 
-function getAngleBetween2PointsInRadian(p1X, p1Y, p2X, p2Y){
+function getAngleBetween2PointsInRadian(p1X, p1Y, p2X, p2Y)
+{
     return  Math.atan2(p2Y - p1Y, p2X - p1X);
+}
+
+function copyArray(arrayToCopy)
+{
+    return JSON.parse(JSON.stringify(arrayToCopy));
 }

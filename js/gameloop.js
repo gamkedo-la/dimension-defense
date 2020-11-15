@@ -12,27 +12,29 @@ gameLoop = new function(){
 
 	this.map = [];
 	this.pathList = [];
-	this.mapTurretPos = [];
+	this.mapTowerPos = [];
 	this.mapStartPos = [];
 	this.mapGoalPos = [];
 	this.mapGumAltarPos = [];
 
 	this.gums = [];
+	this.currentWave;
+	this.waveSubCounter;
 	this.waveList = [];
 	this.enemyList = [];
-	this.turretList = [];
+	this.towerList = [];
 
 	//move things here
 	this.move = function (){
 		gameTimer++;
-		//Just a place holder until wave system is done
-		for(let i = 0; i < this.mapStartPos.length; i++)
+
+		if(this.currentWave < this.waveList.length)
 		{
-			if(gameTimer % 100 == 0 && this.mapStartPos[i] != false)
-			{
-				this.spawnEnemy(this.mapStartPos[i].indexX, this.mapStartPos[i].indexY, i);
-				this.test++;		
-			}
+			this.processWave();
+		}
+		else
+		{
+			console.log("no more waves")
 		}
 
 
@@ -48,9 +50,9 @@ gameLoop = new function(){
 			}
 		}
 
-		for (let i = 0; i < this.turretList.length; i++)
+		for (let i = 0; i < this.towerList.length; i++)
 		{
-			this.turretList[i].move();
+			this.towerList[i].move();
 		}
 
 	}
@@ -71,9 +73,9 @@ gameLoop = new function(){
 			drawImageWithAngle("gum1", this.gums[i].x, this.gums[i].y, 0);
 		}
 
-		for (let i = 0; i < this.turretList.length; i++)
+		for (let i = 0; i < this.towerList.length; i++)
 		{
-			this.turretList[i].draw();
+			this.towerList[i].draw();
 		}
 
 	}
@@ -85,27 +87,25 @@ gameLoop = new function(){
 
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
 		{
-			for(let t = 0; t < this.turretList.length; t++)
+			for(let t = 0; t < this.towerList.length; t++)
 			{
-				if(this.turretList[t].indexX == mouseIDX && this.turretList[t].indexY == mouseIDY)
+				if(this.towerList[t].indexX == mouseIDX && this.towerList[t].indexY == mouseIDY)
 				{
-					console.log("A turret is already here.");
+					console.log("A tower is already here.");
 					return;
 				}
 			}
 
-			this.spawnTurret(mouseIDX, mouseIDY);
+			this.spawnTower(mouseIDX, mouseIDY);
 
 		}
-		
-
 	}
 
-	this.spawnTurret = function(atIndexX, atIndexY)
+	this.spawnTower = function(atIndexX, atIndexY)
 	{
-		let newTurret = new BasicTuretClass();
-		newTurret.init(atIndexX, atIndexY);
-		this.turretList.push(newTurret);
+		let newTower = new BasicTuretClass();
+		newTower.init(atIndexX, atIndexY);
+		this.towerList.push(newTower);
 
 		for(let i = 0; i < this.pathList.length; i++)
 		{
@@ -114,17 +114,21 @@ gameLoop = new function(){
 				
 	}
 
-	this.spawnEnemy = function(atIndexX, atIndexY, pathNumber)
+	this.spawnEnemy = function(pathNumber, enemyType)
 	{
 		let newEnemy = new EnemyClass();
-		newEnemy.init(atIndexX, atIndexY, pathNumber);
-		this.enemyList.push(newEnemy);
-				
+		newEnemy.init(pathNumber, enemyType);
+		this.enemyList.push(newEnemy);			
 	}
 
 	this.returnGumAltarPos = function(pathNumber)
 	{
 		return this.mapGumAltarPos[pathNumber];
+	}
+
+	this.returnStartPos = function(pathNumber)
+	{
+		return this.mapStartPos[pathNumber];
 	}
 
 	this.returnGoalPos = function(pathNumber)
@@ -150,6 +154,34 @@ gameLoop = new function(){
 		return cacheGums;
 	}
 
+	this.processWave = function()
+	{
+		if(this.waveList[this.currentWave].timerCache <= 0)
+		{
+			this.spawnEnemy(this.waveList[this.currentWave][this.waveSubCounter].spawnOnPath, this.waveList[this.currentWave][this.waveSubCounter].enemyType);
+			this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn--;
+
+			if(this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn <= 0)
+			{
+				this.waveSubCounter++;
+			}
+
+			if(this.waveSubCounter == this.waveList[this.currentWave].length)
+			{
+				this.currentWave++;
+				this.waveSubCounter = 0;					
+			}
+			else
+			{
+				this.waveList[this.currentWave].timerCache = this.waveList[this.currentWave][this.waveSubCounter].delayBetweenSpawn * 60;
+			}
+		}
+		else
+		{
+			this.waveList[this.currentWave].timerCache--;
+		}	
+	}
+
 	//Inititalize
 	this.init = function(levelName)
 	{
@@ -159,7 +191,7 @@ gameLoop = new function(){
 		{
 			if(levelName == levelList[i].levelName)
 			{
-				this.generateWaveVarsFromLevelList(levelList[i].wave);
+				this.generateWaveVarsFromLevelList(levelList[i]);
 				this.mapName = levelList[i].mapName;
 				break;
 			}
@@ -196,30 +228,35 @@ gameLoop = new function(){
 	this.resetGame = function()
 	{
 		gameTimer = 0;
+		this.mapName;
+		this.rows;
+		this.cols;
 
 		this.map = [];
 		this.pathList = [];
-		this.mapTurretPos = [];
+		this.mapTowerPos = [];
 		this.mapStartPos = [];
 		this.mapGoalPos = [];
 		this.mapGumAltarPos = [];
 
 		this.gums = [];
+		this.currentWave = 0;
+		this.waveSubCounter = 0;
 		this.waveList = [];
 		this.enemyList = [];
-		this.turretList = [];
+		this.towerList = [];
 	}
 
-	this.generateWaveVarsFromLevelList = function(waveListToProcess)
+	this.generateWaveVarsFromLevelList = function(level)
 	{
-		for (let i = 0; i < waveListToProcess.length; i++)
+		let waveList = copyArray(level);
+
+		for (let i = 0; i < waveList.wave.length; i++)
 		{
-			waveListToProcess[i].delayBetweenSpawn = waveListToProcess[i].delayBetweenSpawn * 60;
-			waveListToProcess[i].timerCache = 0;
-			waveListToProcess[i].isActive = false;
-			if (i == 0) waveListToProcess[i].isActive = true;
+			waveList.wave[i].timerCache = waveList.waveStartDelay[i] * 60;
 		}
-		this.waveList = waveListToProcess;
+		this.currentWave = 0;
+		this.waveList = waveList.wave;
 	}
 
 	this.generateMapVarsFromEditorMapList = function(mapToProcess)
@@ -234,11 +271,11 @@ gameLoop = new function(){
 
 		this.rows = mapToProcess.rows;
 		this.cols = mapToProcess.cols;
-		this.map = JSON.parse(JSON.stringify(mapToProcess.map));
+		this.map = copyArray(mapToProcess.map);
 
 		for(let i = 0; i < mapToProcess.map.length; i++)
 		{
-			if(mapToProcess.map[i] != false)
+			if(mapToProcess.map[i] !== false)
 			{
 				for(let x =  0; x < mapToProcess.rows; x++)
 				{
@@ -257,7 +294,7 @@ gameLoop = new function(){
 								this.mapGoalPos[i] = {indexX: x, indexY: y};
 								break;
 							case 4:
-								this.mapTurretPos.push({indexX: x, indexY: y});
+								this.mapTowerPos.push({indexX: x, indexY: y});
 								break;
 							case 5:
 								this.mapGumAltarPos[i] = {indexX: x, indexY: y};
@@ -274,9 +311,9 @@ gameLoop = new function(){
 
 		for(let i = 0; i < this.pathList.length; i++)
 		{
-			for(let t = 0; t < this.mapTurretPos.length; t++)
+			for(let t = 0; t < this.mapTowerPos.length; t++)
 			{
-				this.map[this.pathList[i]][this.mapTurretPos[t].indexX][this.mapTurretPos[t].indexY] = 4;
+				this.map[this.pathList[i]][this.mapTowerPos[t].indexX][this.mapTowerPos[t].indexY] = 4;
 			} 		
 		}
 

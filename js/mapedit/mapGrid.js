@@ -8,12 +8,12 @@ mapGrid = new function(){
 	// 1 = Enemy Start spawn point
 	// 2 = Enemy path way
 	// 3 = Enemy Goal
-	// 4 = player turret spawn Point
+	// 4 = player tower spawn Point
 	// 5 = Gum Altar
 
 
-	this.rows = 7;
-	this.cols = 5;
+	this.rows = 15;
+	this.cols = 10;
 	this.PathAmount = 8;
 	this.mapGrid = [];
 	this.showGrids = [];

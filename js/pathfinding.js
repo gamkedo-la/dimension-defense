@@ -3,9 +3,9 @@
 // 2 = South
 // 3 = West
 
-function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurrets) {
+function findPath(startPos, goalPos, pathNumber, ignoreTowerSpawns, ignoreTowers) {
   //copy mapGrid array to a temp array
-  var grid = JSON.parse(JSON.stringify(gameLoop.returnMapOfPath(pathNumber)));
+  var grid = copyArray(gameLoop.returnMapOfPath(pathNumber));
 
   //Set Goal
   grid[goalPos.indexX][goalPos.indexY] = 'GOAL';
@@ -28,7 +28,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
     var currentLocation = queue.shift();
 
     // Explore North
-    var newLocation = exploreInDirection(currentLocation, 0, grid, ignoreTurretSpawns, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 0, grid, ignoreTowerSpawns, ignoreTowers);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -36,7 +36,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
     }
 
     // Explore East
-    var newLocation = exploreInDirection(currentLocation, 1, grid, ignoreTurretSpawns, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 1, grid, ignoreTowerSpawns, ignoreTowers);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -44,7 +44,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
     }
 
     // Explore South
-    var newLocation = exploreInDirection(currentLocation, 2, grid, ignoreTurretSpawns, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 2, grid, ignoreTowerSpawns, ignoreTowers);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -52,7 +52,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
     }
 
     // Explore West
-    var newLocation = exploreInDirection(currentLocation, 3, grid, ignoreTurretSpawns, ignoreTurrets);
+    var newLocation = exploreInDirection(currentLocation, 3, grid, ignoreTowerSpawns, ignoreTowers);
     if (newLocation.block === 'GOAL') {
       return newLocation.path;
     } else if (newLocation.block === 'Valid') {
@@ -66,7 +66,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
 };
 
   // Explore the grid in different directions
-  function exploreInDirection(currentLocation, direction, grid, ignoreTurretSpawns, ignoreTurrets) {
+  function exploreInDirection(currentLocation, direction, grid, ignoreTowerSpawns, ignoreTowers) {
   var newPath = currentLocation.path.slice();
   newPath.push(direction);
 
@@ -89,7 +89,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
     path: newPath,
     block: 'Unknown'
   };
-  newLocation.block = locationStatus(newLocation, grid, ignoreTurretSpawns, ignoreTurrets);
+  newLocation.block = locationStatus(newLocation, grid, ignoreTowerSpawns, ignoreTowers);
 
   // If this new location is valid, mark it as 'Visited'
   if (newLocation.block === 'Valid') {
@@ -104,7 +104,7 @@ function findPath(startPos, goalPos, pathNumber, ignoreTurretSpawns, ignoreTurre
 // (a location is "valid" if it is on the grid, is not an "obstacle",
 // and has not yet been visited by our algorithm)
 // Returns "Valid", "Invalid", "Blocked", or "Goal"
-function locationStatus(location, grid, ignoreTurretSpawns, ignoreTurrets) {
+function locationStatus(location, grid, ignoreTowerSpawns, ignoreTowers) {
   var dft = location.distY;
   var dfl = location.distX;
 
@@ -119,19 +119,19 @@ function locationStatus(location, grid, ignoreTurretSpawns, ignoreTurrets) {
   }
 
   //If its a block that the object can walk on
-  if(!ignoreTurrets && !ignoreTurretSpawns)
+  if(!ignoreTowers && !ignoreTowerSpawns)
   {
     if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5) {
       return 'Valid';
     }
   }
-  else if(!ignoreTurrets && ignoreTurretSpawns)
+  else if(!ignoreTowers && ignoreTowerSpawns)
   {
     if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5 || grid[dfl][dft] == 4) {
       return 'Valid';
     }
   }
-  else if(ignoreTurrets && ignoreTurretSpawns)
+  else if(ignoreTowers && ignoreTowerSpawns)
   {
     if (grid[dfl][dft] == 2 || grid[dfl][dft] == 5 || grid[dfl][dft] == 4 || grid[dfl][dft] == 6) {
       return 'Valid';

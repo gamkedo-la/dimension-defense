@@ -4,11 +4,10 @@ var picsToLoad = 0; // set automatically based on imageArray in loadImages()
 image = new function (){
 	//Put all images here
 	this.InitImageList = [
-		{imgName: 'test2', fileName: "test2.png", type: 'gameMap'},
 		{imgName: 'mapPencil', fileName: "mapPencil.png", type: 'gameMap'},
-		{imgName: 'mapDrawnGreenLand', fileName: "mapDrawnGreenLand.png", type: 'gameMap'},
+		{imgName: 'mapDrawnLand', fileName: "mapDrawnGreenLand.png", type: 'gameMap'},
 
-		{imgName: 'basicTurret', fileName: "basicTurret.png", type: 'turret'},
+		{imgName: 'basicTurret', fileName: "basicTurret.png", type: 'tower'},
 
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 	];

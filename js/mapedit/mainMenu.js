@@ -59,8 +59,8 @@ mainMenu = new function(){
 	//Inititalize things on first run, like buttons an such
 	this.init = function(){
 
-		GenerateButton(this.buttonList, 200, 150, 300, 100, '#17c0eb','New Map', 15, 15, 50, '#000000', 'newMap', 'mainMenuBTN');
-		GenerateButton(this.buttonList, 200, 270, 300, 100, '#7158e2','Edit Map', 15, 15, 50, '#000000', 'editMap', 'mainMenuBTN');
+		GenerateButton(this.buttonList, 200, 200, 300, 100, '#17c0eb','New Map', 15, 15, 50, '#000000', 'newMap', 'mainMenuBTN');
+		GenerateButton(this.buttonList, 200, 320, 300, 100, '#7158e2','Edit Map', 15, 15, 50, '#000000', 'editMap', 'mainMenuBTN');
 	
 	}
 	

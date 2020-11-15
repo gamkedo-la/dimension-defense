@@ -12,7 +12,7 @@ var mouseAction ={
 mapEditor = new function(){
 	
 	this.toolbarHeight = 135;
-	this.toolbarStartY = 600 - this.toolbarHeight; //600 is canvas height
+	this.toolbarStartY = 735 - this.toolbarHeight; //600 is canvas height
 	this.buttonList = [];
 	this.mapImage;
 	this.offsetAmount = 30;
@@ -74,7 +74,7 @@ mapEditor = new function(){
 		GenerateButton(this.buttonList, 105, 80+this.toolbarStartY, 95, 30, '#ffb8b8','Save Map', 5, 3, 18, '#000000', 'saveBTN', 'mapEditorBTN');
 
 		GenerateButton(this.buttonList, 500, 5+this.toolbarStartY, 52, 52, '#4b4b4b','Empty', 1, 15, 16, '#ffffff', 'pathEmptyBTN', 'mapEditorBTN');
-		GenerateButton(this.buttonList, 610, 5+this.toolbarStartY, 52, 52, '#ff9f1a','Turret', 0, 15, 15, '#000000', 'pathTurretBTN', 'mapEditorBTN');
+		GenerateButton(this.buttonList, 610, 5+this.toolbarStartY, 52, 52, '#ff9f1a','Tower', 0, 15, 15, '#000000', 'pathTurretBTN', 'mapEditorBTN');
 		GenerateButton(this.buttonList, 500, 60+this.toolbarStartY, 52, 52, '#32ff7e','Start', 0, 15, 18, '#000000', 'pathStartBTN', 'mapEditorBTN');
 		GenerateButton(this.buttonList, 555, 60+this.toolbarStartY, 52, 52, '#7d5fff','Path', 4, 15, 18, '#000000', 'pathPathBTN', 'mapEditorBTN');
 		GenerateButton(this.buttonList, 610, 60+this.toolbarStartY, 52, 52, '#ff4d4d','Goal', 5, 15, 18, '#000000', 'pathGoalBTN', 'mapEditorBTN');

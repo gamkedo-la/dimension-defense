@@ -47,7 +47,7 @@ function EnemyClass(){
 		}
 
 		this.walk();
-		if(this.myGum != false)
+		if(this.myGum !== false)
 		{
 			gameLoop.gums[this.myGum].x = this.x;
 			gameLoop.gums[this.myGum].y = this.y;
@@ -64,18 +64,17 @@ function EnemyClass(){
 	}
 
 	//Inititalize
-	this.init = function(indexX, indexY, pathNumber)
+	this.init = function(pathNumber, enemyType)
 	{
 		this.r = 10;
-		this.color = "red";
+		this.color = enemyType;
 		this.speed = 3;
 		this.pathNumber = pathNumber;
+		this.indexX = gameLoop.returnStartPos(pathNumber).indexX;
+		this.indexY = gameLoop.returnStartPos(pathNumber).indexY;
 
-		this.indexX = indexX;
-		this.indexY = indexY;
-
-		this.x = returnPixelPosFromIndexPos(indexX, 'x') + TILE_SIZE / 2 ;
-		this.y = returnPixelPosFromIndexPos(indexY, 'y') + TILE_SIZE / 2;
+		this.x = returnPixelPosFromIndexPos(this.indexX, 'x') + TILE_SIZE / 2 ;
+		this.y = returnPixelPosFromIndexPos(this.indexY, 'y') + TILE_SIZE / 2;
 
 		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
 		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
@@ -102,17 +101,17 @@ function EnemyClass(){
 	this.findPathTo = function(goalIndexPos)
 	{
 		let testPath = findPath(this, goalIndexPos, this.pathNumber, false, false);
-		if(testPath != false)
+		if(testPath !== false)
 		{
 			return testPath;
 		}
 		testPath = findPath(this, goalIndexPos, this.pathNumber, true, false);
-		if(testPath != false)
+		if(testPath !== false)
 		{
 			return testPath;
 		}
 		testPath = findPath(this, goalIndexPos, this.pathNumber, true, true);
-		if(testPath != false)
+		if(testPath !== false)
 		{
 			return testPath;
 		}

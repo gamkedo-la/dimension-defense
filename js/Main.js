@@ -12,7 +12,7 @@ window.onload = function() {
 	colorText("Loading Game...", canvas.width/2, canvas.height/2, 'white');
 	
 	if(image.loadImages()){
-		gameLoop.init('testOne');
+		gameLoop.init('lvlPencil');
 		StartGame();
 	}
 }
