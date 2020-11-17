@@ -27,7 +27,7 @@ function setupInput() {
 } 
 
 function mouseUp(evt) {
-    console.log("mouse is up!");
+    //console.log("mouse is up!");
     draggingMouse = false;
 	//dragMouseDX = 0;
 	//dragMouseDY = 0;
@@ -38,10 +38,10 @@ function mouseclicked(evt) {
 		case 'game':
 			gameLoop.onMouseClicked();
 
-            console.log("mouse is down!");
+            //console.log("mouse is down!");
             draggingMouse = true; // this is a mouseDown event
-            dragMouseX = mouseX + dragMouseDX;
-            dragMouseY = mouseY + dragMouseDY;
+            dragMouseX = mouseX;
+            dragMouseY = mouseY;
             //dragMouseDX = 0;
             //dragMouseDY = 0;
 
@@ -50,14 +50,12 @@ function mouseclicked(evt) {
 	
   }
 
+  // FIXME: NOT USED?
   function mousemoved(evt) {
     var rect = canvas.getBoundingClientRect();
     var root = document.documentElement;
-
-    // account for the margins, canvas position on page, scroll amount, etc.
     mouseX = evt.clientX - rect.left - root.scrollLeft;
     mouseY = evt.clientY - rect.top - root.scrollTop;
-
   }
 
 
@@ -69,11 +67,13 @@ function updateMousePos(evt) {
 	mouseY = evt.clientY - rect.top - root.scrollTop;
 
     if (draggingMouse) {
-        dragMouseDX = mouseX - dragMouseX;
-    	dragMouseDY = mouseY - dragMouseY;
-    	console.log("dragging mouse: "+mouseX+","+mouseY);
+        dragMouseDX += mouseX - dragMouseX;
+    	dragMouseDY += mouseY - dragMouseY;
+    	dragMouseX = mouseX;
+    	dragMouseY = mouseY;
+    	//console.log("dragging mouse: "+mouseX+","+mouseY);
     }
-	
+
 }
 
 function keySet(keyEvent, setTo) {
