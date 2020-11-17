@@ -14,25 +14,12 @@ function collisionCheckRoundShapes(obj1x, obj1y,obj1r, obj2x, obj2y, obj2r)
 
 function returnPixelPosFromIndexPos(tileIndexNumber, offsetAxis)
 {
-    switch (offsetAxis)
-    {
-        case 'x':
-            return tileIndexNumber * TILE_SIZE - offsetX;
-        case 'y':
-            return tileIndexNumber * TILE_SIZE - offsetY;
-    }
+    return tileIndexNumber * TILE_SIZE;
 }
 
 function returnIndexPosFromPixelPos(pixelCoordinate, offsetAxis)
 {
-    switch (offsetAxis)
-    {
-        case 'x':
-            return Math.floor((pixelCoordinate - offsetX) / TILE_SIZE);
-        case 'y':
-            return Math.floor((pixelCoordinate - offsetY) / TILE_SIZE);
-    }    
-	
+    return Math.floor(pixelCoordinate / TILE_SIZE);
 }
 
 function getAngleBetween2PointsInRadian(p1X, p1Y, p2X, p2Y)

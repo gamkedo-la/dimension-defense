@@ -23,14 +23,16 @@ function EnemyClass(){
 	this.hasVisitedAltar = false;
 	this.health = 20;
 	this.isDead = false;
+	this.canBeRemoved = false;
 
 	//move things here
 	this.move = function (){
-		this.x -= this.cacheOffsetX;
-		this.y -= this.cacheOffsetY;
 
-		this.indexX = returnIndexPosFromPixelPos(this.x, 'x');
-		this.indexY = returnIndexPosFromPixelPos(this.y, 'y');
+		this.x -= oldOffsetX;
+		this.y -= oldOffsetY;
+
+		this.indexX = returnIndexPosFromPixelPos(this.x);
+		this.indexY = returnIndexPosFromPixelPos(this.y);
 
 		if (!this.pathQueue) {
 			console.log("Error: enemy has a null pathQueue");
@@ -57,17 +59,15 @@ function EnemyClass(){
 		}
 
 		this.walk();
+
+		this.x += offsetX;
+		this.y += offsetY;
 		if(this.myGum !== false)
 		{
 			gameLoop.gums[this.myGum].x = this.x;
 			gameLoop.gums[this.myGum].y = this.y;
-		}
+		}	
 
-		this.cacheOffsetX = offsetX;
-		this.cacheOffsetY = offsetY;
-		this.x += offsetX;
-		this.y += offsetY;
-		
 	}
 
 
@@ -75,6 +75,16 @@ function EnemyClass(){
 	this.draw = function(){
 
 		colorCircle(this.x, this.y, this.r, this.color);
+
+	}
+
+	this.isDeadMove = function(){
+
+		if(this.myGum !== false)
+		{
+			gameLoop.gums[this.myGum].hasOwner = false;
+		}
+		this.canBeRemoved = true;
 
 	}
 
@@ -88,8 +98,8 @@ function EnemyClass(){
 		this.indexX = gameLoop.returnStartPos(pathNumber).indexX;
 		this.indexY = gameLoop.returnStartPos(pathNumber).indexY;
 
-		this.x = returnPixelPosFromIndexPos(this.indexX, 'x') + TILE_SIZE / 2 ;
-		this.y = returnPixelPosFromIndexPos(this.indexY, 'y') + TILE_SIZE / 2;
+		this.x = returnPixelPosFromIndexPos(this.indexX) + TILE_SIZE / 2 ;
+		this.y = returnPixelPosFromIndexPos(this.indexY) + TILE_SIZE / 2;
 		this.x += offsetX;
 		this.y += offsetY;
 

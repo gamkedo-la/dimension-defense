@@ -1,5 +1,7 @@
 const TILE_SIZE = 48;
 
+var oldOffsetX = 0;
+var oldOffsetY = 0;
 var offsetX = 0;
 var offsetY = 0;
 var gameTimer = 0;
@@ -27,6 +29,7 @@ gameLoop = new function(){
 	//move things here
 	this.move = function (){
 		gameTimer++;
+		this.moveMapWithMouse();
 
 		if(this.currentWave < this.waveList.length)
 		{
@@ -44,9 +47,13 @@ gameLoop = new function(){
 
 		for (let i = this.enemyList.length - 1; i >= 0; i--)
 		{
-			if (this.enemyList[i].isDead)
+			if(this.enemyList[i].canBeRemoved)		
 			{
 				this.enemyList.splice(i, 1);
+			}
+			else if (this.enemyList[i].isDead)
+			{
+				this.enemyList[i].isDeadMove();
 			}
 			else
 			{
@@ -58,8 +65,6 @@ gameLoop = new function(){
 		{
 			this.towerList[i].move();
 		}
-
-		this.moveMapWithMouse();
 
 	}
 
@@ -76,7 +81,7 @@ gameLoop = new function(){
 
 		for(let i = 0; i < this.gums.length; i++)
 		{
-			drawImageWithAngle("gum1", this.gums[i].x, this.gums[i].y, 0);
+			drawImageWithAngle("gum1", this.gums[i].x + (offsetX * !this.gums[i].hasOwner), this.gums[i].y + (offsetY * !this.gums[i].hasOwner), 0);
 		}
 
 		for (let i = 0; i < this.towerList.length; i++)
@@ -88,8 +93,8 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
-		let mouseIDX = returnIndexPosFromPixelPos(mouseX, 'x');
-		let mouseIDY = returnIndexPosFromPixelPos(mouseY, 'y');
+		let mouseIDX = returnIndexPosFromPixelPos(mouseX);
+		let mouseIDY = returnIndexPosFromPixelPos(mouseY);
 
 		// when world is scrolled around it is possible to 
 		// click outside the map and get negative numbers or out of bounds
@@ -114,11 +119,14 @@ gameLoop = new function(){
 
 	this.moveMapWithMouse = function()
 	{
+		oldOffsetX = offsetX;
+		oldOffsetY = offsetY;
 
         if (draggingMouse) {
             offsetX = dragMouseDX;
     	    offsetY = dragMouseDY;
-        }
+		}
+		
 
 		/*
 		let borderW = 50;
@@ -250,8 +258,8 @@ gameLoop = new function(){
 			{
 				this.gums.push(
 					{
-						x: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexX, 'x') + TILE_SIZE / 2, 
-						y: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexY, 'y') + TILE_SIZE / 2,
+						x: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexX) + TILE_SIZE / 2, 
+						y: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexY) + TILE_SIZE / 2,
 						r: 20,
 						fromAltar: this.pathList[i],
 						hasOwner: false,

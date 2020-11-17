@@ -60,8 +60,8 @@ function BasicTuretClass(){
 		this.indexX = indexX;
 		this.indexY = indexY;
 
-		this.x = returnPixelPosFromIndexPos(indexX, 'x') + TILE_SIZE / 2;
-		this.y = returnPixelPosFromIndexPos(indexY, 'y') + TILE_SIZE / 2;
+		this.x = returnPixelPosFromIndexPos(indexX) + TILE_SIZE / 2;
+		this.y = returnPixelPosFromIndexPos(indexY) + TILE_SIZE / 2;
 	}
 
 	this.shoot = function()
