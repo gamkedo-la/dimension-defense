@@ -55,6 +55,8 @@ gameLoop = new function(){
 			this.towerList[i].move();
 		}
 
+		//this.moveMapWithMouse();
+
 	}
 
 
@@ -99,6 +101,36 @@ gameLoop = new function(){
 			this.spawnTower(mouseIDX, mouseIDY);
 
 		}
+	}
+
+	this.moveMapWithMouse = function()
+	{
+		let borderW = 50;
+		let offsetAmount = 2;
+		let img = image.get(this.mapName);
+
+		if (mouseX <= borderW && offsetX < 0) 
+		{
+			offsetX += Math.max(offsetAmount, 0) ;
+		}
+		
+		if (mouseX >= canvas.width - borderW && offsetX > canvas.width - img.width + offsetAmount)
+		{
+			 offsetX -= offsetAmount;
+		}
+
+		if (mouseY < borderW && offsetY < 0)
+		{
+			offsetY += offsetAmount;
+		}
+
+		if (mouseY > canvas.height - borderW && offsetY > canvas.height - img.height + offsetAmount) 
+		{
+			offsetY -= offsetAmount;
+		}
+
+	
+
 	}
 
 	this.spawnTower = function(atIndexX, atIndexY)

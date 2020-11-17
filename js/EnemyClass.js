@@ -10,6 +10,8 @@ function EnemyClass(){
 	this.indexY;
 	this.moveToX;
 	this.moveToY;
+	this.cacheOffsetX = offsetX;
+	this.cacheOffsetY = offsetY;
 
 	this.speed;
 	this.status;
@@ -24,6 +26,9 @@ function EnemyClass(){
 
 	//move things here
 	this.move = function (){
+		this.x -= this.cacheOffsetX;
+		this.y -= this.cacheOffsetY;
+
 		this.indexX = returnIndexPosFromPixelPos(this.x, 'x');
 		this.indexY = returnIndexPosFromPixelPos(this.y, 'y');
 
@@ -52,6 +57,11 @@ function EnemyClass(){
 			gameLoop.gums[this.myGum].x = this.x;
 			gameLoop.gums[this.myGum].y = this.y;
 		}
+
+		this.cacheOffsetX = offsetX;
+		this.cacheOffsetY = offsetY;
+		this.x += offsetX;
+		this.y += offsetY;
 		
 	}
 
@@ -75,6 +85,8 @@ function EnemyClass(){
 
 		this.x = returnPixelPosFromIndexPos(this.indexX, 'x') + TILE_SIZE / 2 ;
 		this.y = returnPixelPosFromIndexPos(this.indexY, 'y') + TILE_SIZE / 2;
+		this.x += offsetX;
+		this.y += offsetY;
 
 		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
 		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
