@@ -11,18 +11,40 @@ const KEY_D = 68;
 var mouseX = 0;
 var mouseY = 0;
 
+var draggingMouse = false;
+var dragMouseX = 0;
+var dragMouseY = 0;
+var dragMouseDX = 0; // delta X (dist)
+var dragMouseDY = 0;
+
 function setupInput() {
 	canvas.addEventListener('mousemove', updateMousePos);
 	document.addEventListener("mousedown", mouseclicked);
+	document.addEventListener("mouseup", mouseUp);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 } 
 
+function mouseUp(evt) {
+    console.log("mouse is up!");
+    draggingMouse = false;
+	//dragMouseDX = 0;
+	//dragMouseDY = 0;
+}
+
 function mouseclicked(evt) {
 	switch (scene) {
 		case 'game':
 			gameLoop.onMouseClicked();
+
+            console.log("mouse is down!");
+            draggingMouse = true; // this is a mouseDown event
+            dragMouseX = mouseX + dragMouseDX;
+            dragMouseY = mouseY + dragMouseDY;
+            //dragMouseDX = 0;
+            //dragMouseDY = 0;
+
 			break;
 	}
 	
@@ -35,6 +57,7 @@ function mouseclicked(evt) {
     // account for the margins, canvas position on page, scroll amount, etc.
     mouseX = evt.clientX - rect.left - root.scrollLeft;
     mouseY = evt.clientY - rect.top - root.scrollTop;
+
   }
 
 
@@ -44,6 +67,13 @@ function updateMousePos(evt) {
 
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
+
+    if (draggingMouse) {
+        dragMouseDX = mouseX - dragMouseX;
+    	dragMouseDY = mouseY - dragMouseY;
+    	console.log("dragging mouse: "+mouseX+","+mouseY);
+    }
+	
 }
 
 function keySet(keyEvent, setTo) {

@@ -32,6 +32,11 @@ function EnemyClass(){
 		this.indexX = returnIndexPosFromPixelPos(this.x, 'x');
 		this.indexY = returnIndexPosFromPixelPos(this.y, 'y');
 
+		if (!this.pathQueue) {
+			console.log("Error: enemy has a null pathQueue");
+			return;
+		}
+
 		if(this.pathQueue.length == 0 && !this.hasVisitedAltar)
 		{
 			for(let i = 0; i < this.gumsForMe.length; i++)

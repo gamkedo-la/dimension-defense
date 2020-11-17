@@ -34,7 +34,11 @@ gameLoop = new function(){
 		}
 		else
 		{
-			console.log("no more waves")
+			if (!this.noMoreWaves) {
+				console.log("no more waves! FIXME: load next level");
+				this.noMoreWaves = true; // only tell us once
+				// FIXME: level complete! go to next level
+			}
 		}
 
 
@@ -55,7 +59,7 @@ gameLoop = new function(){
 			this.towerList[i].move();
 		}
 
-		//this.moveMapWithMouse();
+		this.moveMapWithMouse();
 
 	}
 
@@ -87,6 +91,11 @@ gameLoop = new function(){
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX, 'x');
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY, 'y');
 
+		// when world is scrolled around it is possible to 
+		// click outside the map and get negative numbers or out of bounds
+		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
+
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
 		{
 			for(let t = 0; t < this.towerList.length; t++)
@@ -105,32 +114,29 @@ gameLoop = new function(){
 
 	this.moveMapWithMouse = function()
 	{
+
+        if (draggingMouse) {
+            offsetX = dragMouseDX;
+    	    offsetY = dragMouseDY;
+        }
+
+		/*
 		let borderW = 50;
 		let offsetAmount = 2;
 		let img = image.get(this.mapName);
-
-		if (mouseX <= borderW && offsetX < 0) 
-		{
+		if (mouseX <= borderW && offsetX < 0) {
 			offsetX += Math.max(offsetAmount, 0) ;
 		}
-		
-		if (mouseX >= canvas.width - borderW && offsetX > canvas.width - img.width + offsetAmount)
-		{
+		if (mouseX >= canvas.width - borderW && offsetX > canvas.width - img.width + offsetAmount) {
 			 offsetX -= offsetAmount;
 		}
-
-		if (mouseY < borderW && offsetY < 0)
-		{
+		if (mouseY < borderW && offsetY < 0) {
 			offsetY += offsetAmount;
 		}
-
-		if (mouseY > canvas.height - borderW && offsetY > canvas.height - img.height + offsetAmount) 
-		{
+		if (mouseY > canvas.height - borderW && offsetY > canvas.height - img.height + offsetAmount) {
 			offsetY -= offsetAmount;
 		}
-
-	
-
+        */
 	}
 
 	this.spawnTower = function(atIndexX, atIndexY)
