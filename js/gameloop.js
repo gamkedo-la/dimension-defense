@@ -106,7 +106,6 @@ gameLoop = new function(){
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4 || 
 			this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
 		{
-			console.log(this.map[this.pathList[0]][mouseIDX][mouseIDY])
 			for(let t = 0; t < this.towerList.length; t++)
 			{
 				if(this.towerList[t].indexX == mouseIDX && this.towerList[t].indexY == mouseIDY)
@@ -126,24 +125,20 @@ gameLoop = new function(){
     	    offsetY = dragMouseDY;
 		}
 		
-
-		/*
-		let borderW = 50;
-		let offsetAmount = 2;
 		let img = image.get(this.mapName);
-		if (mouseX <= borderW && offsetX < 0) {
-			offsetX += Math.max(offsetAmount, 0) ;
+		if (offsetX > 0) {
+			offsetX = 0;
 		}
-		if (mouseX >= canvas.width - borderW && offsetX > canvas.width - img.width + offsetAmount) {
-			 offsetX -= offsetAmount;
+		if (offsetX < canvas.width - img.width) {
+			 offsetX = canvas.width - img.width;
 		}
-		if (mouseY < borderW && offsetY < 0) {
-			offsetY += offsetAmount;
+		if (offsetY > 0) {
+			offsetY = 0;
 		}
-		if (mouseY > canvas.height - borderW && offsetY > canvas.height - img.height + offsetAmount) {
-			offsetY -= offsetAmount;
+		if (offsetY < canvas.height - img.height) {
+			offsetY = canvas.height - img.height;
 		}
-        */
+
 	}
 
 	this.spawnTower = function(atIndexX, atIndexY)

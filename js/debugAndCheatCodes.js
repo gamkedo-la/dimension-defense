@@ -29,6 +29,14 @@ let cheatList = [
 	},
 	cheat = {
 		//example with debug cheat
+		code: '3',
+		active: DEBUG_CHEATS,
+		action: function() {
+			gameLoop.init('bigTestMap');
+		}
+	},
+	cheat = {
+		//example with debug cheat
 		code: 's',
 		active: DEBUG_CHEATS,
 		action: function() {
