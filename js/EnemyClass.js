@@ -20,7 +20,8 @@ function EnemyClass(){
 	this.gumsForMe;
 	this.myGum = false;
 	this.hasVisitedAltar = false;
-	this.health = 20;
+	this.maxHealth;
+	this.health;
 	this.isDead = false;
 	this.canBeRemoved = false;
 
@@ -73,6 +74,11 @@ function EnemyClass(){
 
 		colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
 
+		let healthBarW = 30;
+		let healthBarH = 6;
+		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 20, healthBarW, healthBarH, "red");
+		colorRect(this.x + offsetX - 15,this.y + offsetY - 20, this.health/this.maxHealth * healthBarW, healthBarH, "green");
+
 	}
 
 	this.isDeadMove = function(){
@@ -88,6 +94,8 @@ function EnemyClass(){
 	//Inititalize
 	this.init = function(pathNumber, enemyType)
 	{
+		this.maxHealth = 15;
+		this.health = this.maxHealth;
 		this.r = 10;
 		this.color = enemyType;
 		this.defaultSpeed = 4;
@@ -123,7 +131,7 @@ function EnemyClass(){
 	this.slowdownSpeed = function(slowdownAmount)
 	{
 		this.speed -= slowdownAmount;
-		
+
 		if(this.speed <= 0){
 			this.speed = 1;
 		}
