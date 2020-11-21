@@ -7,7 +7,8 @@ image = new function (){
 		{imgName: 'mapPencil', fileName: "mapPencil.png", type: 'gameMap'},
 		{imgName: 'mapDrawnLand', fileName: "mapDrawnGreenLand.png", type: 'gameMap'},
 
-		{imgName: 'basicTurret', fileName: "basicTurret.png", type: 'tower'},
+		{imgName: 'gunTower', fileName: "gunTower.png", type: 'tower'},
+		{imgName: 'slowTower', fileName: "slowTower.png", type: 'tower'},
 
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 	];

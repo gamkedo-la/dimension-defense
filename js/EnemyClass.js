@@ -10,9 +10,8 @@ function EnemyClass(){
 	this.indexY;
 	this.moveToX;
 	this.moveToY;
-	this.cacheOffsetX = offsetX;
-	this.cacheOffsetY = offsetY;
 
+	this.defaultSpeed;
 	this.speed;
 	this.status;
 	this.pathNumber;
@@ -27,9 +26,6 @@ function EnemyClass(){
 
 	//move things here
 	this.move = function (){
-
-		this.x -= oldOffsetX;
-		this.y -= oldOffsetY;
 
 		this.indexX = returnIndexPosFromPixelPos(this.x);
 		this.indexY = returnIndexPosFromPixelPos(this.y);
@@ -60,13 +56,14 @@ function EnemyClass(){
 
 		this.walk();
 
-		this.x += offsetX;
-		this.y += offsetY;
 		if(this.myGum !== false)
 		{
 			gameLoop.gums[this.myGum].x = this.x;
 			gameLoop.gums[this.myGum].y = this.y;
-		}	
+		}
+
+		//reset the slowdown effect
+		this.speed = this.defaultSpeed;
 
 	}
 
@@ -74,7 +71,7 @@ function EnemyClass(){
 	//draw things here
 	this.draw = function(){
 
-		colorCircle(this.x, this.y, this.r, this.color);
+		colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
 
 	}
 
@@ -93,15 +90,14 @@ function EnemyClass(){
 	{
 		this.r = 10;
 		this.color = enemyType;
-		this.speed = 3;
+		this.defaultSpeed = 4;
+		this.speed = this.defaultSpeed;
 		this.pathNumber = pathNumber;
 		this.indexX = gameLoop.returnStartPos(pathNumber).indexX;
 		this.indexY = gameLoop.returnStartPos(pathNumber).indexY;
 
 		this.x = returnPixelPosFromIndexPos(this.indexX) + TILE_SIZE / 2 ;
 		this.y = returnPixelPosFromIndexPos(this.indexY) + TILE_SIZE / 2;
-		this.x += offsetX;
-		this.y += offsetY;
 
 		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
 		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
@@ -123,6 +119,16 @@ function EnemyClass(){
 			this.isDead = true;
 		}
 	}
+
+	this.slowdownSpeed = function(slowdownAmount)
+	{
+		this.speed -= slowdownAmount;
+		
+		if(this.speed <= 0){
+			this.speed = 1;
+		}
+	}
+
 
 
 	this.findPathTo = function(goalIndexPos)

@@ -1,5 +1,5 @@
 
-function BasicTuretClass(){
+function GunTowerClass(){
 
 	this.x;
 	this.y;
@@ -14,11 +14,11 @@ function BasicTuretClass(){
 	//move things here
 	this.move = function (){
 
-		let collidedEnemy = this.collisionCheckWithAllEnemy(this.x, this.y, this.r);
+		let collidedEnemy = collisionCheckWithAllEnemy(this.x, this.y, this.r);
 
 		if(collidedEnemy !== false)
 		{
-			this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy].x, gameLoop.enemyList[collidedEnemy].y);
+			this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
 			if(gameTimer % 20 == 0)	this.shoot();
 		}
 		
@@ -32,9 +32,9 @@ function BasicTuretClass(){
 			{
 				this.shotList[i].x += Math.cos(this.shotList[i].angle) * this.shotList[i].speed;
 				this.shotList[i].y += Math.sin(this.shotList[i].angle) * this.shotList[i].speed;
-				let hasHit = this.collisionCheckWithAllEnemy(this.shotList[i].x, this.shotList[i].y, this.shotList[i].r)
+				let hasHit = collisionCheckWithAllEnemy(this.shotList[i].x, this.shotList[i].y, this.shotList[i].r)
 				if(hasHit !== false){
-					gameLoop.enemyList[hasHit].takeHit(1);
+					gameLoop.enemyList[hasHit[0]].takeHit(1);
 					this.shotList[i].isDead = true;
 				}
 			}
@@ -45,11 +45,10 @@ function BasicTuretClass(){
 
 	//draw things here
 	this.draw = function(){
-		//colorCircle(this.x, this.y, this.r, 'red');
-		drawBitmapCenteredWithRotation("basicTurret", this.x, this.y, this.angle)
+		drawBitmapCenteredWithRotation("gunTower", this.x + offsetX, this.y + offsetY, this.angle)
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			colorCircle(this.shotList[i].x, this.shotList[i].y, this.shotList[i].r, this.shotList[i].color);
+			colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
 		}
 
 	}
@@ -80,18 +79,6 @@ function BasicTuretClass(){
 			isDead: false
 		};
 		this.shotList.push(newShot);
-	}
-
-	this.collisionCheckWithAllEnemy = function(x, y, r)
-	{
-		for(let i = 0; i < gameLoop.enemyList.length; i++)
-		{
-			if(collisionCheckRoundShapes(x, y, r, gameLoop.enemyList[i].x, gameLoop.enemyList[i].y, gameLoop.gums[i].r))
-			{
-				return i;
-			}		
-		}
-		return false;
 	}
 
 }

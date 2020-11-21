@@ -27,6 +27,22 @@ let cheatList = [
 			gameLoop.init('lvlGreenLand');
 		}
 	},
+	cheat = {
+		//example with debug cheat
+		code: 's',
+		active: DEBUG_CHEATS,
+		action: function() {
+			towerSelector = 1;
+		}
+	},
+	cheat = {
+		//example with debug cheat
+		code: 'g',
+		active: DEBUG_CHEATS,
+		action: function() {
+			towerSelector = 0;
+		}
+	},
 ];
 
 //

@@ -1,10 +1,10 @@
 const TILE_SIZE = 48;
 
-var oldOffsetX = 0;
-var oldOffsetY = 0;
 var offsetX = 0;
 var offsetY = 0;
 var gameTimer = 0;
+
+var towerSelector = 1;
 
 gameLoop = new function(){
 	
@@ -44,6 +44,10 @@ gameLoop = new function(){
 			}
 		}
 
+		for (let i = 0; i < this.towerList.length; i++)
+		{
+			this.towerList[i].move();
+		}
 
 		for (let i = this.enemyList.length - 1; i >= 0; i--)
 		{
@@ -61,10 +65,7 @@ gameLoop = new function(){
 			}
 		}
 
-		for (let i = 0; i < this.towerList.length; i++)
-		{
-			this.towerList[i].move();
-		}
+
 
 	}
 
@@ -81,7 +82,7 @@ gameLoop = new function(){
 
 		for(let i = 0; i < this.gums.length; i++)
 		{
-			drawImageWithAngle("gum1", this.gums[i].x + (offsetX * !this.gums[i].hasOwner), this.gums[i].y + (offsetY * !this.gums[i].hasOwner), 0);
+			drawImageWithAngle("gum1", this.gums[i].x + offsetX, this.gums[i].y + offsetY, 0);
 		}
 
 		for (let i = 0; i < this.towerList.length; i++)
@@ -93,16 +94,19 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
-		let mouseIDX = returnIndexPosFromPixelPos(mouseX);
-		let mouseIDY = returnIndexPosFromPixelPos(mouseY);
+		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
+		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
 		// when world is scrolled around it is possible to 
 		// click outside the map and get negative numbers or out of bounds
 		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
 
-		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
+		
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4 || 
+			this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
 		{
+			console.log(this.map[this.pathList[0]][mouseIDX][mouseIDY])
 			for(let t = 0; t < this.towerList.length; t++)
 			{
 				if(this.towerList[t].indexX == mouseIDX && this.towerList[t].indexY == mouseIDY)
@@ -111,17 +115,12 @@ gameLoop = new function(){
 					return;
 				}
 			}
-
 			this.spawnTower(mouseIDX, mouseIDY);
-
 		}
 	}
 
 	this.moveMapWithMouse = function()
 	{
-		oldOffsetX = offsetX;
-		oldOffsetY = offsetY;
-
         if (draggingMouse) {
             offsetX = dragMouseDX;
     	    offsetY = dragMouseDY;
@@ -149,7 +148,15 @@ gameLoop = new function(){
 
 	this.spawnTower = function(atIndexX, atIndexY)
 	{
-		let newTower = new BasicTuretClass();
+		let newTower
+		switch (towerSelector) {
+			case 0:
+				newTower = new GunTowerClass();
+				break;
+			case 1:
+				newTower = new SlowTowerClass();
+				break;
+		}
 		newTower.init(atIndexX, atIndexY);
 		this.towerList.push(newTower);
 

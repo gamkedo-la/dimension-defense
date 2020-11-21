@@ -1,3 +1,22 @@
+
+function collisionCheckWithAllEnemy(x, y, r)
+{
+    let collidedEnemies = [];
+    for(let i = 0; i < gameLoop.enemyList.length; i++)
+    {
+        if(collisionCheckRoundShapes(x, y, r, gameLoop.enemyList[i].x, gameLoop.enemyList[i].y, gameLoop.gums[i].r))
+        {
+            collidedEnemies.push(i);
+        }		
+    }
+    if(collidedEnemies.length == 0)
+    {
+        return false;
+    }
+
+    return collidedEnemies;
+}
+
 function collisionCheckRoundShapes(obj1x, obj1y,obj1r, obj2x, obj2y, obj2r)
 {
     let distX = obj1x - obj2x;
@@ -12,12 +31,12 @@ function collisionCheckRoundShapes(obj1x, obj1y,obj1r, obj2x, obj2y, obj2r)
 	}
 }
 
-function returnPixelPosFromIndexPos(tileIndexNumber, offsetAxis)
+function returnPixelPosFromIndexPos(tileIndexNumber)
 {
     return tileIndexNumber * TILE_SIZE;
 }
 
-function returnIndexPosFromPixelPos(pixelCoordinate, offsetAxis)
+function returnIndexPosFromPixelPos(pixelCoordinate)
 {
     return Math.floor(pixelCoordinate / TILE_SIZE);
 }
