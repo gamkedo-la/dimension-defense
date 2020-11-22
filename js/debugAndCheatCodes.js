@@ -37,6 +37,14 @@ let cheatList = [
 	},
 	cheat = {
 		//example with debug cheat
+		code: '4',
+		active: DEBUG_CHEATS,
+		action: function() {
+			gameLoop.init('toyCarMap');
+		}
+	},	
+	cheat = {
+		//example with debug cheat
 		code: 's',
 		active: DEBUG_CHEATS,
 		action: function() {

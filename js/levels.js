@@ -156,4 +156,59 @@ var levelList = [
         ]
     },
 
+
+    {
+        levelName: 'toyCarMap',
+        mapName: 'toyCarMap',
+        waveStartDelay: [1, 20],
+        wave: 
+        [
+            //wave 1 
+            [
+                {
+                    enemyType: 'red',
+                    spawnOnPath: 0,
+                    amountToSpawn: 8,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'green',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'blue',
+                    spawnOnPath: 0,
+                    amountToSpawn: 2,                    
+                    delayBetweenSpawn: 3,
+                },
+
+            ],
+            //wave 2
+            [
+                {
+                    enemyType: 'orange',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'yellow',
+                    spawnOnPath: 0,
+                    amountToSpawn: 4,
+                    delayBetweenSpawn: 4,
+                },
+                {
+                    enemyType: 'blue',
+                    spawnOnPath: 0,
+                    amountToSpawn: 2,                    
+                    delayBetweenSpawn: 7,
+                },
+            ],
+        ]
+    },
+
+
+
 ];
