@@ -5,6 +5,7 @@ function GunTowerClass(){
 	this.y;
 	this.indexX;
 	this.indexY;
+	this.type = 'gunTower';
 
 	this.speed = 2;
 	this.r = 60;

@@ -111,6 +111,7 @@ gameLoop = new function(){
 				if(this.towerList[t].indexX == mouseIDX && this.towerList[t].indexY == mouseIDY)
 				{
 					console.log("A tower is already here.");
+					this.incrementTower(t, mouseIDX, mouseIDY);
 					return;
 				}
 			}
@@ -160,6 +161,21 @@ gameLoop = new function(){
 			this.map[this.pathList[i]][atIndexX][atIndexY] = 6;	
 		}
 				
+	}
+
+	this.incrementTower = function(towerIndex, atIndexX, atIndexY)
+	{
+		switch(towerSelector) {
+			case 0:
+				towerSelector = 1;
+				break;
+			case 1:
+				towerSelector = 0;
+			break;
+		}
+
+		this.towerList.splice(towerIndex, 1);
+		this.spawnTower(atIndexX, atIndexY);
 	}
 
 	this.spawnEnemy = function(pathNumber, enemyType)

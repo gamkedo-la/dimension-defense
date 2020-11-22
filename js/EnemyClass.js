@@ -113,11 +113,10 @@ function EnemyClass(){
 
 	this.collisionCheckWithGum = function(gumListIndex)
 	{
-		if(collisionCheckRoundShapes(this.x, this.y, this.r, gameLoop.gums[gumListIndex].x, gameLoop.gums[gumListIndex].y, gameLoop.gums[gumListIndex].r) )
-		{
-			return true;
-		}		
-		return false;
+		return (collisionCheckRoundShapes(
+			this.x, this.y, this.r, 
+			gameLoop.gums[gumListIndex].x, gameLoop.gums[gumListIndex].y, gameLoop.gums[gumListIndex].r)
+		)
 	}
 
 	this.takeHit = function(damageAmount)

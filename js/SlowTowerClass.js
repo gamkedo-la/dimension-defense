@@ -5,6 +5,7 @@ function SlowTowerClass(){
 	this.y;
 	this.indexX;
 	this.indexY;
+	this.type = 'slowTower';
 
 	this.speed = 2;
 	this.r = 70;
