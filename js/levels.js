@@ -4,6 +4,7 @@ var levelList = [
         levelName: 'lvlPencil',
         mapName: 'mapPencil',
         waveStartDelay: [1, 20],
+        startOffset: {x:0, y:0},
         wave: 
         [
             //wave 1 
