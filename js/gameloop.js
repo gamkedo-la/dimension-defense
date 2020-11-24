@@ -92,7 +92,7 @@ gameLoop = new function(){
 			this.towerList[i].draw();
 		}
 
-		drawSprite('testAtlas',16,16,mouseX,mouseY);
+		animationSystem.spriteStrip("strip16",mouseX,mouseY,10,true);
 
 	}
 

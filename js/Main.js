@@ -16,8 +16,8 @@ window.onload = function() {
 	
 	if(image.loadImages()){
 		gameLoop.init('lvlPencil');
-		//animationSystem=new animate();
-		//animationSystem.init();
+		animationSystem=new animate();
+		animationSystem.init();
 		StartGame();
 	}
 }
@@ -26,10 +26,12 @@ function StartGame() {
 	var framesPerSecond = 60;
 	setInterval(updateAll, 1000/framesPerSecond);
 	setupInput();
+	
 }
 
 function updateAll() {
 	colorRect(0,0, canvas.width,canvas.height, 'white');
+	animationSystem.update();
 
 	switch (scene) {
 		case 'game':

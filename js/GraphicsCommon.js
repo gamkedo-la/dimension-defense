@@ -57,7 +57,16 @@ function colorText(showWords, textX, textY, fontSize, fillColor) {
 	ctx.fillText(showWords, textX, textY);
 }
 
-function drawSprite(imgName,dimensionX,dimensionY,atX,atY)
+//Used internally for animationSystem.
+function drawSprite(imgName,row,col,dimensionX,dimensionY,atX,atY)
 {
-	ctx.drawImage(image.get(imgName),0,0,dimensionX,dimensionY,atX,atY,dimensionX,dimensionY)
+	/*
+		var maxFrame=image.get(imgName).animationInfo.maxFrame;
+		var imgN=image.get(imgName);
+		var dimX=image.get(imgName).width;
+		var dimY=image.get(imgName).height;
+	*/
+	
+	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,atX,atY,dimensionX,dimensionY)
+	//ctx.drawImage(image.get(imgName),0,0,dimensionX,dimensionY,atX,atY,dimensionX,dimensionY)
 }

@@ -15,7 +15,8 @@ image = new function (){
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 
 		// atlas for now, maybe animation strip will be better ,cas.
-		{imgName:'testAtlas',fileName:"testAtlas.png",type:'atlas'},
+		{imgName:'strip16',fileName:"strip16.png",type:'animation',animationInfo:{Row:1,Col:10,orient:"horizontal"}},
+		{imgName:'multiState',fileName:"testAtlas.png",type:'animation',animationInfo:{Row:10,Col:10,orient:"horizontal",state:{1:"state1",2:"state2",3:"state3",4:"state4",5:"state5"}}},
 	];
 
 	//creating different lists upfront
@@ -29,6 +30,11 @@ image = new function (){
 			this.getByNameList[this.InitImageList[i].imgName] = document.createElement("img");
 			this.getByNameList[this.InitImageList[i].imgName].src = "images/" + this.InitImageList[i].fileName;
 			this.getByNameList[this.InitImageList[i].imgName].type = this.InitImageList[i].type;
+
+			if(this.getByNameList[this.InitImageList[i].imgName].type == "animation")
+			{
+				this.getByNameList[this.InitImageList[i].imgName].animationInfo=this.InitImageList[i].animationInfo;
+			}
 			
 			//Generate a pre-list for all the different image types and fill them. 
 			if(this.getByTypeList[this.InitImageList[i].type] == undefined){
