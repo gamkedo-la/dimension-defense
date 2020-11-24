@@ -8,6 +8,9 @@ var mouseAction ={
 	action: undefined
 };
 
+var offsetX = 0;
+var offsetY = 0;
+
 //mapEditor Main Loop
 levelEditor = new function(){
 	
@@ -15,28 +18,36 @@ levelEditor = new function(){
 	this.toolbarHeight = 135;
 	this.toolbarStartY = 735 - this.toolbarHeight; //600 is canvas height
 	this.buttonList = [];
+
 	this.mapImage;
-	this.offsetAmount = 30;
-	this.message = 'Start by adding a Path!';
-	this.isMapValid = 0;
-	this.pathList = []; //just stores "show data" and also functions as a "length"
-	this.activePath = 0;
-	this.copyMap = [];
+	this.rows;
+	this.cols;
+	this.map = [];
+	this.pathList = [];
+	this.mapTowerPos = [];
+	this.mapStartPos = [];
+	this.mapGoalPos = [];
+	this.mapGumAltarPos = [];
+
+	this.message;
+
 	this.currentWave = 0;
+	this.currentGumAltar = 0;
+
+	this.levelData = [];
 
 	//move things here
 	this.move = function (){
-		
+		//this.moveMapWithMouse();	
+		//console.log(this.mapGumAltarPos)
 	}
 
 	//draw things here
 	this.draw = function(){
-		//blue #279EBC ,green #9EBC27, pink #BC279E
 		colorRect(0, 0, canvas.width, canvas.height, '#4b4b4b');
 
 		//draw map
 		drawImageWithAngle(this.mapImage, offsetX, offsetY, 0);
-	//	mapGrid.draw();
 		
 		//draw toolbar background
 		colorRect(0, this.toolbarStartY, canvas.width, this.toolbarHeight, '#3d3d3d');
@@ -47,12 +58,13 @@ levelEditor = new function(){
 		colorText('Y', 53, 100+this.toolbarStartY, 20, '#ffffff');
 
 		colorText('GumAltar', 130, 18+this.toolbarStartY, 16, '#ffffff');
-		colorText(this.currentWave + 1, 255, 41+this.toolbarStartY, 20, '#ffffff');
+		colorText(this.currentGumAltar + 1, 155, 41+this.toolbarStartY, 20, '#ffffff');	
+		colorText('GumAmount', 130, 60+this.toolbarStartY, 16, '#ffffff');
+		colorText(this.levelData.gumAmounts[this.currentGumAltar], 155, 80+this.toolbarStartY, 20, '#ffffff');
 
 		colorText('Wave', 244, 18+this.toolbarStartY, 18, '#ffffff');
-		colorText(this.currentWave + 1, 155, 41+this.toolbarStartY, 20, '#ffffff');
-
-		colorText('Delay', 240, 85+this.toolbarStartY, 16, '#ffffff');
+		colorText(this.currentWave + 2, 255, 41+this.toolbarStartY, 20, '#ffffff');
+		colorText('StartDelay', 222, 85+this.toolbarStartY, 15, '#ffffff');
 		colorText('111', 250, 106+this.toolbarStartY, 20, '#ffffff');
 
 		colorText(this.message, 10, 128+this.toolbarStartY, 16, '#fcbe03');
@@ -61,88 +73,120 @@ levelEditor = new function(){
 
 	}
 
-	//Inititalize things on first run, like buttons an such
-	this.init = function(mapImage){
-		this.mapImage = mapImage;
+	this.changeLVLStartOffset = function(amount, axis){
 
+		let startOffX = this.levelData.startOffset.x;
+		let startOffY = this.levelData.startOffset.y;
 
-	/*	for(let i = 0; i < 8; i++){
-			this.addNewPath();
+		if(axis == 'x')
+		{
+			startOffX += amount;
 		}
-	
-		this.setActivePath(0);
+		
+		if(axis == 'y')
+		{
+			startOffY += amount;
+		}
 
-		*/
-		this.message = 'Start by adding a Path!';
+		let img = image.get(this.mapImage);
+		if (startOffX > 0) {
+			startOffX = 0;
+		}
+		if (startOffX < canvas.width - img.width) {
+			startOffX = canvas.width - img.width;
+		}
+		if (startOffY > 0) {
+			startOffY = 0;
+		}
+		if (startOffY < canvas.height - this.toolbarHeight - img.height) {
+			startOffY = canvas.height - this.toolbarHeight - img.height;
+		}
 
-		GenerateButton(this.buttonList, 5, 5+this.toolbarStartY, 115, 20, '#17c0eb',this.lvlName, 4, -2, 16, '#000000', 'lvlNameBTN', 'lvlEditorBTN');
+		this.levelData.startOffset.x = startOffX;
+		this.levelData.startOffset.y = startOffY;
 
-		GenerateButton(this.buttonList, 25, 55+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subOffXBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 75, 55+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addOffXBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 3, 55+this.toolbarStartY, 20, 20, '#17c0eb','--', 1, 0, 14, '#000000', 'subsubOffXBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 92, 55+this.toolbarStartY, 22, 20, '#17c0eb','++', 1, -2, 18, '#000000', 'addaddOffXBTN', 'lvlEditorBTN');
+		
 
-		GenerateButton(this.buttonList, 25, 85+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subOffYBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 75, 85+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addOffYBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 3, 85+this.toolbarStartY, 20, 20, '#17c0eb','--', 1, 0, 14, '#000000', 'subsubOffYBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 92, 85+this.toolbarStartY, 22, 20, '#17c0eb','++', 1, -2, 18, '#000000', 'addaddOffYBTN', 'lvlEditorBTN');
-
-		GenerateButton(this.buttonList, 135, 25+this.toolbarStartY, 15, 20, '#17c0eb','<', 3, -2, 18, '#000000', 'backGumaltarBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 185, 25+this.toolbarStartY, 15, 20, '#17c0eb','>', 3, -2, 18, '#000000', 'forwGumaltarBTN', 'lvlEditorBTN');
-
-		GenerateButton(this.buttonList, 230, 50+this.toolbarStartY, 35, 20, '#ff4d4d','DEL', 1, -2, 18, '#000000', 'addWaveBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 270, 50+this.toolbarStartY, 35, 20, '#32ff7e','ADD', 2, -2, 18, '#000000', 'delWaveBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 235, 25+this.toolbarStartY, 15, 20, '#17c0eb','<', 3, -2, 18, '#000000', 'backWaveBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 285, 25+this.toolbarStartY, 15, 20, '#17c0eb','>', 3, -2, 18, '#000000', 'forwWaveBTN', 'lvlEditorBTN');
-
-		GenerateButton(this.buttonList, 230, 90+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subStartDelayBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 290, 90+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addStartDelayBTN', 'lvlEditorBTN');
-
-		//GenerateButton(this.buttonList, 105, 10+this.toolbarStartY, 95, 30, '#ffb8b8','Add Path', 5, 3, 18, '#000000', 'addPathBTN', 'lvlEditorBTN');
-		//GenerateButton(this.buttonList, 105, 45+this.toolbarStartY, 95, 30, '#ffb8b8','Validate', 3, 3, 18, '#000000', 'validateBTN', 'lvlEditorBTN');
-		//GenerateButton(this.buttonList, 105, 80+this.toolbarStartY, 95, 30, '#ffb8b8','Save Map', 5, 3, 18, '#000000', 'saveBTN', 'lvlEditorBTN');
-
-		GenerateButton(this.buttonList, 500, 5+this.toolbarStartY, 52, 52, '#4b4b4b','Empty', 1, 15, 16, '#ffffff', 'pathEmptyBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 610, 5+this.toolbarStartY, 52, 52, '#ff9f1a','Tower', 0, 15, 15, '#000000', 'pathTurretBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 500, 60+this.toolbarStartY, 52, 52, '#32ff7e','Start', 0, 15, 18, '#000000', 'pathStartBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 555, 60+this.toolbarStartY, 52, 52, '#7d5fff','Path', 4, 15, 18, '#000000', 'pathPathBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 610, 60+this.toolbarStartY, 52, 52, '#ff4d4d','Goal', 5, 15, 18, '#000000', 'pathGoalBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 555, 5+this.toolbarStartY, 52, 52, '#757357','Gum', 8, 15, 18, '#000000', 'pathGumBTN', 'lvlEditorBTN');
-
-		GenerateButton(this.buttonList, canvas.width - 90, 10+this.toolbarStartY, 40, 40, '#7158e2','⬆️', 0, 0, 30, '#ffffff', 'upBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, canvas.width - 50, 40+this.toolbarStartY, 40, 40, '#7158e2','➡️', 0, 0,30, '#ffffff', 'rightBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, canvas.width - 130, 40+this.toolbarStartY, 40, 40, '#7158e2','⬅️', 0, 0, 30, '#ffffff', 'leftBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, canvas.width - 90, 70+this.toolbarStartY, 40, 40, '#7158e2','⬇️', 0, 0, 30, '#ffffff', 'downBTN', 'lvlEditorBTN');
-
-
+		offsetX = startOffX;
+		offsetY = startOffY;
 	}
 
-	this.setActivePath = function(activePath){
-		this.activePath = activePath;
-		for(let i = 0; i < this.pathList.length; i++){
-			if(i == this.activePath){
-				ChangeButtonAttribute(this.buttonList, 'pathActive' + i, 'bc', '#32ff7e')
-			}else{
-				ChangeButtonAttribute(this.buttonList, 'pathActive' + i, 'bc', '#17c0eb')
+	this.selectGumaltar = function(direction){
+		this.currentGumAltar += direction;
+
+		let length = 0;
+		for(i = 0; i < this.mapGumAltarPos.length; i++)
+		{
+			if(this.mapGumAltarPos[i] !== false)
+			{
+				length++;
 			}
 		}
-		this.message = "Path " + activePath + " selected to edit.";
-	}
 
-	this.setShowPath = function(showPath){
-		if(this.pathList[showPath] == 1){
-			this.pathList[showPath] = 0;
-			ChangeButtonAttribute(this.buttonList, 'pathShow' + showPath, 'txt', '👁️');
-		}else{
-			this.pathList[showPath] = 1;
-			ChangeButtonAttribute(this.buttonList, 'pathShow' + showPath, 'txt', '🙈');
+		if (this.currentGumAltar < 0)
+		{
+			this.currentGumAltar = length - 1;
+		}
+		if (this.currentGumAltar >= length)
+		{
+			this.currentGumAltar = 0;
 		}
 	}
 
+	this.changeGumAmt = function(amount){
+		this.levelData.gumAmounts[this.currentGumAltar] += amount;
+		if(this.levelData.gumAmounts[this.currentGumAltar] < 0)
+		{
+			this.levelData.gumAmounts[this.currentGumAltar] = 0;
+		}
+	}
 
-	this.deletePath = function(showPath){
-		this.pathList[showPath].splice(i, 1);
+	this.selectWave = function(direction){
+		this.currentWave += direction;
+
+		if (this.currentWave < 0)
+		{
+			this.currentWave == this.levelData.wave.length - 1;
+		}
+		if (this.currentWave >= this.levelData.wave.length)
+		{
+			this.currentWave = 0;
+		}
+	}
+
+	this.addNewWave = function(){
+		this.levelData.wave.push({});
+		this.levelData.waveStartDelay.push(0);
+		this.selectWave(1);
+	}
+
+	this.removeWave = function(){
+		let tempWave = [];
+		let tempdelay = [];
+		if(this.levelData.wave.length > 1)
+		{
+			for(i = 0; i < this.levelData.wave.length; i++)
+			{
+				if(i != this.currentWave)
+				{
+					tempWave.push(this.levelData.wave[i]);
+					tempdelay.push(this.levelData.waveStartDelay[i]);
+				}
+			}
+		}
+
+		this.levelData.wave = copyArray(tempWave);
+		this.levelData.waveStartDelay = copyArray(tempdelay);
+		this.selectWave(1);
+	}
+
+	this.changeWaveStartDelay = function(amount){
+		this.levelData.waveStartDelay[this.currentWave] += amount;
 		
+		if(levelData.waveStartDelay[this.currentWave] < 0)
+		{
+			levelData.waveStartDelay[this.currentWave] = 0;
+		}
 	}
 
 	this.addNewPath = function(){	
@@ -162,122 +206,6 @@ levelEditor = new function(){
 		GenerateButton(this.buttonList, 145 * pathPlaceX + 320, 26 * pathPlaceY + 10+this.toolbarStartY, 20, 20, '#17c0eb','🙈', -1, -1, 16, '#000000','pathShow' + pathPlace, 'pathBTN');
 	}
 
-	this.validateMap = function(){
-		let mapData = [];
-		for(let i = 0; i < this.pathList.length; i++){
-			mapData[i] = {};
-			let pathExists = false;
-			let turretPositions = [];
-			let goalPositions = [];
-			let startPositions = [];
-			let gumPositions = [];
-			let mapCheck = mapGrid.returnMap(i);
-			for(let x = 0; x < mapCheck.length; x++){
-				for(let y = 0; y < mapCheck[0].length; y++){
-					if(mapCheck[x][y] == 1){
-						startPositions.push({x: x, y: y});
-					}else if(mapCheck[x][y] == 2){
-						pathExists = true;
-					}else if(mapCheck[x][y] == 3){
-						goalPositions.push({x: x, y: y});
-					}else if(mapCheck[x][y] == 4){
-						turretPositions.push({x: x, y: y});
-					}else if(mapCheck[x][y] == 5){
-						gumPositions.push({x: x, y: y});
-					}
-				}
-			}
-
-			if(startPositions.length > 1){
-				this.message = "Validation error: Path " + i + " has more than 1 start position.";
-				return;
-			}else if(startPositions.length == 1 && pathExists == false){
-				this.message = "Validation error: Path " + i + " has a starting point but no path set.";
-				return;
-			}else if(goalPositions.length > 1){
-				this.message = "Validation error: Path " + i + " has more than 1 goal position.";
-				return;
-			}else if(goalPositions.length == 1 && pathExists == false){
-				this.message = "Validation error: Path " + i + " has a goal point but no path set.";
-				return;
-			}else if(pathExists && (startPositions.length == 0 || goalPositions.length == 0)){
-				this.message = "Validation error: Path " + i + " has a path but no goal or start position.";
-				return;
-			}else if((pathExists || startPositions.length > 0 || goalPositions.length > 0) && gumPositions.length == 0){
-				this.message = "Validation error: Path " + i + " has a no gum spawn Point.";
-				return;
-			}
-
-			if(!pathExists && turretPositions.length == 0)
-			{
-				mapData[i] = false;
-				continue;
-			}
-
-			if(pathExists){
-				//check from start to goal
-				let testPath = findPath(mapCheck, startPositions[0],  goalPositions[0]);
-				if(testPath == false){
-					this.message = "Validation error: Path " + i + " has no valide path from start to goal.";
-					return;
-				}
-
-				//check from start to gum
-				for (let g = 0; g < gumPositions.length; g++){
-					//check from start to gum
-					let testPathSG = findPath(mapCheck, startPositions[0],  gumPositions[g]);
-					if(testPathSG == false){
-						this.message = "Validation error: Path " + i + " has no valide path from start to gum.";
-						return;
-					}
-
-					//check from gum to goal
-					let testPathGG = findPath(mapCheck, gumPositions[g],  goalPositions[0]);
-					if(testPathGG == false){
-						this.message = "Validation error: Path " + i + " has no valide path from gum to goal.";
-						return;
-					}
-				}
-			//	mapData[i]['pathStart'] = startPositions[0];
-			//	mapData[i]['pathGoal'] = goalPositions[0];
-			//	mapData[i]['pathGum'] = gumPositions[0];
-
-			}
-
-		/*	if(!pathExists && turretPositions.length > 0){
-
-				mapData[i]['turretPos'] = []
-				for(let j = 0; j < turretPositions.length; j++){
-					mapData[i]['turretPos'][i] = turretPositions[j];
-				}
-
-				mapData[i]['pathStart'] = false;
-				mapData[i]['pathGoal'] = false;
-				mapData[i]['pathGum'] = false;	
-			}
-
-			mapData[i]['rows'] = mapGrid.getRows();
-			mapData[i]['cols'] = mapGrid.getCols();
-		*/
-
-			mapData[i] = mapGrid.returnMap(i);
-		}
-		mapData['mapName'] = this.mapImage;
-		mapData['rows'] = mapGrid.getRows();
-		mapData['cols'] = mapGrid.getCols();
-
-		this.copyMap[0] = {
-			name: this.mapImage,
-			rows: mapGrid.getRows(),
-			cols: mapGrid.getCols(),
-			map: mapData,
-		
-		};
-		//this.copyMap['test'] = "lol";
-		this.isMapValid = 1;
-		this.message = "Map is Valid!";
-	}
-
 	this.saveMap = function(){
 		if(this.isMapValid == 1){
 			copyToClipboard(this.copyMap[0]);
@@ -288,9 +216,27 @@ levelEditor = new function(){
 		}
 	}
 
+	this.moveMapWithMouse = function()
+	{
+        if (draggingMouse) {
+            offsetX = dragMouseDX;
+    	    offsetY = dragMouseDY;
+		}
+		
+		let img = image.get(this.mapImage);
+		if (offsetX > 0) {
+			offsetX = 0;
+		}
+		if (offsetX < canvas.width - img.width) {
+			 offsetX = canvas.width - img.width;
+		}
+		if (offsetY > 0) {
+			offsetY = 0;
+		}
+		if (offsetY < canvas.height - img.height) {
+			offsetY = canvas.height - img.height;
+		}
 
-	this.resetValidation = function(){
-		this.isMapValid = 0;
 	}
 
 	this.onMouseClicked = function(){
@@ -300,95 +246,210 @@ levelEditor = new function(){
 			mapGrid.placeTile(this.activePath, this.tileOnHand);
 			
 		}else{
-			for(let i = 0; i < this.buttonList.length; i++){
+			for(let i = 0; i < this.buttonList.length; i++)
+			{
 				if(mouseX > this.buttonList[i].x && mouseX < this.buttonList[i].x + this.buttonList[i].w &&
-					mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h){
+					mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h)
+				{
 					
-					if(this.buttonList[i].group == 'pathBTN'){
-						for(let j = 0; j < this.pathList.length; j++){
-							if(this.buttonList[i].name == 'pathActive' + j){
-								this.setActivePath(j);
-								return;
-							}else if(this.buttonList[i].name == 'pathShow' + j){
-								this.setShowPath(j);
-								mapGrid.showPathSwitch(j);
-								return;
-							}else if(this.buttonList[i].name == 'pathDelete' + j){
-								mapGrid.deletePath(j);
-								this.message = "Path " + j + " deleted."
-								return;
-							}
-						}
-
-					}else if(this.buttonList[i].group == 'lvlEditorBTN'){
-					
-						switch (this.buttonList[i].name) {
-							case 'upBTN':
-								offsetY += this.offsetAmount;
-								return;
-							case 'downBTN':
-								offsetY -= this.offsetAmount;
-								return;
-							case 'leftBTN':
-								offsetX -= this.offsetAmount;
-								return;
-							case 'rightBTN':
-								offsetX += this.offsetAmount;
-								return;
-							case 'addRowBTN':
-								mapGrid.changeGridSize('row', 1);
-								this.message = 'Added 1 row to the Grid.';
-								return;
-							case 'subRowBTN':
-								mapGrid.changeGridSize('row', -1);
-								this.message = 'Removed 1 row from the Grid.';
-								return;
-							case 'addColBTN':
-								mapGrid.changeGridSize('col', 1);
-								this.message = 'Added 1 column to the Grid.';
-								return;
-							case 'subColBTN':
-								mapGrid.changeGridSize('col', -1);
-								this.message = 'Removed 1 column from the Grid.';
-								return;
-							case 'addPathBTN':
-								this.addNewPath();
-								return;
-							case 'pathEmptyBTN':
-								this.tileOnHand = 0;
-								this.message = 'Path removal block selected.'
-								return;
-							case 'pathStartBTN':
-								this.tileOnHand = 1;
-								this.message = 'Enemy Start block selected.'
-								return;
-							case 'pathPathBTN':
-								this.tileOnHand = 2;
-								this.message = 'Path block selected.'
-								return;
-							case 'pathGoalBTN':
-								this.tileOnHand = 3;
-								this.message = 'Enemy Goal block selected.'
-								return;		
-							case 'pathTurretBTN':
-								this.tileOnHand = 4;
-								this.message = 'Player turret spawn block selected'
-								return;
-							case 'pathGumBTN':
-								this.tileOnHand = 5;
-								this.message = 'Gum spawn block selected'
-								return;
-							case 'validateBTN':
-								this.message = 'validating map.....'
-								this.validateMap();	
-								return;
-							case 'saveBTN':
-								this.saveMap();	
-								return;
-						}
+					switch (this.buttonList[i].name) 
+					{
+						case 'subOffXBTN':
+							this.changeLVLStartOffset(1,'x');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'subsubOffXBTN':
+							this.changeLVLStartOffset(20,'x');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'addOffXBTN':
+							this.changeLVLStartOffset(-1,'x');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'addaddOffXBTN':
+							this.changeLVLStartOffset(-20,'x');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'subOffYBTN':
+							this.changeLVLStartOffset(1,'y');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'subsubOffYBTN':
+							this.changeLVLStartOffset(20,'y');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'addOffYBTN':
+							this.changeLVLStartOffset(-1,'y');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'addaddOffYBTN':
+							this.changeLVLStartOffset(-20,'y');
+							this.message = "Level start offset has been changed!";
+							return;
+						case 'backGumaltarBTN':
+							this.selectGumaltar(-1);
+							this.message = "Selected Gum Altar: " + (this.currentGumAltar + 1);
+							return;
+						case 'forwGumaltarBTN':
+							this.selectGumaltar(1);
+							this.message = "Selected Gum Altar: " + (this.currentGumAltar + 1);
+							return;
+						case 'subGumAmtBTN':
+							this.changeGumAmt(-1);
+							this.message = "Gums on altar " + (this.currentGumAltar + 1) + " removed";
+							return;
+						case 'addGumAmtBTN':
+							this.changeGumAmt(1);
+							this.message = "Gums on altar " + (this.currentGumAltar + 1) + " added";
+							return;
+						case 'addWaveBTN':
+							this.addNewWave();
+							this.message = "New wave added!";
+							return;
+						case 'delWaveBTN':
+							this.message = "Wave " + this.currentWave + "has been deleted.";
+							this.removeWave();			
+							return;
+						case 'backWaveBTN':
+							this.selectWave(-1);
+							this.message = "Selected Wave: " + this.currentWave;
+							return;
+						case 'forwWaveBTN':
+							this.selectWave(1);
+							this.message = "Selected Wave: " + this.currentWave;
+							return;
+						case 'subStartDelayBTN':
+							this.changeWaveStartDelay(-1)
+							this.message = "Start delay for wave " + this.currentWave + "has been changed.";
+							return;		
+						case 'addStartDelayBTN':
+							this.changeWaveStartDelay(1)
+							this.message = "Start delay for wave " + this.currentWave + "has been changed.";
+							return;
+						case 'saveBTN':
+							this.saveMap();	
+							return;
 					}
 				}
 			}
 		}
+	}
+
+	this.generateMapVarsFromEditorMapList = function(mapToProcess)
+	{	
+		//map Legend:
+		// 0 = empty
+		// 1 = Enemy Start spawn point
+		// 2 = Enemy path way
+		// 3 = Enemy Goal
+		// 4 = player turret spawn Point
+		// 5 = Gum Altar
+
+		this.rows = mapToProcess.rows;
+		this.cols = mapToProcess.cols;
+		this.map = copyArray(mapToProcess.map);
+
+		for(let i = 0; i < mapToProcess.map.length; i++)
+		{
+			if(mapToProcess.map[i] !== false)
+			{
+				for(let x =  0; x < mapToProcess.rows; x++)
+				{
+					for(let y = 0; y < mapToProcess.cols; y++)
+					{
+						switch (mapToProcess.map[i][x][y]) {
+							case 0:
+								break;
+							case 1:
+								this.mapStartPos[i] = {indexX: x, indexY: y};
+								break;
+							case 2:
+								if(!this.pathList.includes(i)) this.pathList.push(i);								
+								break;
+							case 3:
+								this.mapGoalPos[i] = {indexX: x, indexY: y};
+								break;
+							case 4:
+								this.mapTowerPos.push({indexX: x, indexY: y});
+								break;
+							case 5:
+								this.mapGumAltarPos[i] = {indexX: x, indexY: y};
+								break;
+						}
+					}
+				}
+			}else{
+				this.mapStartPos[i] = false;
+				this.mapGoalPos[i] = false;
+				this.mapGumAltarPos[i] = false;
+			}
+		}
+
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			for(let t = 0; t < this.mapTowerPos.length; t++)
+			{
+				this.map[this.pathList[i]][this.mapTowerPos[t].indexX][this.mapTowerPos[t].indexY] = 4;
+			} 		
+		}
+
+	}
+
+	//Inititalize things on first run, like buttons an such
+	this.init = function(mapImage){
+		this.mapImage = mapImage;
+
+		for (let i = 0; i < mapList.length; i++)
+		{
+			if(this.mapImage == mapList[i].name)
+			{
+				this.generateMapVarsFromEditorMapList(mapList[i]);
+				break;
+			}
+		}
+		this.message = 'Start by renaming the level and changing the offset!';
+
+		this.levelData = 
+		{
+			levelName: this.lvlName,
+			mapName: this.mapImage,
+			waveStartDelay: [],
+			gumAmounts: [],
+			startOffset: {x:0, y:0},
+			wave: []
+		}
+
+		for(i = 0; i < this.mapGumAltarPos.length; i++)
+		{
+			this.levelData.gumAmounts.push(0);
+		}
+
+		this.addNewWave();
+
+		GenerateButton(this.buttonList, 5, 5+this.toolbarStartY, 115, 20, '#17c0eb',this.lvlName, 4, -2, 16, '#000000', 'lvlNameBTN', 'lvlEditorBTN');
+
+		GenerateButton(this.buttonList, 25, 55+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subOffXBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 75, 55+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addOffXBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 3, 55+this.toolbarStartY, 20, 20, '#17c0eb','--', 1, 0, 14, '#000000', 'subsubOffXBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 92, 55+this.toolbarStartY, 22, 20, '#17c0eb','++', 1, -2, 18, '#000000', 'addaddOffXBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 25, 85+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subOffYBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 75, 85+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addOffYBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 3, 85+this.toolbarStartY, 20, 20, '#17c0eb','--', 1, 0, 14, '#000000', 'subsubOffYBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 92, 85+this.toolbarStartY, 22, 20, '#17c0eb','++', 1, -2, 18, '#000000', 'addaddOffYBTN', 'lvlEditorBTN');
+
+		GenerateButton(this.buttonList, 135, 25+this.toolbarStartY, 15, 20, '#17c0eb','<', 3, -2, 18, '#000000', 'backGumaltarBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 185, 25+this.toolbarStartY, 15, 20, '#17c0eb','>', 3, -2, 18, '#000000', 'forwGumaltarBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 135, 65+this.toolbarStartY, 15, 20, '#17c0eb','-', 3, -2, 18, '#000000', 'subGumAmtBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 185, 65+this.toolbarStartY, 15, 20, '#17c0eb','+', 3, -2, 18, '#000000', 'addGumAmtBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 130, 90+this.toolbarStartY, 80, 20, '#ffb8b8','Save Lvl', 2, 0, 16, '#000000', 'saveBTN', 'lvlEditorBTN');
+
+		GenerateButton(this.buttonList, 230, 50+this.toolbarStartY, 35, 20, '#ff4d4d','DEL', 1, -2, 18, '#000000', 'addWaveBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 270, 50+this.toolbarStartY, 35, 20, '#32ff7e','ADD', 2, -2, 18, '#000000', 'delWaveBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 235, 25+this.toolbarStartY, 15, 20, '#17c0eb','<', 3, -2, 18, '#000000', 'backWaveBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 285, 25+this.toolbarStartY, 15, 20, '#17c0eb','>', 3, -2, 18, '#000000', 'forwWaveBTN', 'lvlEditorBTN');
+
+		GenerateButton(this.buttonList, 230, 90+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subStartDelayBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 290, 90+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addStartDelayBTN', 'lvlEditorBTN');
+
 	}
 }

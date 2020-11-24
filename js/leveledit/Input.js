@@ -24,8 +24,8 @@ function setupInput() {
 		case 'mainMenu':
 			mainMenu.onMouseClicked();
 			break;
-		case 'mapEditor':
-			mapEditor.onMouseClicked();
+		case 'levelEditor':
+			levelEditor.onMouseClicked();
 			break;
 	}
 	

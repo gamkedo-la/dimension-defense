@@ -1,7 +1,5 @@
 var canvas, ctx;
 var scene = 'mainMenu';
-var offsetX = 0;
-var offsetY = 0;
 
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');

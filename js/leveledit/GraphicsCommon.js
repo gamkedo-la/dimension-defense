@@ -117,3 +117,8 @@ function copyToClipboard(theThing){
 			document.body.removeChild(dummy);
 			return;
 }
+
+function copyArray(arrayToCopy)
+{
+    return JSON.parse(JSON.stringify(arrayToCopy));
+}
