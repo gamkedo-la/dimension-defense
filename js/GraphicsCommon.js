@@ -56,8 +56,3 @@ function colorText(showWords, textX, textY, fontSize, fillColor) {
 	ctx.fillStyle = fillColor;
 	ctx.fillText(showWords, textX, textY);
 }
-
-function drawSprite(imgName,dimensionX,dimensionY,atX,atY)
-{
-	ctx.drawImage(image.get(imgName),0,0,dimensionX,dimensionY,atX,atY,dimensionX,dimensionY)
-}

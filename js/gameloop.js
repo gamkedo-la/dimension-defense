@@ -72,8 +72,6 @@ gameLoop = new function(){
 
 	//draw things here
 	this.draw = function(){
-		
-		
 		//draw map
 		drawImageWithAngle(this.mapName, offsetX, offsetY, 0);
 
@@ -91,8 +89,6 @@ gameLoop = new function(){
 		{
 			this.towerList[i].draw();
 		}
-
-		drawSprite('testAtlas',16,16,mouseX,mouseY);
 
 	}
 
