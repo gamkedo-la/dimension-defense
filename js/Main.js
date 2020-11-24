@@ -2,6 +2,11 @@ var canvas;
 var ctx;
 var scene = 'game';
 
+var offsetX = 0;
+var offsetY = 0;
+var animationSystem;
+
+
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	ctx = canvas.getContext('2d');
@@ -11,6 +16,8 @@ window.onload = function() {
 	
 	if(image.loadImages()){
 		gameLoop.init('lvlPencil');
+		//animationSystem=new animate();
+		//animationSystem.init();
 		StartGame();
 	}
 }

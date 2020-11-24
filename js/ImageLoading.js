@@ -13,6 +13,9 @@ image = new function (){
 		{imgName: 'slowTower', fileName: "slowTower.png", type: 'tower'},
 
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
+
+		// atlas for now, maybe animation strip will be better ,cas.
+		{imgName:'testAtlas',fileName:"testAtlas.png",type:'atlas'},
 	];
 
 	//creating different lists upfront
