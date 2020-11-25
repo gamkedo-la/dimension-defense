@@ -92,7 +92,7 @@ gameLoop = new function(){
 			this.towerList[i].draw();
 		}
 
-		animationSystem.spriteStrip("strip16",mouseX,mouseY,10,true);
+		
 
 	}
 
@@ -121,6 +121,7 @@ gameLoop = new function(){
 			}
 			this.spawnTower(mouseIDX, mouseIDY);
 		}
+		
 	}
 
 	this.moveMapWithMouse = function()

@@ -16,8 +16,6 @@ window.onload = function() {
 	
 	if(image.loadImages()){
 		gameLoop.init('lvlPencil');
-		animationSystem=new animate();
-		animationSystem.init();
 		StartGame();
 	}
 }
@@ -31,7 +29,6 @@ function StartGame() {
 
 function updateAll() {
 	colorRect(0,0, canvas.width,canvas.height, 'white');
-	animationSystem.update();
 
 	switch (scene) {
 		case 'game':

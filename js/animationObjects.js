@@ -1,0 +1,20 @@
+animationInfo=
+{
+    'strip16':{
+        row:1,
+        col:10,
+        cell_W:16,
+        cell_H:16,
+        maxFrame:10,
+        startFrame:1,
+        endFrame:10,
+        currentFrame:1,
+        orient:"horizontal"
+    },
+    'multiState':{
+        Row:1,
+        Col:10,
+        orient:"horizontal"
+    },
+
+}

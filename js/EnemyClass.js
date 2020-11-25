@@ -78,7 +78,6 @@ function EnemyClass(){
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 20, healthBarW, healthBarH, "red");
 		colorRect(this.x + offsetX - 15,this.y + offsetY - 20, this.health/this.maxHealth * healthBarW, healthBarH, "green");
-
 	}
 
 	this.isDeadMove = function(){

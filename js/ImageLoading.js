@@ -31,10 +31,12 @@ image = new function (){
 			this.getByNameList[this.InitImageList[i].imgName].src = "images/" + this.InitImageList[i].fileName;
 			this.getByNameList[this.InitImageList[i].imgName].type = this.InitImageList[i].type;
 
+			/*
 			if(this.getByNameList[this.InitImageList[i].imgName].type == "animation")
 			{
 				this.getByNameList[this.InitImageList[i].imgName].animationInfo=this.InitImageList[i].animationInfo;
 			}
+			*/
 			
 			//Generate a pre-list for all the different image types and fill them. 
 			if(this.getByTypeList[this.InitImageList[i].type] == undefined){
