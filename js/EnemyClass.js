@@ -74,6 +74,7 @@ function EnemyClass(){
 	//draw things here
 	this.draw = function(){
 
+		//updates the animation
 		if(!this.isDead)
 		{
 			animationSystem.sprite_update(this.id,{X:this.x -16,Y:this.y + -16});
