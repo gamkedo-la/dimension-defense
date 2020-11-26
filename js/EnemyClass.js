@@ -25,6 +25,8 @@ function EnemyClass(){
 	this.isDead = false;
 	this.canBeRemoved = false;
 
+	this.id=0;  //1.this variable is used to tell the animationSystem which object it is.
+
 	//move things here
 	this.move = function (){
 
@@ -72,12 +74,17 @@ function EnemyClass(){
 	//draw things here
 	this.draw = function(){
 
-		colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
+		if(!this.isDead)
+		{
+			animationSystem.sprite_update(this.id,{X:this.x -16,Y:this.y + -16});
+		}
+		//colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
 
 		let healthBarW = 30;
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 20, healthBarW, healthBarH, "red");
 		colorRect(this.x + offsetX - 15,this.y + offsetY - 20, this.health/this.maxHealth * healthBarW, healthBarH, "green");
+		
 	}
 
 	this.isDeadMove = function(){
@@ -85,9 +92,14 @@ function EnemyClass(){
 		if(this.myGum !== false)
 		{
 			gameLoop.gums[this.myGum].hasOwner = false;
+			
+			
+
 		}
 		this.canBeRemoved = true;
-
+		animationSystem.destroyEntity(this.id)
+		
+		
 	}
 
 	//Inititalize
@@ -109,6 +121,11 @@ function EnemyClass(){
 
 		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
 		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
+
+		//2.creates a graphical representation of itself in through the animation system
+		this.id=animationSystem.register("testEnemy1",8,{X:this.x,Y:this.y});
+		//console.log(this.id);
+
 	}
 
 	this.collisionCheckWithGum = function(gumListIndex)

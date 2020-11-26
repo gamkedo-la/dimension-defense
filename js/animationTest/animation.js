@@ -1,5 +1,5 @@
 //The beginnings of an animation system
-
+//Manager is created in windows.onload main.js file
 class animate{
 
     constructor()
@@ -8,71 +8,115 @@ class animate{
         this._elapsedTime=0;
         this._currentTime=0;
         this.animatedlist=[];
+        this.entities=0;
+        this.emptyid=[];
     }
     
     
     init()
     {
       console.log("Animation Module Init");
-      console.log(animationInfo['strip16']);
     }
 
-    register(Assetname)
-    {
-        let asset=[]
-        asset=animationInfo[Assetname]
-        this.animatedlist.push(asset);
-        //console.log(this.animatedlist);
-    }
     update()
     {
         this._gTime+=1;
+        this.animatedlist.forEach(sprite => this.anim_loop(sprite));
+        //console.log(this.animatedlist);
     }
 
     
-    spriteStrip(name,atX,atY,fps=1,loop=true)
+    register(Assetname,fps,objectRef)
     {
-
-       this.animatedlist.forEach(sprite => {
-            
-            if(this._gTime > fps)
-            {
-                    sprite.currentFrame+=1;
-                    this._gTime=0;
-            }
-            
-            if(loop)
-            {
-                drawSprite(name,
-                        sprite.startFrame,
-                        (sprite.currentFrame%sprite.maxFrame)+1,
-                        sprite.cell_W,
-                        sprite.cell_H,
-                        atX,
-                        atY);
-            }
-            else
-            {
-                if(sprite.currentFrame>sprite.maxFrame)
-                {
-                    sprite.currentFrame=sprite.endFrame;
-                }
-
-                drawSprite(name,
-                    sprite.startFrame,
-                    sprite.currentFrame,
-                    sprite.cell_W,
-                    sprite.cell_H,
-                    atX,
-                    atY);
-            }
-            
-       });
+        let obj=HelplerCreateAnimatedAsset(Assetname)
+        obj.fps=fps
         
-     
+        obj.pos=objectRef;
+       // console.log(obj.pos.X);
+        this.entities+=1;
+
+
+        if(this.animatedlist.indexOf(null)!=-1)
+        {
+            let id=this.animatedlist.indexOf(null)
+            this.animatedlist[id]=obj;
+            return id+1;
+        }
+        else
+        {
+            this.animatedlist.push(obj);
+            return this.entities;
+        }      
+    }
+
+
+    sprite_update(id,pos_object)
+    {
+        let sprite=this.animatedlist[id-1]
+        
+        if(sprite!=null)
+        {
+           //console.log(sprite);
+           sprite.pos=pos_object;
+        }
+    }
+
+    sprite_stateChange(id,stripName,speed)
+    {
+        
+        let sprite=this.animatedlist[id-1];
+        if (sprite!=null)
+        {
+            //console.log(sprite.state);
+            sprite.startFrame=sprite.state[stripName];
+        }
+    }
+
+    anim_loop(sprite,fps)
+    {
+        if(sprite !=null)
+        {
+            if (this._gTime % sprite.fps == 0)
+            {
+                sprite.currentFrame+=1;
+            }
+            
+            drawSprite(sprite.name,
+                sprite.startFrame,
+                (sprite.currentFrame%sprite.maxFrame)+1,
+                sprite.cell_W,
+                sprite.cell_H,
+                sprite.pos.X,
+                sprite.pos.Y);
+                
+        }
+
     }
 
     
+    resetList()
+    {
+        this.animatedlist=[]
+        this.entities=0;
+    }
+
+    destroyEntity(id)
+    {
+        if (this.animatedlist[id-1]!=null && this.entities >0)
+        {
+            
+            this.animatedlist[id-1]=null;
+            this.entities-=1;
+            console.log(this.animatedlist);
+            return true;
+           
+        }
+        return false;
+    }
+
 }
+
+ 
+
 
 

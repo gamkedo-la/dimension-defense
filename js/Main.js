@@ -15,6 +15,8 @@ window.onload = function() {
 	colorText("Loading Game...", canvas.width/2, canvas.height/2, 'white');
 	
 	if(image.loadImages()){
+		animationSystem=new animate();
+		animationSystem.init();
 		gameLoop.init('lvlPencil');
 		StartGame();
 	}
@@ -29,11 +31,14 @@ function StartGame() {
 
 function updateAll() {
 	colorRect(0,0, canvas.width,canvas.height, 'white');
-
+	
+	
+	
 	switch (scene) {
 		case 'game':
 			gameLoop.move();
 			gameLoop.draw();
+			animationSystem.update();
 			break;
 	}
 	

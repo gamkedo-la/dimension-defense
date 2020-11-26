@@ -1,4 +1,4 @@
-
+ 
 function drawBitmapCenteredWithRotation(imgName, atX,atY, withAng) {
 	ctx.save();
 	ctx.translate(atX, atY);
