@@ -1,6 +1,6 @@
 animationInfo=
 {
-    /* Development code.
+    
     'strip16':{
         row:1,
         col:10,
@@ -38,7 +38,7 @@ animationInfo=
         }
 
     },
-    */ 
+    
    
    'testEnemy1':{
     row:1,
