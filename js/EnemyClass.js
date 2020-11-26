@@ -1,9 +1,6 @@
 
 function EnemyClass(){
 	
-	this.r;
-	this.color;
-
 	this.x;
 	this.y;
 	this.indexX;
@@ -11,8 +8,13 @@ function EnemyClass(){
 	this.moveToX;
 	this.moveToY;
 
+	this.r;
 	this.defaultSpeed;
 	this.speed;
+	this.maxHealth;
+	this.health;
+	this.imgName;
+
 	this.status;
 	this.pathNumber;
 	this.pathQueue;
@@ -20,10 +22,12 @@ function EnemyClass(){
 	this.gumsForMe;
 	this.myGum = false;
 	this.hasVisitedAltar = false;
-	this.maxHealth;
-	this.health;
+
 	this.isDead = false;
 	this.canBeRemoved = false;
+
+	//Abilities
+	this.immuneToSlowdown = false;
 
 	this.id=0;  //1.this variable is used to tell the animationSystem which object it is.
 
@@ -77,9 +81,11 @@ function EnemyClass(){
 		//updates the animation
 		if(!this.isDead)
 		{
-			animationSystem.sprite_update(this.id,{X:this.x -16,Y:this.y + -16});
+			//animationSystem.sprite_update(this.id,{X:this.x -16,Y:this.y + -16});
 		}
+
 		//colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
+		drawBitmapCenteredWithRotation(this.imgName, this.x + offsetX, this.y + offsetY, 0);
 
 		let healthBarW = 30;
 		let healthBarH = 6;
@@ -106,11 +112,29 @@ function EnemyClass(){
 	//Inititalize
 	this.init = function(pathNumber, enemyType)
 	{
-		this.maxHealth = 15;
+
+		for (let i = 0; i < enemyList.length; i++)
+		{
+			if(enemyType == enemyList[i].type)
+			{
+				this.imgName = enemyList[i].imgName;
+				this.maxHealth = enemyList[i].health;
+				this.defaultSpeed = enemyList[i].speed;
+				this.coins = enemyList[i].coins;
+				this.r = enemyList[i].r;
+				for (let a = 0; a < enemyList[i].ability.length; a++)
+				{
+					switch (enemyList[i].ability[a]) {
+						case 'immuneToSlowdown':
+							this.immuneToSlowdown = true;
+							break;
+					}
+				}
+				break;
+			}
+		}
+
 		this.health = this.maxHealth;
-		this.r = 10;
-		this.color = enemyType;
-		this.defaultSpeed = 4;
 		this.speed = this.defaultSpeed;
 		this.pathNumber = pathNumber;
 		this.indexX = gameLoop.returnStartPos(pathNumber).indexX;
@@ -118,7 +142,7 @@ function EnemyClass(){
 
 		this.x = returnPixelPosFromIndexPos(this.indexX) + TILE_SIZE / 2 ;
 		this.y = returnPixelPosFromIndexPos(this.indexY) + TILE_SIZE / 2;
-		this.coins = 1;
+		
 
 		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
 		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
@@ -148,14 +172,15 @@ function EnemyClass(){
 
 	this.slowdownSpeed = function(slowdownAmount)
 	{
-		this.speed -= slowdownAmount;
+		if(!this.immuneToSlowdown)
+		{
+			this.speed -= slowdownAmount;
 
-		if(this.speed <= 0){
-			this.speed = 1;
+			if(this.speed <= 0){
+				this.speed = 1;
+			}
 		}
 	}
-
-
 
 	this.findPathTo = function(goalIndexPos)
 	{

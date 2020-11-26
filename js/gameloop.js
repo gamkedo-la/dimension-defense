@@ -39,9 +39,10 @@ gameLoop = new function(){
 		else
 		{
 			if (!this.noMoreWaves) {
-				console.log("no more waves! FIXME: load next level");
+				console.log("no more waves! FIXME");
 				this.noMoreWaves = true; // only tell us once
-				// FIXME: level complete! go to next level
+				// FIXME: No more Waves but game still continues until all enemies die
+				// after that load next level
 			}
 		}
 
@@ -262,7 +263,7 @@ gameLoop = new function(){
 		{
 			if(levelName == levelList[i].levelName)
 			{
-				this.generateWaveVarsFromLevelList(levelList[i]);
+				this.generateWaveVarsFromlevelList(levelList[i]);
 				this.mapName = levelList[i].mapName;
 				break;
 			}
@@ -318,7 +319,7 @@ gameLoop = new function(){
 		this.towerList = [];
 	}
 
-	this.generateWaveVarsFromLevelList = function(level)
+	this.generateWaveVarsFromlevelList = function(level)
 	{
 		let waveList = copyArray(level);
 

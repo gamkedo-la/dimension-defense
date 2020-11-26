@@ -253,7 +253,7 @@ mapEditor = new function(){
 		if(this.isMapValid == 1){
 			copyToClipboard(this.copyMap[0]);
 			console.log(this.copyMap[0])
-			this.message = "Save data was copied to your clipboard, please insert into mapList.js";
+			this.message = "Save data was copied to your clipboard, please insert into listMap.js";
 		}else{
 			this.message = "Map is not Valid, cant save.";
 		}
