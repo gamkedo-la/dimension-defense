@@ -93,7 +93,8 @@ gameLoop = new function(){
 			this.towerList[i].draw();
 		}
 
-		
+		colorRect(20,10, 130, 30, "white");
+		colorText("Coins: " + playerCoins, 25, 30, 20, "black");
 
 	}
 
