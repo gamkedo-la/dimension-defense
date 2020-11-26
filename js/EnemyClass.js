@@ -13,8 +13,10 @@ function EnemyClass(){
 	this.speed;
 	this.maxHealth;
 	this.health;
-	this.imgName;
+	this.coins;
 
+	this.imgName;
+	this.rot = 0;
 	this.status;
 	this.pathNumber;
 	this.pathQueue;
@@ -85,12 +87,12 @@ function EnemyClass(){
 		}
 
 		//colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
-		drawBitmapCenteredWithRotation(this.imgName, this.x + offsetX, this.y + offsetY, 0);
+		drawBitmapCenteredWithRotation(this.imgName, this.x + offsetX, this.y + offsetY, this.rot);
 
 		let healthBarW = 30;
 		let healthBarH = 6;
-		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 20, healthBarW, healthBarH, "red");
-		colorRect(this.x + offsetX - 15,this.y + offsetY - 20, this.health/this.maxHealth * healthBarW, healthBarH, "green");
+		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
+		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
 		
 	}
 
@@ -215,6 +217,7 @@ function EnemyClass(){
 				if(this.status != 'WALKING_NORTH'){
 					this.moveToY = this.y - TILE_SIZE;
 					this.status = 'WALKING_NORTH';
+					this.rot = degreesToRadian(270);
 					this.y -= this.speed;
 				}else if(this.y <= this.moveToY){
 					this.y = this.moveToY;
@@ -228,6 +231,7 @@ function EnemyClass(){
 				if(this.status != 'WALKING_SOUTH'){
 					this.moveToY = this.y + TILE_SIZE;
 					this.status = 'WALKING_SOUTH';
+					this.rot = degreesToRadian(90);
 					this.y += this.speed;
 				}else if(this.y >= this.moveToY){
 					this.y = this.moveToY;
@@ -241,6 +245,7 @@ function EnemyClass(){
 				if(this.status != 'WALKING_EAST'){
 					this.moveToX = this.x + TILE_SIZE;
 					this.status = 'WALKING_EAST';
+					this.rot = degreesToRadian(0);
 					this.x += this.speed;
 				}else if(this.x >= this.moveToX){
 					this.x = this.moveToX;
@@ -254,6 +259,7 @@ function EnemyClass(){
 				if(this.status != 'WALKING_WEST'){
 					this.moveToX = this.x - TILE_SIZE;
 					this.status = 'WALKING_WEST';
+					this.rot = degreesToRadian(180);
 					this.x -= this.speed;
 				}else if(this.x <= this.moveToX){
 					this.x = this.moveToX;

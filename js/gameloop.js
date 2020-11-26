@@ -109,9 +109,11 @@ gameLoop = new function(){
 		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
 
-		
-		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4 || 
-			this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
+		{
+			this.spawnTower(mouseIDX, mouseIDY);
+
+		}else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
 		{
 			for(let t = 0; t < this.towerList.length; t++)
 			{
@@ -122,7 +124,7 @@ gameLoop = new function(){
 					return;
 				}
 			}
-			this.spawnTower(mouseIDX, mouseIDY);
+			
 		}
 		
 	}

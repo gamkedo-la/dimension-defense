@@ -31,6 +31,11 @@ function collisionCheckRoundShapes(obj1x, obj1y,obj1r, obj2x, obj2y, obj2r)
 	}
 }
 
+function degreesToRadian(degrees)
+{
+    return degrees * Math.PI / 180;
+}
+
 function returnPixelPosFromIndexPos(tileIndexNumber)
 {
     return tileIndexNumber * TILE_SIZE;
