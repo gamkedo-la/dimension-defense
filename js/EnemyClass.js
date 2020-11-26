@@ -105,6 +105,7 @@ function EnemyClass(){
 
 		this.x = returnPixelPosFromIndexPos(this.indexX) + TILE_SIZE / 2 ;
 		this.y = returnPixelPosFromIndexPos(this.indexY) + TILE_SIZE / 2;
+		this.coins = 1;
 
 		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
 		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
@@ -123,6 +124,7 @@ function EnemyClass(){
 		this.health -= damageAmount;
 		if(this.health <= 0){
 			this.isDead = true;
+			playerCoins = playerCoins + this.coins;
 		}
 	}
 
