@@ -1,1 +1,0 @@
-var playerCoins = 0;

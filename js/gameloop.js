@@ -5,6 +5,7 @@ var offsetY = 0;
 var gameTimer = 0;
 
 var towerSelector = 1;
+var playerCoins = 0;
 
 gameLoop = new function(){
 	
