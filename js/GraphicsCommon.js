@@ -16,7 +16,24 @@ function drawImageWithAngle(imgName, atX,atY, atAngel) {
 }
 
 function drawImageScaled(imgName, atX,atY, scale) {
-	ctx.drawImage(image.get(imgName),atX ,atY , (scale / 100) * image.get(imgName).width, (scale / 100) * image.get(imgName).height);
+	//ctx.translate(atX+image.get(imgName).width,atY);
+	ctx.scale(scale,scale);
+	ctx.drawImage(image.get(imgName),atX ,atY , image.get(imgName).width, image.get(imgName).height);
+	ctx.setTransform(1,0,0,1,0,0)
+}
+
+function drawImageflippedHorizontally(imgName, atX,atY) {
+	ctx.translate(atX+image.get(imgName).width,atY);
+	ctx.scale(-1,1);
+	ctx.drawImage(image.get(imgName),atX ,atY , image.get(imgName).width, image.get(imgName).height);
+	ctx.setTransform(1,0,0,1,0,0)
+}
+
+function drawImageflippedVertically(imgName, atX,atY) {
+	ctx.translate(atX,atY+image.get(imgName).height);
+	ctx.scale(1,-1);
+	ctx.drawImage(image.get(imgName),atX ,atY , image.get(imgName).width, image.get(imgName).height);
+	ctx.setTransform(1,0,0,1,0,0)
 }
 
 function drawImageWithSize(imgName, atX,atY, withSize) {
