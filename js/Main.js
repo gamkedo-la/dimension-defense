@@ -6,7 +6,6 @@ var offsetX = 0;
 var offsetY = 0;
 var animationSystem;
 
-// Practice Commit - will remove
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	ctx = canvas.getContext('2d');
