@@ -4,7 +4,7 @@ function collisionCheckWithAllEnemy(x, y, r)
     let collidedEnemies = [];
     for(let i = 0; i < gameLoop.enemyList.length; i++)
     {
-        if(collisionCheckRoundShapes(x, y, r, gameLoop.enemyList[i].x, gameLoop.enemyList[i].y, gameLoop.gums[i].r))
+        if(collisionCheckRoundShapes(x, y, r, gameLoop.enemyList[i].x, gameLoop.enemyList[i].y, gameLoop.enemyList[i].r))
         {
             collidedEnemies.push(i);
         }		

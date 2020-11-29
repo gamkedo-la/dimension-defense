@@ -23,6 +23,7 @@ gameLoop = new function(){
 	this.gums = [];
 	this.currentWave;
 	this.waveSubCounter;
+	this.noMoreWaves;
 	this.waveList = [];
 	this.enemyList = [];
 	this.towerList = [];
@@ -32,24 +33,34 @@ gameLoop = new function(){
 		gameTimer++;
 		this.moveMapWithMouse();
 
-		if(this.currentWave < this.waveList.length)
+		let remainingGums = 0;
+		for(let i = 0; i < this.gums.length; i++)
 		{
-			this.processWave();
-		}
-		else
-		{
-			if (!this.noMoreWaves) {
-				console.log("no more waves! FIXME");
-				this.noMoreWaves = true; // only tell us once
-				// FIXME: No more Waves but game still continues until all enemies die
-				// after that load next level
+			if(!this.gums[i].isDead)
+			{
+				remainingGums++;
 			}
 		}
+
+		if(remainingGums == 0)
+		{
+			console.log("Game Over, you lost all your gum!")
+			return;
+		}
+
+		if(this.enemyList.length == 0 && this.noMoreWaves)
+		{
+			console.log("You won")
+			return;
+		}
+
+		this.processWave();
 
 		for (let i = 0; i < this.towerList.length; i++)
 		{
 			this.towerList[i].move();
 		}
+
 
 		for (let i = this.enemyList.length - 1; i >= 0; i--)
 		{
@@ -67,14 +78,11 @@ gameLoop = new function(){
 			}
 		}
 
-
-
 	}
 
 
 	//draw things here
 	this.draw = function(){
-		
 		
 		//draw map
 		drawImageWithAngle(this.mapName, offsetX, offsetY, 0);
@@ -86,7 +94,10 @@ gameLoop = new function(){
 
 		for(let i = 0; i < this.gums.length; i++)
 		{
-			drawImageWithAngle("gum1", this.gums[i].x + offsetX, this.gums[i].y + offsetY, 0);
+			if(!this.gums[i].isDead)
+			{
+				drawImageWithAngle("gum1", this.gums[i].x + offsetX, this.gums[i].y + offsetY, 0);
+			}
 		}
 
 		for (let i = 0; i < this.towerList.length; i++)
@@ -215,7 +226,7 @@ gameLoop = new function(){
 		return this.map[pathNumber];
 	}
 
-	this.returnGumListIndex = function(fromAltar)
+	this.returnGumListFromAnAltar = function(fromAltar)
 	{
 		let cacheGums = [];
 		for(let i = 0; i < this.gums.length; i++)
@@ -230,30 +241,44 @@ gameLoop = new function(){
 
 	this.processWave = function()
 	{
-		if(this.waveList[this.currentWave].timerCache <= 0)
+		if(!this.noMoreWaves)
 		{
-			this.spawnEnemy(this.waveList[this.currentWave][this.waveSubCounter].spawnOnPath, this.waveList[this.currentWave][this.waveSubCounter].enemyType);
-			this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn--;
 
-			if(this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn <= 0)
+			if(this.waveList[this.currentWave].timerCache <= 0)
 			{
-				this.waveSubCounter++;
-			}
+				if(this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn > 0)
+				{
+					this.spawnEnemy(this.waveList[this.currentWave][this.waveSubCounter].spawnOnPath, this.waveList[this.currentWave][this.waveSubCounter].enemyType);
+					this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn--;
+					this.waveList[this.currentWave].timerCache = this.waveList[this.currentWave][this.waveSubCounter].delayBetweenSpawn * 60;
+				}
 
-			if(this.waveSubCounter == this.waveList[this.currentWave].length)
-			{
-				this.currentWave++;
-				this.waveSubCounter = 0;					
+				if(this.waveList[this.currentWave][this.waveSubCounter].amountToSpawn == 0)
+				{
+					this.waveSubCounter++;
+
+					if(this.waveSubCounter == this.waveList[this.currentWave].length)
+					{
+						this.currentWave++;
+						this.waveSubCounter = 0;
+
+						if(this.currentWave == this.waveList.length)
+						{
+							this.noMoreWaves = true;
+							this.currentWave--; //avoiding undefined error
+							console.log("Last enemy!");
+							return;
+						}
+					}			
+				}
 			}
 			else
 			{
-				this.waveList[this.currentWave].timerCache = this.waveList[this.currentWave][this.waveSubCounter].delayBetweenSpawn * 60;
-			}
+				this.waveList[this.currentWave].timerCache--;
+			}	
+			
 		}
-		else
-		{
-			this.waveList[this.currentWave].timerCache--;
-		}	
+
 	}
 
 	//Inititalize
@@ -282,7 +307,7 @@ gameLoop = new function(){
 
 		for(let i = 0; i < this.pathList.length; i++)
 		{
-			for(let gi = 0; gi < 50; gi++)
+			for(let gi = 0; gi < 5; gi++)
 			{
 				this.gums.push(
 					{
@@ -291,7 +316,7 @@ gameLoop = new function(){
 						r: 20,
 						fromAltar: this.pathList[i],
 						hasOwner: false,
-						dead: false
+						isDead: false
 					}
 				)
 			}
@@ -316,6 +341,7 @@ gameLoop = new function(){
 		this.gums = [];
 		this.currentWave = 0;
 		this.waveSubCounter = 0;
+		this.noMoreWaves = false;
 		this.waveList = [];
 		this.enemyList = [];
 		this.towerList = [];

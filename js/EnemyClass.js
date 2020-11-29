@@ -21,10 +21,9 @@ function EnemyClass(){
 	this.pathNumber;
 	this.pathQueue;
 
-	this.gumsForMe;
 	this.myGum = false;
 	this.hasVisitedAltar = false;
-
+	this.hasReachedGoal = false;
 	this.isDead = false;
 	this.canBeRemoved = false;
 
@@ -39,28 +38,24 @@ function EnemyClass(){
 		this.indexX = returnIndexPosFromPixelPos(this.x);
 		this.indexY = returnIndexPosFromPixelPos(this.y);
 
-		if (!this.pathQueue) {
-			console.log("Error: enemy has a null pathQueue");
-			return;
+		if(this.hasReachedGoal)
+		{
+			this.canBeRemoved = true;
+			gameLoop.gums[this.myGum].isDead = true;
+			return;			
 		}
 
-		if(this.pathQueue.length == 0 && !this.hasVisitedAltar)
+		if(this.myGum === false)
 		{
-			for(let i = 0; i < this.gumsForMe.length; i++)
+			for(let i = 0; i < gameLoop.gums.length; i++)
 			{
-				if(this.collisionCheckWithGum(this.gumsForMe[i]) && gameLoop.gums[this.gumsForMe[i]].hasOwner == false)
+				if(this.collisionCheckWithGum(i) && gameLoop.gums[i].hasOwner === false && gameLoop.gums[i].isDead === false)
 				{
-					this.myGum = this.gumsForMe[i];
+					this.myGum = i;
 					gameLoop.gums[i].hasOwner = true;			
 					break;
 				}
 			}
-			this.pathQueue = this.findPathTo(gameLoop.returnGoalPos(this.pathNumber))
-			this.hasVisitedAltar = true;
-		}
-		else if (this.pathQueue.length == 0 && this.hasVisitedAltar)
-		{
-			this.isDead = true;
 		}
 
 		this.walk();
@@ -101,9 +96,6 @@ function EnemyClass(){
 		if(this.myGum !== false)
 		{
 			gameLoop.gums[this.myGum].hasOwner = false;
-			
-			
-
 		}
 		this.canBeRemoved = true;
 		animationSystem.destroyEntity(this.id)
@@ -145,9 +137,7 @@ function EnemyClass(){
 		this.x = returnPixelPosFromIndexPos(this.indexX) + TILE_SIZE / 2 ;
 		this.y = returnPixelPosFromIndexPos(this.indexY) + TILE_SIZE / 2;
 		
-
-		this.gumsForMe = gameLoop.returnGumListIndex(pathNumber);	
-		this.pathQueue = this.findPathTo(gameLoop.returnGumAltarPos(pathNumber) )
+		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
 		this.id=animationSystem.register("testEnemy1",8,{X:this.x,Y:this.y});
@@ -184,7 +174,42 @@ function EnemyClass(){
 		}
 	}
 
-	this.findPathTo = function(goalIndexPos)
+	this.checkForEvents = function()
+	{
+
+		if(gameLoop.returnGumAltarPos(this.pathNumber).indexX == this.indexX && gameLoop.returnGumAltarPos(this.pathNumber).indexY == this.indexY
+			|| this.myGum !== false)
+		{
+			this.hasVisitedAltar = true;
+		}
+		if(gameLoop.returnGoalPos(this.pathNumber).indexX == this.indexX && gameLoop.returnGoalPos(this.pathNumber).indexY == this.indexY)
+		{
+			this.hasReachedGoal = true;
+		}
+		
+	}
+
+
+	this.searchPath = function()
+	{
+	
+		this.checkForEvents();
+
+		if(this.hasReachedGoal)
+		{
+			return;
+		}
+
+		if(!this.hasVisitedAltar)
+		{
+			this.pathQueue = this.runPathsearchAlgorithm(gameLoop.returnGumAltarPos(this.pathNumber))
+		}else{
+			this.pathQueue = this.runPathsearchAlgorithm(gameLoop.returnGoalPos(this.pathNumber))
+		}
+		this.status = undefined;
+	}
+
+	this.runPathsearchAlgorithm = function(goalIndexPos)
 	{
 		let testPath = findPath(this, goalIndexPos, this.pathNumber, false, false);
 		if(testPath !== false)
@@ -221,8 +246,7 @@ function EnemyClass(){
 					this.y -= this.speed;
 				}else if(this.y <= this.moveToY){
 					this.y = this.moveToY;
-					this.pathQueue = this.pathQueue.slice(1);
-					this.status = undefined;
+					this.searchPath();
 				}else{
 					this.y -= this.speed;
 				}
@@ -235,8 +259,7 @@ function EnemyClass(){
 					this.y += this.speed;
 				}else if(this.y >= this.moveToY){
 					this.y = this.moveToY;
-					this.pathQueue = this.pathQueue.slice(1);
-					this.status = undefined;
+					this.searchPath();
 				}else{
 					this.y += this.speed;
 				}
@@ -249,8 +272,7 @@ function EnemyClass(){
 					this.x += this.speed;
 				}else if(this.x >= this.moveToX){
 					this.x = this.moveToX;
-					this.pathQueue = this.pathQueue.slice(1);
-					this.status = undefined;
+					this.searchPath();
 				}else{ 
 					this.x += this.speed;
 				}
@@ -263,8 +285,7 @@ function EnemyClass(){
 					this.x -= this.speed;
 				}else if(this.x <= this.moveToX){
 					this.x = this.moveToX;
-					this.pathQueue = this.pathQueue.slice(1);
-					this.status = undefined;
+					this.searchPath();
 				}else{
 					this.x -= this.speed;
 				}

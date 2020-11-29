@@ -3,7 +3,7 @@ var levelList = [
     {
         levelName: 'lvlPencil',
         mapName: 'mapPencil',
-        waveStartDelay: [1, 20],
+        waveStartDelay: [1, 5],
         startOffset: {x:0, y:0},
         wave: 
         [
@@ -12,42 +12,17 @@ var levelList = [
                 {
                     enemyType: 'turtle',
                     spawnOnPath: 0,
-                    amountToSpawn: 3,
+                    amountToSpawn: 5,
                     delayBetweenSpawn: 2,
                 },
-                {
-                    enemyType: 'turtle',
-                    spawnOnPath: 0,
-                    amountToSpawn: 4,
-                    delayBetweenSpawn: 3,
-                },
-                {
-                    enemyType: 'turtle',
-                    spawnOnPath: 0,
-                    amountToSpawn: 2,                    
-                    delayBetweenSpawn: 4,
-                },
-
             ],
             //wave 2
             [
                 {
-                    enemyType: 'orange',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
-                    amountToSpawn: 3,
+                    amountToSpawn: 5,
                     delayBetweenSpawn: 1,
-                },
-                {
-                    enemyType: 'yellow',
-                    spawnOnPath: 0,
-                    amountToSpawn: 4,
-                    delayBetweenSpawn: 4,
-                },
-                {
-                    enemyType: 'blue',
-                    spawnOnPath: 0,
-                    amountToSpawn: 2,                    
-                    delayBetweenSpawn: 7,
                 },
             ],
         ]
@@ -62,19 +37,19 @@ var levelList = [
             //wave 1 
             [
                 {
-                    enemyType: 'red',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 8,
                     delayBetweenSpawn: 1,
                 },
                 {
-                    enemyType: 'green',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 5,
                     delayBetweenSpawn: 2,
                 },
                 {
-                    enemyType: 'blue',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 3,
@@ -84,19 +59,19 @@ var levelList = [
             //wave 2
             [
                 {
-                    enemyType: 'orange',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 5,
                     delayBetweenSpawn: 1,
                 },
                 {
-                    enemyType: 'yellow',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 4,
                     delayBetweenSpawn: 4,
                 },
                 {
-                    enemyType: 'blue',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 7,
@@ -114,19 +89,19 @@ var levelList = [
             //wave 1 
             [
                 {
-                    enemyType: 'red',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 8,
                     delayBetweenSpawn: 1,
                 },
                 {
-                    enemyType: 'green',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 5,
                     delayBetweenSpawn: 2,
                 },
                 {
-                    enemyType: 'blue',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 3,
@@ -136,19 +111,19 @@ var levelList = [
             //wave 2
             [
                 {
-                    enemyType: 'orange',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 5,
                     delayBetweenSpawn: 1,
                 },
                 {
-                    enemyType: 'yellow',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 4,
                     delayBetweenSpawn: 4,
                 },
                 {
-                    enemyType: 'blue',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 7,
@@ -167,19 +142,19 @@ var levelList = [
             //wave 1 
             [
                 {
-                    enemyType: 'red',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 8,
                     delayBetweenSpawn: 1,
                 },
                 {
-                    enemyType: 'green',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 5,
                     delayBetweenSpawn: 2,
                 },
                 {
-                    enemyType: 'blue',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 3,
@@ -189,19 +164,19 @@ var levelList = [
             //wave 2
             [
                 {
-                    enemyType: 'orange',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 5,
                     delayBetweenSpawn: 1,
                 },
                 {
-                    enemyType: 'yellow',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 4,
                     delayBetweenSpawn: 4,
                 },
                 {
-                    enemyType: 'blue',
+                    enemyType: 'turtle',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 7,
