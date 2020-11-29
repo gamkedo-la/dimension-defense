@@ -11,4 +11,14 @@ var enemyList =
         ability: ['immuneToSlowdown']     
     },
 
+    {
+        type: 'ant',
+        imgName: 'ant',
+        health: 10,
+        speed: 4,
+        coins: 50,
+        r: 15, //collisionbox
+        ability: ['immuneToSlowdown']     
+    },
+
 ];
