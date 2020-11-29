@@ -37,19 +37,19 @@ var levelList = [
             //wave 1 
             [
                 {
-                    enemyType: 'turtle',
+                    enemyType: 'ant',
                     spawnOnPath: 0,
-                    amountToSpawn: 8,
-                    delayBetweenSpawn: 1,
-                },
-                {
-                    enemyType: 'turtle',
-                    spawnOnPath: 0,
-                    amountToSpawn: 5,
+                    amountToSpawn: 1,
                     delayBetweenSpawn: 2,
                 },
                 {
                     enemyType: 'turtle',
+                    spawnOnPath: 0,
+                    amountToSpawn: 1,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'ant',
                     spawnOnPath: 0,
                     amountToSpawn: 2,                    
                     delayBetweenSpawn: 3,

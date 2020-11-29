@@ -16,24 +16,43 @@ function drawImageWithAngle(imgName, atX,atY, atAngel) {
 }
 
 function drawImageScaled(imgName, atX,atY, scale) {
-	//ctx.translate(atX+image.get(imgName).width,atY);
+	ctx.save();
 	ctx.scale(scale,scale);
 	ctx.drawImage(image.get(imgName),atX ,atY , image.get(imgName).width, image.get(imgName).height);
-	ctx.setTransform(1,0,0,1,0,0)
+	ctx.restore();
 }
 
 function drawImageflippedHorizontally(imgName, atX,atY) {
+	ctx.save();
 	ctx.translate(atX+image.get(imgName).width,atY);
 	ctx.scale(-1,1);
-	ctx.drawImage(image.get(imgName),atX ,atY , image.get(imgName).width, image.get(imgName).height);
-	ctx.setTransform(1,0,0,1,0,0)
+	ctx.drawImage(image.get(imgName), 0, 0);
+	ctx.restore();
+}
+
+
+function drawImageflippedHorizontallyAndCentered(imgName, atX,atY) {
+	ctx.save();
+	ctx.translate(atX + image.get(imgName).width - image.get(imgName).width/2, atY - image.get(imgName).height/2);
+	ctx.scale(-1,1);
+	ctx.drawImage(image.get(imgName), 0,0);
+	ctx.restore();
 }
 
 function drawImageflippedVertically(imgName, atX,atY) {
+	ctx.save();
 	ctx.translate(atX,atY+image.get(imgName).height);
 	ctx.scale(1,-1);
-	ctx.drawImage(image.get(imgName),atX ,atY , image.get(imgName).width, image.get(imgName).height);
-	ctx.setTransform(1,0,0,1,0,0)
+	ctx.drawImage(image.get(imgName), 0 , 0);
+	ctx.restore();
+}
+
+function drawImageflippedVerticallyAndCentered(imgName, atX,atY) {
+	ctx.save();
+	ctx.translate(atX - image.get(imgName).width/2,atY + image.get(imgName).height -image.get(imgName).height/2);
+	ctx.scale(1,-1);
+	ctx.drawImage(image.get(imgName), 0 , 0);
+	ctx.restore();
 }
 
 function drawImageWithSize(imgName, atX,atY, withSize) {

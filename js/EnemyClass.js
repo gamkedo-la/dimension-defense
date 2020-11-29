@@ -17,6 +17,8 @@ function EnemyClass(){
 
 	this.imgName;
 	this.rot = 0;
+	this.isImgSideview;
+	this.flipImg = false;
 	this.status;
 	this.pathNumber;
 	this.pathQueue;
@@ -81,9 +83,12 @@ function EnemyClass(){
 			//animationSystem.sprite_update(this.id,{X:this.x -16,Y:this.y + -16});
 		}
 
-		//colorCircle(this.x + offsetX, this.y + offsetY, this.r, this.color);
-		drawBitmapCenteredWithRotation(this.imgName, this.x + offsetX, this.y + offsetY, this.rot);
-
+		if(!this.flipImg)
+		{
+			drawBitmapCenteredWithRotation(this.imgName, this.x + offsetX, this.y + offsetY, this.rot);
+		}else{
+			drawImageflippedHorizontallyAndCentered(this.imgName, this.x + offsetX, this.y + offsetY);
+		}
 		let healthBarW = 30;
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
@@ -116,6 +121,7 @@ function EnemyClass(){
 				this.defaultSpeed = enemyList[i].speed;
 				this.coins = enemyList[i].coins;
 				this.r = enemyList[i].r;
+				this.isImgSideview = enemyList[i].isImgSideview;
 				for (let a = 0; a < enemyList[i].ability.length; a++)
 				{
 					switch (enemyList[i].ability[a]) {
@@ -243,6 +249,7 @@ function EnemyClass(){
 					this.moveToY = this.y - TILE_SIZE;
 					this.status = 'WALKING_NORTH';
 					this.rot = degreesToRadian(270);
+					this.flipImg = false;
 					this.y -= this.speed;
 				}else if(this.y <= this.moveToY){
 					this.y = this.moveToY;
@@ -256,6 +263,7 @@ function EnemyClass(){
 					this.moveToY = this.y + TILE_SIZE;
 					this.status = 'WALKING_SOUTH';
 					this.rot = degreesToRadian(90);
+					this.flipImg = false;
 					this.y += this.speed;
 				}else if(this.y >= this.moveToY){
 					this.y = this.moveToY;
@@ -269,6 +277,7 @@ function EnemyClass(){
 					this.moveToX = this.x + TILE_SIZE;
 					this.status = 'WALKING_EAST';
 					this.rot = degreesToRadian(0);
+					this.flipImg = false;
 					this.x += this.speed;
 				}else if(this.x >= this.moveToX){
 					this.x = this.moveToX;
@@ -282,6 +291,11 @@ function EnemyClass(){
 					this.moveToX = this.x - TILE_SIZE;
 					this.status = 'WALKING_WEST';
 					this.rot = degreesToRadian(180);
+					if(this.isImgSideview)
+					{
+						this.rot = degreesToRadian(0);
+						this.flipImg = true;
+					}
 					this.x -= this.speed;
 				}else if(this.x <= this.moveToX){
 					this.x = this.moveToX;

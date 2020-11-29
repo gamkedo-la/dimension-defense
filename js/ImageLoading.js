@@ -22,7 +22,7 @@ image = new function (){
 
 		// enemies
 		{imgName: 'theUnderturtler', fileName: "enemyTurtle.png", type: 'enemy'},
-		{imageName: 'ant', fileName: "enemyAnt.png, type: 'enemy"},
+		{imgName: 'ant', fileName: "enemyAnt.png", type: 'enemy'},
 
 		// atlas for now, maybe animation strip will be better ,cas.
 		{imgName:'strip16',fileName:"strip16.png",type:'animation',animationInfo:{Row:1,Col:10,orient:"horizontal"}},
