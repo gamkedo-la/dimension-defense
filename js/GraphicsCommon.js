@@ -93,6 +93,12 @@ function colorText(showWords, textX, textY, fontSize, fillColor) {
 	ctx.fillText(showWords, textX, textY);
 }
 
+function colorTextBold(showWords, textX, textY, fontSize, fillColor) {
+	ctx.font = "bold " + fontSize + "px courier";
+	ctx.fillStyle = fillColor;
+	ctx.fillText(showWords, textX, textY);
+}
+
 //Used internally for animationSystem.
 function drawSprite(imgName,row,col,dimensionX,dimensionY,atX,atY)
 {
