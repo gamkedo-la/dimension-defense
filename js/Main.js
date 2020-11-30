@@ -1,6 +1,7 @@
 var canvas;
 var ctx;
 var scene = 'game';
+gameIsPaused = false;
 
 var offsetX = 0;
 var offsetY = 0;
@@ -23,15 +24,23 @@ window.onload = function() {
 
 function StartGame() {
 	var framesPerSecond = 60;
-	setInterval(updateAll, 1000/framesPerSecond);
+	setInterval(updateAll, 1000/60);
 	setupInput();
 	
 }
 
+function StopGame() {
+	if (!gameIsPaused) {
+			gameIsPaused = true;
+			this.scene = 'pMenu';
+	} else if (gameIsPaused) {
+			gameIsPaused = false;
+			this.scene = 'game';
+	}
+}
+
 function updateAll() {
 	colorRect(0,0, canvas.width,canvas.height, 'white');
-	
-	
 	
 	switch (scene) {
 		case 'game':
@@ -39,6 +48,13 @@ function updateAll() {
 			gameLoop.draw();
 			animationSystem.update();
 			break;
+
+		case 'pMenu':
+			gameLoop.draw();
+			animationSystem.update();
+			pauseMenu.draw();
+			colorText("PAUSED", canvas.width/3, canvas.height/2, 80, "red ");
+			break;
+
 	}
-	
 }
