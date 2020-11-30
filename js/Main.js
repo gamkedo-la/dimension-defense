@@ -52,8 +52,8 @@ function updateAll() {
 		case 'pMenu':
 			gameLoop.draw();
 			animationSystem.update();
-			//pauseMenu.draw();
-			colorText("PAUSED", canvas.width/3, canvas.height/2, 80, "red ");
+			pausMenu.draw();
+			pausMenu.update();
 			break;
 
 	}
