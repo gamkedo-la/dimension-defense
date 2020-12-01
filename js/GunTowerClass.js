@@ -25,22 +25,21 @@ function GunTowerClass(){
 		
 		for (let i = this.shotList.length - 1; i >= 0; i--)
 		{
-			if (this.shotList[i].isDead)
-			{
+			if (this.shotList[i].isDead){
 				this.shotList.splice(i, 1);
-			}
-			else
-			{
+			} else {
 				this.shotList[i].x += Math.cos(this.shotList[i].angle) * this.shotList[i].speed;
 				this.shotList[i].y += Math.sin(this.shotList[i].angle) * this.shotList[i].speed;
 				let hasHit = collisionCheckWithAllEnemy(this.shotList[i].x, this.shotList[i].y, this.shotList[i].r)
+				
 				if(hasHit !== false){
 					gameLoop.enemyList[hasHit[0]].takeHit(1);
+					this.shotList[i].isDead = true;
+				} else if (this.shotList[i].x > canvas.width || this.shotList[i].x < 0 || this.shotList[i].y > canvas.height || this.shotList[i].y < 0){
 					this.shotList[i].isDead = true;
 				}
 			}
 		}
-		
 	}
 
 
