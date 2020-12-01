@@ -2,6 +2,7 @@ var canvas;
 var ctx;
 var scene = 'game';
 gameIsPaused = false;
+subMenu = false;
 
 var offsetX = 0;
 var offsetY = 0;
@@ -32,11 +33,20 @@ function StartGame() {
 function StopGame() {
 	if (!gameIsPaused) {
 			gameIsPaused = true;
-			this.scene = 'pMenu';
+			this.scene = 'pause';
 	} else if (gameIsPaused) {
 			gameIsPaused = false;
 			this.scene = 'game';
 	}
+}
+
+function showMenu() {
+	if (!subMenu) {
+		subMenu = true;
+		this.scene = 'subMenu';
+	} else if (subMenu) {
+		subMenu = false;
+		this.scene = 'game';}
 }
 
 function updateAll() {
@@ -49,11 +59,16 @@ function updateAll() {
 			animationSystem.update();
 			break;
 
-		case 'pMenu':
+		case 'pause':
 			gameLoop.draw();
 			animationSystem.update();
+			colorText("PAUSE", canvas.width/3, canvas.height/2, 70, 'red');
+			break;
+
+		case 'subMenu':
+			gameLoop.draw();
 			pausMenu.draw();
-			pausMenu.update();
+			pausMenu.update();;
 			break;
 
 	}

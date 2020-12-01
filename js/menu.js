@@ -29,13 +29,13 @@ let itemsX = 240;
         topItemY + this.cursor * rowHeight - 30
       );*/
       for (let i = 0; i < menuText[current].length; i++) {
-        colorRect(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 30, 'green');
+        colorRect(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 30, '#00ff0f');
         colorText(
           menuText[current][i],
           itemsX,
           topItemY + rowHeight * i,
-          50,
-          "yellow"
+          50 ,
+          "white"
         );
     }
   }
