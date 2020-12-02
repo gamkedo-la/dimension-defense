@@ -9,6 +9,8 @@ var playerCoins = 0;
 
 gameLoop = new function(){
 	
+	//All class vars get their value in this.resetGame() 
+	//to avoid unwanted behavior during map changes
 	this.mapName;
 	this.rows;
 	this.cols;
@@ -44,13 +46,15 @@ gameLoop = new function(){
 
 		if(remainingGums == 0)
 		{
-			console.log("Game Over, you lost all your gum!")
+			console.log("Game Over, you lost all your gum!");
+			// Insert code for lose screen call here
 			return;
 		}
 
 		if(this.enemyList.length == 0 && this.noMoreWaves)
 		{
-			console.log("You won")
+			console.log("You won");
+			//Insert code for win screen call here
 			return;
 		}
 
@@ -112,6 +116,7 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
+
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
@@ -123,8 +128,8 @@ gameLoop = new function(){
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
 		{
 			this.spawnTower(mouseIDX, mouseIDY);
-
-		}else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
+		}
+		else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
 		{
 			for(let t = 0; t < this.towerList.length; t++)
 			{
@@ -141,10 +146,11 @@ gameLoop = new function(){
 	}
 
 	this.moveMapWithMouse = function()
-	{
-        if (draggingMouse) {
-            offsetX = dragMouseDX;
-    	    offsetY = dragMouseDY;
+	{ 
+		if(draggingMouse)
+		{
+			offsetX = dragMouseDX;
+			offsetY = dragMouseDY;
 		}
 		
 		let img = image.get(this.mapName);
@@ -345,6 +351,7 @@ gameLoop = new function(){
 		this.waveList = [];
 		this.enemyList = [];
 		this.towerList = [];
+
 	}
 
 	this.generateWaveVarsFromlevelList = function(level)

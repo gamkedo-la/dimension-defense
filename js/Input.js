@@ -29,21 +29,25 @@ function setupInput() {
 } 
 
 function mouseUp(evt) {
-    //console.log("mouse is up!");
-    draggingMouse = false;
-	//dragMouseDX = 0;
-	//dragMouseDY = 0;
+	switch (scene) {
+		case 'game':
+			gameLoop.onMouseClicked();
+            //console.log("mouse is up!");
+            draggingMouse = false; // this is a mouseDown event
+			break;
+	}
+    
 }
 
 function mouseclicked(evt) {
 	switch (scene) {
 		case 'game':
-			gameLoop.onMouseClicked();
-
+			//gameLoop.onMouseClicked();
             //console.log("mouse is down!");
             draggingMouse = true; // this is a mouseDown event
             dragMouseX = mouseX;
-            dragMouseY = mouseY;
+			dragMouseY = mouseY;
+			
             //dragMouseDX = 0;
             //dragMouseDY = 0;
 
