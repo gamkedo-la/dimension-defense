@@ -43,7 +43,7 @@ function EnemyClass(){
 		if(this.hasReachedGoal)
 		{
 			this.canBeRemoved = true;
-			gameLoop.gums[this.myGum].isDead = true;
+			gameLoop.gums[this.myGum].getKilled();
 			return;			
 		}
 
@@ -51,11 +51,14 @@ function EnemyClass(){
 		{
 			for(let i = 0; i < gameLoop.gums.length; i++)
 			{
-				if(this.collisionCheckWithGum(i) && gameLoop.gums[i].hasOwner === false && gameLoop.gums[i].isDead === false)
+				if(gameLoop.gums[i].isFreeToGrab())
 				{
-					this.myGum = i;
-					gameLoop.gums[i].hasOwner = true;			
-					break;
+					if(this.collisionCheckWithGum(i))
+					{
+						this.myGum = i;
+						gameLoop.gums[i].addOwner();			
+						break;
+					}
 				}
 			}
 		}
@@ -64,8 +67,7 @@ function EnemyClass(){
 
 		if(this.myGum !== false)
 		{
-			gameLoop.gums[this.myGum].x = this.x;
-			gameLoop.gums[this.myGum].y = this.y;
+			gameLoop.gums[this.myGum].setPosition(this.x, this.y)
 		}
 
 		//reset the slowdown effect
@@ -100,7 +102,7 @@ function EnemyClass(){
 
 		if(this.myGum !== false)
 		{
-			gameLoop.gums[this.myGum].hasOwner = false;
+			gameLoop.gums[this.myGum].removeOwner();
 		}
 		this.canBeRemoved = true;
 		animationSystem.destroyEntity(this.id)

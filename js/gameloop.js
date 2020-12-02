@@ -40,6 +40,7 @@ gameLoop = new function(){
 		{
 			if(!this.gums[i].isDead)
 			{
+				this.gums[i].move();
 				remainingGums++;
 			}
 		}
@@ -100,8 +101,9 @@ gameLoop = new function(){
 		{
 			if(!this.gums[i].isDead)
 			{
-				drawImageWithAngle("gum1", this.gums[i].x + offsetX, this.gums[i].y + offsetY, 0);
+				this.gums[i].draw();
 			}
+			
 		}
 
 		for (let i = 0; i < this.towerList.length; i++)
@@ -214,16 +216,19 @@ gameLoop = new function(){
 
 	this.returnGumAltarPos = function(pathNumber)
 	{
+		//returns .indexX and .indexY
 		return this.mapGumAltarPos[pathNumber];
 	}
 
 	this.returnStartPos = function(pathNumber)
 	{
+		//returns .indexX and .indexY
 		return this.mapStartPos[pathNumber];
 	}
 
 	this.returnGoalPos = function(pathNumber)
 	{
+		//returns .indexX and .indexY
 		return this.mapGoalPos[pathNumber];
 	}
 
@@ -311,20 +316,14 @@ gameLoop = new function(){
 			}
 		}
 
+		let gumAmount = 5
 		for(let i = 0; i < this.pathList.length; i++)
 		{
-			for(let gi = 0; gi < 5; gi++)
+			for(let gi = 0; gi < gumAmount; gi++)
 			{
-				this.gums.push(
-					{
-						x: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexX) + TILE_SIZE / 2, 
-						y: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexY) + TILE_SIZE / 2,
-						r: 20,
-						fromAltar: this.pathList[i],
-						hasOwner: false,
-						isDead: false
-					}
-				)
+					let newGum = new GumClass();
+					newGum.init(this.pathList[i]);
+					this.gums.push(newGum);
 			}
 		}
 
