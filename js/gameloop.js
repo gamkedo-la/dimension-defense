@@ -9,6 +9,8 @@ var playerCoins = 0;
 
 gameLoop = new function(){
 	
+	//All class vars get their value in this.resetGame() 
+	//to avoid unwanted behavior during map changes
 	this.mapName;
 	this.rows;
 	this.cols;
@@ -38,19 +40,22 @@ gameLoop = new function(){
 		{
 			if(!this.gums[i].isDead)
 			{
+				this.gums[i].move();
 				remainingGums++;
 			}
 		}
 
 		if(remainingGums == 0)
 		{
-			console.log("Game Over, you lost all your gum!")
+			console.log("Game Over, you lost all your gum!");
+			// Insert code for lose screen call here
 			return;
 		}
 
 		if(this.enemyList.length == 0 && this.noMoreWaves)
 		{
-			console.log("You won")
+			console.log("You won");
+			//Insert code for win screen call here
 			return;
 		}
 
@@ -96,8 +101,9 @@ gameLoop = new function(){
 		{
 			if(!this.gums[i].isDead)
 			{
-				drawImageWithAngle("gum1", this.gums[i].x + offsetX, this.gums[i].y + offsetY, 0);
+				this.gums[i].draw();
 			}
+			
 		}
 
 		for (let i = 0; i < this.towerList.length; i++)
@@ -112,6 +118,7 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
+
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
@@ -123,8 +130,8 @@ gameLoop = new function(){
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
 		{
 			this.spawnTower(mouseIDX, mouseIDY);
-
-		}else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
+		}
+		else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
 		{
 			for(let t = 0; t < this.towerList.length; t++)
 			{
@@ -141,10 +148,11 @@ gameLoop = new function(){
 	}
 
 	this.moveMapWithMouse = function()
-	{
-        if (draggingMouse) {
-            offsetX = dragMouseDX;
-    	    offsetY = dragMouseDY;
+	{ 
+		if(draggingMouse)
+		{
+			offsetX = dragMouseDX;
+			offsetY = dragMouseDY;
 		}
 		
 		let img = image.get(this.mapName);
@@ -208,16 +216,19 @@ gameLoop = new function(){
 
 	this.returnGumAltarPos = function(pathNumber)
 	{
+		//returns .indexX and .indexY
 		return this.mapGumAltarPos[pathNumber];
 	}
 
 	this.returnStartPos = function(pathNumber)
 	{
+		//returns .indexX and .indexY
 		return this.mapStartPos[pathNumber];
 	}
 
 	this.returnGoalPos = function(pathNumber)
 	{
+		//returns .indexX and .indexY
 		return this.mapGoalPos[pathNumber];
 	}
 
@@ -305,20 +316,14 @@ gameLoop = new function(){
 			}
 		}
 
+		let gumAmount = 5
 		for(let i = 0; i < this.pathList.length; i++)
 		{
-			for(let gi = 0; gi < 5; gi++)
+			for(let gi = 0; gi < gumAmount; gi++)
 			{
-				this.gums.push(
-					{
-						x: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexX) + TILE_SIZE / 2, 
-						y: returnPixelPosFromIndexPos(this.mapGumAltarPos[this.pathList[i]].indexY) + TILE_SIZE / 2,
-						r: 20,
-						fromAltar: this.pathList[i],
-						hasOwner: false,
-						isDead: false
-					}
-				)
+					let newGum = new GumClass();
+					newGum.init(this.pathList[i]);
+					this.gums.push(newGum);
 			}
 		}
 
@@ -345,6 +350,7 @@ gameLoop = new function(){
 		this.waveList = [];
 		this.enemyList = [];
 		this.towerList = [];
+
 	}
 
 	this.generateWaveVarsFromlevelList = function(level)
