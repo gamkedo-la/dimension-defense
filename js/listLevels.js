@@ -186,5 +186,38 @@ var levelList = [
     },
 
 
+    {
+        levelName: 'lvlBlocks',
+        mapName: 'blocksMap',
+        waveStartDelay: [1, 5],
+        startOffset: {x:0, y:0},
+        wave: 
+        [
+            //wave 1 
+            [
+                {
+                    enemyType: 'turtle',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,
+                    delayBetweenSpawn: 2,
+                },
+            ],
+            //wave 2
+            [
+                {
+                    enemyType: 'turtle',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,
+                    delayBetweenSpawn: 1,
+                },
+                {
+                    enemyType: 'ant',
+                    spawnOnPath: 0,
+                    amountToSpawn: 5,                    
+                    delayBetweenSpawn: 3,
+                },
+            ],
+        ]
+    },
 
 ];
