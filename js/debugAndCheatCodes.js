@@ -12,7 +12,6 @@ let DEBUG_CHEATS = true;
 //action: Insert the code that should run when a cheatcode gets activated here.
 let cheatList = [
 	cheat = {
-		//example normal cheat
 		code: '1',
 		active: DEBUG_CHEATS,
 		action: function() {
@@ -20,7 +19,6 @@ let cheatList = [
 		}
 	},
 	cheat = {
-		//example with debug cheat
 		code: '2',
 		active: DEBUG_CHEATS,
 		action: function() {
@@ -28,7 +26,6 @@ let cheatList = [
 		}
 	},
 	cheat = {
-		//example with debug cheat
 		code: '3',
 		active: DEBUG_CHEATS,
 		action: function() {
@@ -36,29 +33,12 @@ let cheatList = [
 		}
 	},
 	cheat = {
-		//example with debug cheat
 		code: '4',
 		active: DEBUG_CHEATS,
 		action: function() {
 			gameLoop.init('toyCarMap');
 		}
 	},	
-	cheat = {
-		//example with debug cheat
-		code: 's',
-		active: DEBUG_CHEATS,
-		action: function() {
-			towerSelector = 1;
-		}
-	},
-	cheat = {
-		//example with debug cheat
-		code: 'g',
-		active: DEBUG_CHEATS,
-		action: function() {
-			towerSelector = 0;
-		}
-	},
 ];
 
 //

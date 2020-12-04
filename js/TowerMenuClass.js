@@ -6,19 +6,22 @@ function TowerMenuClass(){
 	this.indexX;
 	this.indexY;
 
-	this.w = 180;	
+	this.w = 200;	
 	this.h;
 	this.paddingX = 5;
 	this.paddingY = 20;
 
 	this.isActive = false;
 	this.closeMenu = false;
-	this.boxColor = "#474747";
+	this.isUpgradeMenu;
+	this.towerIndex;
 
-	this.btnH = 80; //30
-	this.bthnHoverColor = "#8E989E"
-	this.btnTxtSize = 18;
-	this.btnTxtColor = "#D3E2EB";
+	this.boxColor = "#474747";
+	this.btnH = 30;
+	this.bthnHoverColor = "#303030"
+	this.btnTxtSize = 20;
+	this.btnTxtNoMoneyColor = "#cc1e1e";
+	this.btnTxtColor = "#c2c2c2";
 	this.hoveredBtn = false;
 	this.menuScale;
 	this.btnList = [];
@@ -56,37 +59,155 @@ function TowerMenuClass(){
 			{
 				if(i === this.hoveredBtn)
 				{
-					colorRectWithAlpha(this.x + offsetX,this.y + this.btnList[i].y + offsetY, this.w, this.btnH, this.bthnHoverColor, 0.8);
+					colorRectWithAlpha(this.x + offsetX,this.y + this.btnList[i].y + offsetY, this.w, this.btnH, this.bthnHoverColor, 0.9);
 				}
 
-				colorText(this.btnList[i].txt, this.x + offsetX, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
-
+				if(this.isUpgradeMenu)
+				{
+					//Upgrade Menu
+					if(gameLoop.coins - this.btnList[i].price < 0)
+					{
+						colorText(this.btnList[i].price + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+					}else{
+						colorText(this.btnList[i].price + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+					}
+					
+				}else{
+					//New tower menu
+					if(gameLoop.coins - this.btnList[i].price < 0)
+					{
+						colorText(this.btnList[i].price  + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+					}else{
+						colorText(this.btnList[i].price  + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+					}
+				
+				}
+				
 			}
 		}
 	}
 
 	this.openNewTowerMenu = function(atIndexX, atIndexY)
 	{
-		this.isActive = true;
-		this.x = returnPixelPosFromIndexPos(atIndexX);
-		this.y = returnPixelPosFromIndexPos(atIndexY);
-		this.indexX = atIndexX;
-		this.indexY = atIndexY;
-		this.scale = 0;
-		this.closeMenu = false;
+		this.btnList = [];
+		this.isUpgradeMenu = false;
 
-		this.chooseOpeningside();
+		for(let i = 0; i < this.towerList.length; i++)
+		{
+			this.btnList[i] = 
+			{
+				tower: this.towerList[i],
+				y: this.btnH * i,
+				price: 0,
+				txt: 0
+			}
+
+			switch(this.towerList[i]){
+				case "gunTower":
+					this.btnList[i].txt = "Gun Tower";
+					this.btnList[i].price = gameLoop.getPriceNewTower(this.towerList[i]);
+					break;
+				case "slowdownTower":
+					this.btnList[i].txt = "Slowdown Tower";
+					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
+					break;
+			}
+		
+		}
+		
+		//keep this for last
+		this.init(atIndexX, atIndexY)
+	}
+
+	this.upgradeTowerMenu = function(towerIndex, atIndexX, atIndexY)
+	{
+		this.btnList = [];
+		this.towerIndex = towerIndex;
+		this.isUpgradeMenu = true;
+
+		let sellprice = gameLoop.getPriceNewTower(gameLoop.towerList[towerIndex].tower);
+		for(let i = 0; i < gameLoop.towerList[towerIndex].level - 1; i++)
+		{
+			sellprice += gameLoop.towerList[towerIndex].price[i];
+		}
+
+		sellprice = sellprice/2;
+
+		if(gameLoop.towerList[towerIndex].isUpgradeable())
+		{
+			this.btnList[0] = 
+			{ 
+				type: "upgrade",
+				y: this.btnH * 0,
+				txt: "Upgrade Tower",
+				price: gameLoop.towerList[towerIndex].getUpgradePrice()
+			}
+			this.btnList[1] = 
+			{
+				type: "sell",
+				y: this.btnH * 1,
+				txt: "-- Sell Tower --",
+				price: sellprice
+			}		
+		}else{
+			this.btnList[0] = 
+			{
+				type: "sell",
+				y: this.btnH * 0,
+				txt: "--Sell Tower--",
+				price: sellprice
+			}	
+		}
+
+		//keep this for last
+		this.init(atIndexX, atIndexY)
 	}
 
 	this.mouseClicked = function()
 	{
+		let dontCloseMenu = false;
 		if(this.hoveredBtn !== false)
 		{
-			gameLoop.spawnTower(this.indexX, this.indexY, this.towerList[this.hoveredBtn]);
+			if(this.isUpgradeMenu)
+			{
+				//Upgrade Tower event
+				switch(this.btnList[this.hoveredBtn].type)
+				{
+					case 'upgrade':
+						if(gameLoop.coins - gameLoop.towerList[this.towerIndex].getUpgradePrice() >= 0)
+						{
+							gameLoop.towerList[this.towerIndex].upgrade();
+							gameLoop.removeCoins(gameLoop.towerList[this.towerIndex].getUpgradePrice())
+						}else{
+							dontCloseMenu = true;
+						}						
+						break;
+					case 'sell':
+						gameLoop.sellTower(this.towerIndex, this.btnList[this.hoveredBtn].price);
+						break;
+				}
+
+			}else{
+				//New Tower event
+				if(gameLoop.coins - gameLoop.getPriceNewTower(this.btnList[this.hoveredBtn].tower) >= 0)
+				{
+					gameLoop.spawnTower(this.indexX, this.indexY, this.towerList[this.hoveredBtn]);
+					gameLoop.removeCoins(this.btnList[this.hoveredBtn].price);
+				}else{
+					dontCloseMenu = true;
+				}
+				
+			}
 		}
-
-		this.closeMenu = true;
-
+		
+		if(!dontCloseMenu)
+		{
+			this.closeMenu = true;
+		}
 	}
 
 	this.checkMouseHover = function()
@@ -110,13 +231,10 @@ function TowerMenuClass(){
 		}else{
 			this.hoveredBtn = false;
 		}
-
-
 	}
 	
 	this.chooseOpeningside = function()
-	{
-	
+	{	
 		if (this.x + TILE_SIZE + this.paddingX + this.w < canvas.width - offsetX) {
 			this.x += TILE_SIZE + this.paddingX;
 		}else{
@@ -130,30 +248,18 @@ function TowerMenuClass(){
 		}
 	}
 
-	this.init = function()
+	this.init = function(atIndexX, atIndexY)
 	{
-		for(let i = 0; i < this.towerList.length; i++)
-		{
-			this.btnList[i] = 
-			{
-				tower: this.towerList[i],
-				y: this.btnH * i,
-				txt: 0
-			}
+		this.isActive = true;
+		this.x = returnPixelPosFromIndexPos(atIndexX);
+		this.y = returnPixelPosFromIndexPos(atIndexY);
+		this.indexX = atIndexX;
+		this.indexY = atIndexY;
+		this.scale = 0;
+		this.closeMenu = false;
+		this.h = this.btnH * this.btnList.length;
 
-			switch(this.towerList[i]){
-				case "gunTower":
-					this.btnList[i].txt = "Gun Tower";
-					break;
-				case "slowdownTower":
-					this.btnList[i].txt = "Slowdown Tower";
-					break;
-
-			}
-		
-		}
-		this.h = this.btnH * this.towerList.length;
-
+		this.chooseOpeningside();
 	}
 
 }

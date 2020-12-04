@@ -44,10 +44,6 @@ function mouseclicked(evt) {
 		case 'game':
 			//gameLoop.onMouseClicked();
 			//console.log("mouse is down!");
-			if(gameLoop.towerMenu.isActive)
-			{
-				gameLoop.towerMenu.closeMenu = true;
-			}
             draggingMouse = true; // this is a mouseDown event
             dragMouseX = mouseX;
 			dragMouseY = mouseY;

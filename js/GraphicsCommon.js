@@ -88,7 +88,7 @@ function rectBorderOnly(posX, posY, Width, Height, borderLineWidth, borderColor)
 }
 
 function colorText(showWords, textX, textY, fontSize, fillColor) {
-	ctx.font = fontSize + "px courier";
+	ctx.font = fontSize + "px Arial";
 	ctx.fillStyle = fillColor;
 	ctx.fillText(showWords, textX, textY);
 }

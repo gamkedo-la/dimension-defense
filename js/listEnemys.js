@@ -6,7 +6,7 @@ var enemyList =
         imgName: 'theUnderturtler',
         isImgSideview: false,
         health: 18,
-        speed: 3,
+        speed: 2,
         coins: 30,
         r: 15, //collisionbox
         ability: ['immuneToSlowdown']     

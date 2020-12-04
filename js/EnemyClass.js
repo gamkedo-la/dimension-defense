@@ -166,7 +166,7 @@ function EnemyClass(){
 		this.health -= damageAmount;
 		if(this.health <= 0){
 			this.isDead = true;
-			playerCoins = playerCoins + this.coins;
+			gameLoop.addCoins(this.coins);
 		}
 	}
 

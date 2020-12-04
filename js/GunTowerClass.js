@@ -1,14 +1,24 @@
 
 function GunTowerClass(){
 
+	
+	this.tower = "gunTower"
 	this.x;
 	this.y;
 	this.indexX;
 	this.indexY;
-	this.type = 'gunTower';
+	this.image;
 
-	this.speed = 2;
-	this.r = 60;
+	this.level = 0;
+	this.price = [100, 200]
+
+	this.shootSpeed;
+	this.reloadTime;
+	this.shootColor;
+	this.shootR;
+	this.shootDamage;
+
+	this.r;
 	this.angle = 45;
 	this.shotList = [];
 
@@ -20,7 +30,7 @@ function GunTowerClass(){
 		if(collidedEnemy !== false)
 		{
 			this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
-			if(gameTimer % 20 == 0)	this.shoot();
+			if(gameTimer % this.reloadTime == 0)	this.shoot();
 		}
 		
 		for (let i = this.shotList.length - 1; i >= 0; i--)
@@ -33,7 +43,7 @@ function GunTowerClass(){
 				let hasHit = collisionCheckWithAllEnemy(this.shotList[i].x, this.shotList[i].y, this.shotList[i].r)
 				
 				if(hasHit !== false){
-					gameLoop.enemyList[hasHit[0]].takeHit(1);
+					gameLoop.enemyList[hasHit[0]].takeHit(this.shotList[i].damage);
 					this.shotList[i].isDead = true;
 				} else if (this.shotList[i].x > canvas.width || this.shotList[i].x < 0 || this.shotList[i].y > canvas.height || this.shotList[i].y < 0){
 					this.shotList[i].isDead = true;
@@ -45,7 +55,7 @@ function GunTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation("gunTower", this.x + offsetX, this.y + offsetY, this.angle)
+		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle)
 		for(let i = 0; i < this.shotList.length; i++)
 		{
 			colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
@@ -61,6 +71,8 @@ function GunTowerClass(){
 
 		this.x = returnPixelPosFromIndexPos(indexX) + TILE_SIZE / 2;
 		this.y = returnPixelPosFromIndexPos(indexY) + TILE_SIZE / 2;
+
+		this.upgrade();
 	}
 
 	this.shoot = function()
@@ -72,13 +84,62 @@ function GunTowerClass(){
 			y: this.y + dY * 24,
 			dX: dX,
 			dY: dY,
-			r: 5,
+			r: this.shootR,
 			angle: this.angle,
-			color: 'green',
-			speed: 3,
+			color: this.shootColor,
+			speed: this.shootSpeed,
+			damage: this.shootDamage,
 			isDead: false
 		};
 		this.shotList.push(newShot);
 	}
+
+	this.isUpgradeable = function()
+	{
+		if(this.level < 3){
+			return true;
+		}
+		//else
+		return false;
+	}
+
+	this.getUpgradePrice = function()
+	{
+		return this.price[this.level-1];
+	}
+
+	this.upgrade = function()
+	{
+		this.level++;
+		this.image = "gunTowerL" + this.level;
+
+		switch(this.level){
+			case 1:
+				this.r = 70;
+				this.shootSpeed = 1.5;
+				this.shootColor = '#1abdd6';
+				this.shootR = 5;
+				this.shootDamage = 1;
+				this.reloadTime = 40;
+				break;
+			case 2:
+				this.r = 80;
+				this.shootSpeed = 2;
+				this.shootColor = '#d323d9';
+				this.shootR = 6;
+				this.shootDamage = 2;
+				this.reloadTime = 30;
+				break;
+			case 3:
+				this.r = 90;
+				this.shootSpeed = 3;
+				this.shootColor = '#db2531';
+				this.shootR = 7;
+				this.shootDamage = 3;
+				this.reloadTime = 20;
+				break;
+		}
+	}
+
 
 }

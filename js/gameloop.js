@@ -4,9 +4,6 @@ var offsetX = 0;
 var offsetY = 0;
 var gameTimer = 0;
 
-var towerSelector = 1;
-var playerCoins = 0;
-
 gameLoop = new function(){
 	
 	//All class vars get their value in this.resetGame() 
@@ -30,6 +27,8 @@ gameLoop = new function(){
 	this.enemyList = [];
 	this.towerList = [];
 	this.towerMenu;
+
+	this.coins = 1000;
 
 	//move things here
 	this.move = function (){
@@ -118,7 +117,7 @@ gameLoop = new function(){
 		}
 
 		colorRect(20,10, 130, 30, "white");
-		colorText("Coins: " + playerCoins, 25, 30, 20, "black");
+		colorText("Coins: " + this.coins, 25, 30, 20, "black");
 
 		if(this.towerMenu.isActive)
 		{
@@ -133,7 +132,7 @@ gameLoop = new function(){
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
-		if(this.towerMenu.isActive)
+		if(this.towerMenu.isActive === true)
 		{
 			this.towerMenu.mouseClicked(mouseX - offsetX,mouseY - offsetY);
 		}
@@ -153,8 +152,7 @@ gameLoop = new function(){
 			{
 				if(this.towerList[t].indexX == mouseIDX && this.towerList[t].indexY == mouseIDY)
 				{
-					console.log("A tower is already here.");
-					//this.incrementTower(t, mouseIDX, mouseIDY);
+					this.towerMenu.upgradeTowerMenu(t, mouseIDX, mouseIDY);
 					return;
 				}
 			}
@@ -208,19 +206,30 @@ gameLoop = new function(){
 				
 	}
 
-	this.incrementTower = function(towerIndex, atIndexX, atIndexY)
+	this.sellTower = function(towerIndex, price)
 	{
-		switch(towerSelector) {
-			case 0:
-				towerSelector = 1;
-				break;
-			case 1:
-				towerSelector = 0;
-			break;
-		}
+		this.towerList.splice(towerIndex,1);
+		this.coins += price;		
+	}
 
-		this.towerList.splice(towerIndex, 1);
-		this.spawnTower(atIndexX, atIndexY);
+	this.getPriceNewTower = function(type)
+	{
+		switch (type) {
+			case "gunTower":
+				return 50;
+			case "slowdownTower":
+				return 50;
+		}			
+	}
+
+	this.addCoins = function(amount)
+	{
+		this.coins += amount;			
+	}
+
+	this.removeCoins = function(amount)
+	{
+		this.coins -= amount;			
 	}
 
 	this.spawnEnemy = function(pathNumber, enemyType)
@@ -312,8 +321,6 @@ gameLoop = new function(){
 	this.init = function(levelName)
 	{
 		this.resetGame();
-
-		this.towerMenu.init();
 
 		for (let i = 0; i < levelList.length; i++)
 		{

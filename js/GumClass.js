@@ -11,16 +11,6 @@ function GumClass(){
 	this.isDead = false;
 	this.hasOwner = false;
 
-	this.openNewTowerMenu = function(atIndexX, atIndexY)
-	{
-		this.isActive = true;
-		this.x = returnPixelPosFromIndexPos(atIndexX) - this.newTowerMenu.w;
-		this.y = returnPixelPosFromIndexPos(atIndexY);
-		this.indexX = atIndexX;
-		this.indexY = atIndexY;
-		this.scale = 0;
-	}
-
 	//move things here
 	this.move = function (){
 
