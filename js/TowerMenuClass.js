@@ -15,7 +15,7 @@ function TowerMenuClass(){
 	this.closeMenu = false;
 	this.boxColor = "#474747";
 
-	this.btnH = 30;
+	this.btnH = 80; //30
 	this.bthnHoverColor = "#8E989E"
 	this.btnTxtSize = 18;
 	this.btnTxtColor = "#D3E2EB";
@@ -28,8 +28,6 @@ function TowerMenuClass(){
 		"slowdownTower"
 	]
 	
-
-	//move things here
 	this.move = function (){
 		
 		if(this.scale < 1 && !this.closeMenu)
@@ -49,10 +47,8 @@ function TowerMenuClass(){
 		
 	}
 
-
-	//draw things here
 	this.draw = function(){
-		//console.log(this.x)
+		
 		colorRectWithAlpha(this.x + offsetX, this.y + offsetY, this.w * this.scale, this.h * this.scale, this.boxColor, 0.8);
 
 		if(!this.closeMenu){
@@ -95,14 +91,16 @@ function TowerMenuClass(){
 
 	this.checkMouseHover = function()
 	{
+		let msX = mouseX - offsetX;
+		let msY = mouseY - offsetY;
 		
-		if(mouseX > this.x && mouseX < this.x + this.w
-			&& mouseY > this.y && mouseY < this.y + this.h)
+		if(msX > this.x && msX < this.x + this.w
+			&& msY > this.y && msY < this.y + this.h)
 		{
 			
 			for(let i = 0; i < this.btnList.length; i++)
 			{
-				if(mouseY > this.y + this.btnList[i].y && mouseY < this.y + this.btnList[i].y + this.btnH)
+				if(msY > this.y + this.btnList[i].y && msY < this.y + this.btnList[i].y + this.btnH)
 				{
 					this.hoveredBtn = i;
 					return;
@@ -118,14 +116,14 @@ function TowerMenuClass(){
 	
 	this.chooseOpeningside = function()
 	{
-
-		if (TILE_SIZE + this.x + this.w + offsetX + this.paddingX< canvas.width - offsetX) {
+	
+		if (this.x + TILE_SIZE + this.paddingX + this.w < canvas.width - offsetX) {
 			this.x += TILE_SIZE + this.paddingX;
 		}else{
 			this.x -= this.w + this.paddingX;
 		}
 
-		if (this.y + this.h + offsetX + this.paddingY < canvas.height - offsetX) {
+		if (this.y + this.h + this.paddingY < canvas.height - offsetX) {
 			this.y += this.paddingY;
 		}else{
 			this.y -= this.h + this.paddingY - TILE_SIZE;

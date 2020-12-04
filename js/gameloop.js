@@ -135,7 +135,7 @@ gameLoop = new function(){
 
 		if(this.towerMenu.isActive)
 		{
-			this.towerMenu.mouseClicked();
+			this.towerMenu.mouseClicked(mouseX - offsetX,mouseY - offsetY);
 		}
 
 		// when world is scrolled around it is possible to 
@@ -143,7 +143,7 @@ gameLoop = new function(){
 		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
 
-		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4 && !this.towerMenu.isActive)
 		{
 			this.towerMenu.openNewTowerMenu(mouseIDX, mouseIDY);
 		}
@@ -154,7 +154,7 @@ gameLoop = new function(){
 				if(this.towerList[t].indexX == mouseIDX && this.towerList[t].indexY == mouseIDY)
 				{
 					console.log("A tower is already here.");
-					this.incrementTower(t, mouseIDX, mouseIDY);
+					//this.incrementTower(t, mouseIDX, mouseIDY);
 					return;
 				}
 			}

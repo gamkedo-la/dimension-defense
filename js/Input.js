@@ -43,14 +43,15 @@ function mouseclicked(evt) {
 	switch (scene) {
 		case 'game':
 			//gameLoop.onMouseClicked();
-            //console.log("mouse is down!");
+			//console.log("mouse is down!");
+			if(gameLoop.towerMenu.isActive)
+			{
+				gameLoop.towerMenu.closeMenu = true;
+			}
             draggingMouse = true; // this is a mouseDown event
             dragMouseX = mouseX;
 			dragMouseY = mouseY;
-			
-            //dragMouseDX = 0;
-            //dragMouseDY = 0;
-
+		
 			break;
 	}
 	
@@ -63,8 +64,6 @@ function mouseclicked(evt) {
     mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
 	
-
-
   }
 
 
@@ -79,7 +78,7 @@ function updateMousePos(evt) {
 	{
 		gameLoop.towerMenu.checkMouseHover();
 	}
-	
+
     if (draggingMouse) {
         dragMouseDX += mouseX - dragMouseX;
     	dragMouseDY += mouseY - dragMouseY;
