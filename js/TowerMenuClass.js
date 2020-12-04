@@ -65,7 +65,7 @@ function TowerMenuClass(){
 				if(this.isUpgradeMenu)
 				{
 					//Upgrade Menu
-					if(gameLoop.coins - this.btnList[i].price < 0)
+					if(gameLoop.coins - this.btnList[i].price < 0 && this.btnList[i].type == 'upgrade')
 					{
 						colorText(this.btnList[i].price + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
 						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);

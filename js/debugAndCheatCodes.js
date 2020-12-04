@@ -29,7 +29,7 @@ let cheatList = [
 		code: '3',
 		active: DEBUG_CHEATS,
 		action: function() {
-			gameLoop.init('bigTestMap');
+			gameLoop.init('lvlBlocks');
 		}
 	},
 	cheat = {
