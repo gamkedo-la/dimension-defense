@@ -29,6 +29,7 @@ gameLoop = new function(){
 	this.waveList = [];
 	this.enemyList = [];
 	this.towerList = [];
+	this.towerMenu;
 
 	//move things here
 	this.move = function (){
@@ -83,6 +84,11 @@ gameLoop = new function(){
 			}
 		}
 
+		if(this.towerMenu.isActive)
+		{
+			this.towerMenu.move();
+		}
+
 	}
 
 
@@ -114,6 +120,11 @@ gameLoop = new function(){
 		colorRect(20,10, 130, 30, "white");
 		colorText("Coins: " + playerCoins, 25, 30, 20, "black");
 
+		if(this.towerMenu.isActive)
+		{
+			this.towerMenu.draw();
+		}
+
 	}
 
 	this.onMouseClicked = function()
@@ -122,6 +133,11 @@ gameLoop = new function(){
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
+		if(this.towerMenu.isActive)
+		{
+			this.towerMenu.mouseClicked();
+		}
+
 		// when world is scrolled around it is possible to 
 		// click outside the map and get negative numbers or out of bounds
 		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
@@ -129,7 +145,7 @@ gameLoop = new function(){
 
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4)
 		{
-			this.spawnTower(mouseIDX, mouseIDY);
+			this.towerMenu.openNewTowerMenu(mouseIDX, mouseIDY);
 		}
 		else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
 		{
@@ -171,14 +187,14 @@ gameLoop = new function(){
 
 	}
 
-	this.spawnTower = function(atIndexX, atIndexY)
+	this.spawnTower = function(atIndexX, atIndexY, towerType)
 	{
 		let newTower
-		switch (towerSelector) {
-			case 0:
+		switch (towerType) {
+			case "gunTower":
 				newTower = new GunTowerClass();
 				break;
-			case 1:
+			case "slowdownTower":
 				newTower = new SlowTowerClass();
 				break;
 		}
@@ -297,6 +313,8 @@ gameLoop = new function(){
 	{
 		this.resetGame();
 
+		this.towerMenu.init();
+
 		for (let i = 0; i < levelList.length; i++)
 		{
 			if(levelName == levelList[i].levelName)
@@ -351,6 +369,7 @@ gameLoop = new function(){
 		this.enemyList = [];
 		this.towerList = [];
 
+		this.towerMenu = new TowerMenuClass();
 	}
 
 	this.generateWaveVarsFromlevelList = function(level)

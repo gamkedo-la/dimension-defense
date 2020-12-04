@@ -61,7 +61,10 @@ function mouseclicked(evt) {
     var rect = canvas.getBoundingClientRect();
     var root = document.documentElement;
     mouseX = evt.clientX - rect.left - root.scrollLeft;
-    mouseY = evt.clientY - rect.top - root.scrollTop;
+	mouseY = evt.clientY - rect.top - root.scrollTop;
+	
+
+
   }
 
 
@@ -72,6 +75,11 @@ function updateMousePos(evt) {
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
 
+	if(gameLoop.towerMenu.isActive)
+	{
+		gameLoop.towerMenu.checkMouseHover();
+	}
+	
     if (draggingMouse) {
         dragMouseDX += mouseX - dragMouseX;
     	dragMouseDY += mouseY - dragMouseY;
