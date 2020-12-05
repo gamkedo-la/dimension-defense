@@ -80,22 +80,26 @@ function EnemyClass(){
 	this.draw = function(){
 
 		//updates the animation
-		if(!this.isDead)
-		{
-			//animationSystem.sprite_update(this.id,{X:this.x -16,Y:this.y + -16});
-		}
+		
 
+		
 		if(!this.flipImg)
 		{
-			drawBitmapCenteredWithRotation(this.imgName, this.x + offsetX, this.y + offsetY, this.rot);
+			//drawBitmapCenteredWithRotation(this.imgName, this.x+offsetX , this.y+offsetY, this.rot);
 		}else{
-			drawImageflippedHorizontallyAndCentered(this.imgName, this.x + offsetX, this.y + offsetY);
+			//drawImageflippedHorizontallyAndCentered(this.imgName, this.x + offsetX, this.y + offsetY);
 		}
+		
 		let healthBarW = 30;
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
 		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
 		
+		if(!this.isDead)
+		{
+			animationSystem.sprite_update(this.id,{X:this.x,Y:this.y,ROT:this.rot});
+		}
+	
 	}
 
 	this.isDeadMove = function(){
@@ -105,7 +109,6 @@ function EnemyClass(){
 			gameLoop.gums[this.myGum].removeOwner();
 		}
 		this.canBeRemoved = true;
-		animationSystem.destroyEntity(this.id)
 		
 		
 	}
@@ -148,7 +151,7 @@ function EnemyClass(){
 		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
-		this.id=animationSystem.register("testEnemy1",8,{X:this.x,Y:this.y});
+		this.id=animationSystem.register("testEnemy1",6,{X:this.x,Y:this.y});
 		//console.log(this.id);
 
 	}
@@ -167,6 +170,8 @@ function EnemyClass(){
 		if(this.health <= 0){
 			this.isDead = true;
 			gameLoop.addCoins(this.coins);
+			animationSystem.destroyEntity(this.id)
+		
 		}
 	}
 
@@ -205,6 +210,7 @@ function EnemyClass(){
 
 		if(this.hasReachedGoal)
 		{
+			animationSystem.destroyEntity(this.id);
 			return;
 		}
 

@@ -112,3 +112,11 @@ function drawSprite(imgName,row,col,dimensionX,dimensionY,atX,atY)
 	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,atX,atY,dimensionX,dimensionY)
 	//ctx.drawImage(image.get(imgName),0,0,dimensionX,dimensionY,atX,atY,dimensionX,dimensionY)
 }
+
+function drawSpriteAngle(imgName,row,col,dimensionX,dimensionY,atX,atY,atAngle,maxRows) {
+	ctx.save();
+	ctx.translate(atX, atY);
+	ctx.rotate(atAngle);
+	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,-(image.get(imgName).width/maxRows)/2,-image.get(imgName).height/2,dimensionX,dimensionY);
+	ctx.restore();
+}

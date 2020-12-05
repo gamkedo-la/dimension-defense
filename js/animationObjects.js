@@ -4,8 +4,8 @@ animationInfo=
    'testEnemy1':{
     row:1,
     col:5,
-    cell_W:32,
-    cell_H:32,
+    cell_W:48,
+    cell_H:48,
     maxFrame:5,
     startFrame:1,
     endFrame:5,

@@ -28,7 +28,7 @@ image = new function (){
 		// atlas for now, maybe animation strip will be better ,cas.
 		{imgName:'strip16',fileName:"strip16.png",type:'animation',animationInfo:{Row:1,Col:10,orient:"horizontal"}},
 		{imgName:'multiState',fileName:"testAtlas.png",type:'animation',animationInfo:{Row:10,Col:10,orient:"horizontal",state:{1:"state1",2:"state2",3:"state3",4:"state4",5:"state5"}}},
-		{imgName:'testEnemy1',fileName:"test_enemy.png",type:'animation'}
+		{imgName:'testEnemy1',fileName:"enemyTurtleSprite.png",type:'animation'}
 	];
 
 	//creating different lists upfront

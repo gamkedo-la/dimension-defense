@@ -77,6 +77,7 @@ class animate{
                 sprite.currentFrame+=1;
             }
             
+            /*
             drawSprite(sprite.name,
                 sprite.startFrame,
                 (sprite.currentFrame%sprite.maxFrame)+1,
@@ -84,6 +85,16 @@ class animate{
                 sprite.cell_H,
                 sprite.pos.X,
                 sprite.pos.Y);
+            */
+            drawSpriteAngle(sprite.name,
+                sprite.startFrame,
+                (sprite.currentFrame%sprite.maxFrame)+1,
+                sprite.cell_W,
+                sprite.cell_H,
+                sprite.pos.X,
+                sprite.pos.Y,
+                sprite.pos.ROT,
+                sprite.maxFrame);
                 
         }
 
@@ -103,6 +114,7 @@ class animate{
             
             this.animatedlist[id-1]=null;
             this.entities-=1;
+            console.log(this.animatedlist);
             return true;
            
         }
