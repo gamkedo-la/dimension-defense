@@ -119,11 +119,47 @@ gameLoop = new function(){
 		colorRect(20,10, 130, 30, "white");
 		colorText("Coins: " + this.coins, 25, 30, 20, "black");
 
+		this.drawTowerPlaceableIndicator();
+
 		if(this.towerMenu.isActive)
 		{
 			this.towerMenu.draw();
 		}
 
+	}
+
+	this.towerPlaceableIndicatorRadius = 11;
+	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
+	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.49)
+	{
+		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
+		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
+
+		// when world is scrolled around it is possible to 
+		// click outside the map and get negative numbers or out of bounds
+		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
+
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4) 
+		{
+			var minRadius = 9, maxRadius = 17;
+
+			this.isTowerPlaceableIndicatorRadiusIncreasing = this.towerPlaceableIndicatorRadius < maxRadius ? true : false;
+			if (this.towerPlaceableIndicatorRadius > maxRadius) this.towerPlaceableIndicatorRadius = minRadius;
+
+			this.towerPlaceableIndicatorRadius += (this.isTowerPlaceableIndicatorRadiusIncreasing ? 1 : -1) * animationFactor;
+			
+			var rectFactor = this.towerPlaceableIndicatorRadius * 1.4;
+						
+			rectBorderOnly(mouseX - rectFactor / 2, 
+						   mouseY - rectFactor / 2, 
+						   rectFactor, 
+						   rectFactor, 
+						   6, 
+						   color2);
+			colorCircle(mouseX, mouseY, this.towerPlaceableIndicatorRadius, color1);
+			colorCircle(mouseX, mouseY, this.towerPlaceableIndicatorRadius * 0.3, color2);
+		}
 	}
 
 	this.onMouseClicked = function()
