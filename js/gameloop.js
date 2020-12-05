@@ -231,6 +231,9 @@ gameLoop = new function(){
 			case "slowdownTower":
 				newTower = new SlowTowerClass();
 				break;
+			case "missleTower":
+				newTower = new MissleTowerClass();
+				break;
 		}
 		newTower.init(atIndexX, atIndexY);
 		this.towerList.push(newTower);
@@ -244,6 +247,11 @@ gameLoop = new function(){
 
 	this.sellTower = function(towerIndex, price)
 	{
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			this.map[this.pathList[i]][this.towerList[towerIndex].indexX][this.towerList[towerIndex].indexY] = 4;	
+		}		
+
 		this.towerList.splice(towerIndex,1);
 		this.coins += price;		
 	}
@@ -254,7 +262,9 @@ gameLoop = new function(){
 			case "gunTower":
 				return 50;
 			case "slowdownTower":
-				return 50;
+				return 100;
+			case "missleTower":
+				return 150;
 		}			
 	}
 

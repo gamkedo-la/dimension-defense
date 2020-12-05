@@ -28,7 +28,8 @@ function TowerMenuClass(){
 
 	this.towerList = [
 		"gunTower",
-		"slowdownTower"
+		"slowdownTower",
+		"missleTower"
 	]
 	
 	this.move = function (){
@@ -113,6 +114,10 @@ function TowerMenuClass(){
 					break;
 				case "slowdownTower":
 					this.btnList[i].txt = "Slowdown Tower";
+					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
+					break;
+				case "missleTower":
+					this.btnList[i].txt = "Missle Tower";
 					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
 					break;
 			}
