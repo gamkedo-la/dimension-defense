@@ -1,6 +1,6 @@
 
 function EnemyClass(){
-	
+
 	this.x;
 	this.y;
 	this.indexX;
@@ -44,7 +44,7 @@ function EnemyClass(){
 		{
 			this.canBeRemoved = true;
 			gameLoop.gums[this.myGum].getKilled();
-			return;			
+			return;
 		}
 
 		if(this.myGum === false)
@@ -56,7 +56,7 @@ function EnemyClass(){
 					if(this.collisionCheckWithGum(i))
 					{
 						this.myGum = i;
-						gameLoop.gums[i].addOwner();			
+						gameLoop.gums[i].addOwner();
 						break;
 					}
 				}
@@ -78,9 +78,9 @@ function EnemyClass(){
 
 	//draw things here
 	this.draw = function(){
-	
+
 		/*
-		
+
 		if(!this.flipImg)
 		{
 			//drawBitmapCenteredWithRotation(this.imgName, this.x+offsetX , this.y+offsetY, this.rot);
@@ -112,25 +112,30 @@ function EnemyClass(){
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
 		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
-		
+
 
 		//updates the animation
 		if(!this.isDead)
 		{
 			animationSystem.sprite_update(this.id,{X:this.x,Y:this.y,ROT:this.rot});
 		}
-	
+
 	}
 
 	this.isDeadMove = function(){
 
 		if(this.myGum !== false)
 		{
+			gameLoop.gums[this.myGum].pathNumber = this.pathNumber;
+			gameLoop.gums[this.myGum].isOnAltar = false;
+			gameLoop.gums[this.myGum].indexX = this.indexX;
+			gameLoop.gums[this.myGum].indexY = this.indexY;
+			gameLoop.gums[this.myGum].searchPath();
 			gameLoop.gums[this.myGum].removeOwner();
 		}
 		this.canBeRemoved = true;
-		
-		
+
+
 	}
 
 	//Inititalize
@@ -167,7 +172,7 @@ function EnemyClass(){
 
 		this.x = returnPixelPosFromIndexPos(this.indexX) + TILE_SIZE / 2 ;
 		this.y = returnPixelPosFromIndexPos(this.indexY) + TILE_SIZE / 2;
-		
+
 		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
@@ -179,7 +184,7 @@ function EnemyClass(){
 	this.collisionCheckWithGum = function(gumListIndex)
 	{
 		return (collisionCheckRoundShapes(
-			this.x, this.y, this.r, 
+			this.x, this.y, this.r,
 			gameLoop.gums[gumListIndex].x, gameLoop.gums[gumListIndex].y, gameLoop.gums[gumListIndex].r)
 		)
 	}
@@ -191,7 +196,7 @@ function EnemyClass(){
 			this.isDead = true;
 			gameLoop.addCoins(this.coins);
 			animationSystem.destroyEntity(this.id)
-		
+
 		}
 	}
 
@@ -219,13 +224,13 @@ function EnemyClass(){
 		{
 			this.hasReachedGoal = true;
 		}
-		
+
 	}
 
 
 	this.searchPath = function()
 	{
-	
+
 		this.checkForEvents();
 
 		if(this.hasReachedGoal)
@@ -272,7 +277,7 @@ function EnemyClass(){
 			console.log("No Path to walk")
 			return;
 		}else{
-			if(this.pathQueue[0] == 0){		
+			if(this.pathQueue[0] == 0){
 				if(this.status != 'WALKING_NORTH'){
 					this.moveToY = this.y - TILE_SIZE;
 					this.status = 'WALKING_NORTH';
@@ -286,7 +291,7 @@ function EnemyClass(){
 					this.y -= this.speed;
 				}
 
-			}else if(this.pathQueue[0] == 2){		
+			}else if(this.pathQueue[0] == 2){
 				if(this.status != 'WALKING_SOUTH'){
 					this.moveToY = this.y + TILE_SIZE;
 					this.status = 'WALKING_SOUTH';
@@ -300,7 +305,7 @@ function EnemyClass(){
 					this.y += this.speed;
 				}
 
-			}else if(this.pathQueue[0] == 1){		
+			}else if(this.pathQueue[0] == 1){
 				if(this.status != 'WALKING_EAST'){
 					this.moveToX = this.x + TILE_SIZE;
 					this.status = 'WALKING_EAST';
@@ -310,11 +315,11 @@ function EnemyClass(){
 				}else if(this.x >= this.moveToX){
 					this.x = this.moveToX;
 					this.searchPath();
-				}else{ 
+				}else{
 					this.x += this.speed;
 				}
 
-			}else if(this.pathQueue[0] == 3){			
+			}else if(this.pathQueue[0] == 3){
 				if(this.status != 'WALKING_WEST'){
 					this.moveToX = this.x - TILE_SIZE;
 					this.status = 'WALKING_WEST';
