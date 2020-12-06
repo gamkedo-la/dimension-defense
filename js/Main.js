@@ -67,8 +67,8 @@ function updateAll() {
 
 		case 'subMenu':
 			gameLoop.draw();
-			pausMenu.draw();
-			pausMenu.update();;
+			Menu.draw();
+			Menu.update();
 			break;
 
 	}
