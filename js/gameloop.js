@@ -280,7 +280,9 @@ gameLoop = new function(){
 
 	this.spawnEnemy = function(pathNumber, enemyType)
 	{
-		let newEnemy = new EnemyClass();
+		
+		let newEnemy = (Math.round(Math.random())) ? new EnemyClass() : new EnemyAntClass();
+		//let newEnemy = new EnemyClass();
 		newEnemy.init(pathNumber, enemyType);
 		this.enemyList.push(newEnemy);			
 	}

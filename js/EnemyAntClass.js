@@ -1,5 +1,5 @@
 
-function EnemyClass(){
+function EnemyAntClass(){
 	
 	this.x;
 	this.y;
@@ -30,7 +30,7 @@ function EnemyClass(){
 	this.canBeRemoved = false;
 
 	//Abilities
-	this.immuneToSlowdown = false;
+	this.immuneToSlowdown = true;
 
 	this.id=0;  //1.this variable is used to tell the animationSystem which object it is.
 
@@ -78,35 +78,7 @@ function EnemyClass(){
 
 	//draw things here
 	this.draw = function(){
-	
-		/*
-		
-		if(!this.flipImg)
-		{
-			//drawBitmapCenteredWithRotation(this.imgName, this.x+offsetX , this.y+offsetY, this.rot);
-		}else{
-			//drawImageflippedHorizontallyAndCentered(this.imgName, this.x + offsetX, this.y + offsetY);
-		}
-		*/
 
-		/*
-		if (this.status=="WALKING_NORTH")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip1",5)
-		}
-		if (this.status=="WALKING_SOUTH")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip2",5)
-		}
-		if (this.status=="WALKING_EAST")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip3",5)
-		}
-		if (this.status=="WALKING_WEST")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip4",5)
-		}
-		*/
 
 		let healthBarW = 30;
 		let healthBarH = 6;
@@ -118,7 +90,18 @@ function EnemyClass(){
 		if(!this.isDead)
 		{
 			animationSystem.sprite_update(this.id,{X:this.x,Y:this.y,ROT:this.rot});
-		}
+        }
+        
+        if(this.status=='WALKING_WEST' && this.flipImg)
+		{
+            animationSystem.flipSprite(this.id,true,false);
+            
+		}else{
+            animationSystem.flipSprite(this.id,false,false);
+        }
+    
+    
+		
 	
 	}
 
@@ -171,7 +154,7 @@ function EnemyClass(){
 		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
-		this.id=animationSystem.register("testEnemy1",20,{X:this.x,Y:this.y});
+		this.id=animationSystem.register("AntEnemy",5,{X:this.x,Y:this.y});
 		//console.log(this.id);
 
 	}
@@ -262,78 +245,80 @@ function EnemyClass(){
 		}
 	}
 
+	
 	this.walk = function(){
-	// 0 = North
-	// 1 = East
-	// 2 = South
-	// 3 = West
-		if(this.pathQueue.length == 0){
-			this.status = undefined;
-			console.log("No Path to walk")
-			return;
-		}else{
-			if(this.pathQueue[0] == 0){		
-				if(this.status != 'WALKING_NORTH'){
-					this.moveToY = this.y - TILE_SIZE;
-					this.status = 'WALKING_NORTH';
-					this.rot = degreesToRadian(270);
-					this.flipImg = false;
-					this.y -= this.speed;
-				}else if(this.y <= this.moveToY){
-					this.y = this.moveToY;
-					this.searchPath();
-				}else{
-					this.y -= this.speed;
-				}
-
-			}else if(this.pathQueue[0] == 2){		
-				if(this.status != 'WALKING_SOUTH'){
-					this.moveToY = this.y + TILE_SIZE;
-					this.status = 'WALKING_SOUTH';
-					this.rot = degreesToRadian(90);
-					this.flipImg = false;
-					this.y += this.speed;
-				}else if(this.y >= this.moveToY){
-					this.y = this.moveToY;
-					this.searchPath();
-				}else{
-					this.y += this.speed;
-				}
-
-			}else if(this.pathQueue[0] == 1){		
-				if(this.status != 'WALKING_EAST'){
-					this.moveToX = this.x + TILE_SIZE;
-					this.status = 'WALKING_EAST';
-					this.rot = degreesToRadian(0);
-					this.flipImg = false;
-					this.x += this.speed;
-				}else if(this.x >= this.moveToX){
-					this.x = this.moveToX;
-					this.searchPath();
-				}else{ 
-					this.x += this.speed;
-				}
-
-			}else if(this.pathQueue[0] == 3){			
-				if(this.status != 'WALKING_WEST'){
-					this.moveToX = this.x - TILE_SIZE;
-					this.status = 'WALKING_WEST';
-					this.rot = degreesToRadian(180);
-					if(this.isImgSideview)
-					{
-						this.rot = degreesToRadian(0);
-						this.flipImg = true;
-					}
-					this.x -= this.speed;
-				}else if(this.x <= this.moveToX){
-					this.x = this.moveToX;
-					this.searchPath();
-				}else{
-					this.x -= this.speed;
-				}
-			}
-		}
-	}
+        // 0 = North
+        // 1 = East
+        // 2 = South
+        // 3 = West
+            if(this.pathQueue.length == 0){
+                this.status = undefined;
+                console.log("No Path to walk")
+                return;
+            }else{
+                if(this.pathQueue[0] == 0){		
+                    if(this.status != 'WALKING_NORTH'){
+                        this.moveToY = this.y - TILE_SIZE;
+                        this.status = 'WALKING_NORTH';
+                        this.rot = degreesToRadian(270);
+                        this.flipImg = false;
+                        this.y -= this.speed;
+                    }else if(this.y <= this.moveToY){
+                        this.y = this.moveToY;
+                        this.searchPath();
+                    }else{
+                        this.y -= this.speed;
+                    }
+    
+                }else if(this.pathQueue[0] == 2){		
+                    if(this.status != 'WALKING_SOUTH'){
+                        this.moveToY = this.y + TILE_SIZE;
+                        this.status = 'WALKING_SOUTH';
+                        this.rot = degreesToRadian(90);
+                        this.flipImg = false;
+                        this.y += this.speed;
+                    }else if(this.y >= this.moveToY){
+                        this.y = this.moveToY;
+                        this.searchPath();
+                    }else{
+                        this.y += this.speed;
+                    }
+    
+                }else if(this.pathQueue[0] == 1){		
+                    if(this.status != 'WALKING_EAST'){
+                        this.moveToX = this.x + TILE_SIZE;
+                        this.status = 'WALKING_EAST';
+                        this.rot = degreesToRadian(0);
+                        this.flipImg = false;
+                        this.x += this.speed;
+                    }else if(this.x >= this.moveToX){
+                        this.x = this.moveToX;
+                        this.searchPath();
+                    }else{ 
+                        this.x += this.speed;
+                    }
+    
+                }else if(this.pathQueue[0] == 3){			
+                    if(this.status != 'WALKING_WEST'){
+                        this.moveToX = this.x - TILE_SIZE;
+                        this.status = 'WALKING_WEST';
+                        this.rot = degreesToRadian(180);
+                        if(this.isImgSideview)
+                        {
+                            this.rot = degreesToRadian(0);
+                            this.flipImg = true;
+                        }
+                        this.x -= this.speed;
+                    }else if(this.x <= this.moveToX){
+                        this.x = this.moveToX;
+                        this.searchPath();
+                    }else{
+                        this.x -= this.speed;
+                    }
+                }
+            }
+        }
+    
 
 
 }

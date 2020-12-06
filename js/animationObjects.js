@@ -9,8 +9,24 @@ animationInfo=
     maxFrame:5,
     startFrame:1,
     endFrame:5,
-    currentFrame:1,        
+    currentFrame:1,
+    flipH:false,
+    flipY:false,        
     orient:"horizontal"
+    },
+
+    'AntEnemy':{
+        row:1,
+        col:4,
+        cell_W:48,
+        cell_H:48,
+        maxFrame:4,
+        startFrame:1,
+        endFrame:4,
+        currentFrame:1,
+        flipH:false,
+        flipY:false,        
+        orient:"horizontal"
     },
 
     'multiState':{
@@ -22,6 +38,8 @@ animationInfo=
         startFrame:9,
         endFrame:10,
         currentFrame:1,
+        flipH:false,
+        flipY:false,
         orient:"horizontal",
 
         state:

@@ -121,10 +121,13 @@ function drawSpriteAngle_Multi(imgName,row,col,dimensionX,dimensionY,atX,atY,atA
 	ctx.restore();
 }
 
-function drawSpriteAngle_Single(imgName,row,col,dimensionX,dimensionY,atX,atY,atAngle,maxRows) {
+function drawSpriteAngle_Single(imgName,row,col,dimensionX,dimensionY,atX,atY,atAngle,maxRows,flipH,flipV) {
 	ctx.save();
 	ctx.translate(atX, atY);
+	if(flipH){ctx.scale(-1,1)};
+	if(flipV){ctx.scale(1,-1)};
 	ctx.rotate(atAngle);
 	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,-(image.get(imgName).width/maxRows)/2,-image.get(imgName).height/2,dimensionX,dimensionY);
 	ctx.restore();
 }
+

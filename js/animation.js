@@ -86,6 +86,7 @@ class animate{
                 sprite.pos.X,
                 sprite.pos.Y);
             */
+
             drawSpriteAngle_Single(sprite.name,
                 sprite.startFrame,
                 (sprite.currentFrame%sprite.maxFrame)+1,
@@ -94,12 +95,49 @@ class animate{
                 sprite.pos.X,
                 sprite.pos.Y,
                 sprite.pos.ROT,
-                sprite.maxFrame);
+                sprite.maxFrame,
+                sprite.flipH,
+                sprite.flipY);
                 
         }
-
+        //todo.
+        /*
+        drawSpriteAngle_Multi(sprite.name,
+            sprite.startFrame,
+            (sprite.currentFrame%sprite.maxFrame)+1,
+            sprite.cell_W,
+            sprite.cell_H,
+            sprite.pos.X,
+            sprite.pos.Y,
+            sprite.pos.ROT,
+            sprite.maxFrame);
+            
+        }
+        */
     }
 
+
+    flipSprite(id,flipH,flipY)
+    {
+        let sprite=this.animatedlist[id-1];
+        
+        
+       
+        
+        if(sprite!=null)
+        {
+            //console.log("flipH:"+sprite.flipH+","+"flipY:"+sprite.flipY)
+            if(flipH)
+            {
+                //console.log("flipH:"+sprite.flipH)
+                sprite.flipH=flipH;    
+            }else if(flipY)
+            {
+                //console.log("flipY:"+sprite.flipY)
+                sprite.flipY=flipY;
+            }
+        }
+    }
     
     resetList()
     {
