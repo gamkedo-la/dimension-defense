@@ -86,7 +86,7 @@ class animate{
                 sprite.pos.X,
                 sprite.pos.Y);
             */
-            drawSpriteAngle(sprite.name,
+            drawSpriteAngle_Single(sprite.name,
                 sprite.startFrame,
                 (sprite.currentFrame%sprite.maxFrame)+1,
                 sprite.cell_W,
