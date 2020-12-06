@@ -79,9 +79,9 @@ function EnemyClass(){
 	//draw things here
 	this.draw = function(){
 
-		//updates the animation
 		
-
+		
+		/*
 		
 		if(!this.flipImg)
 		{
@@ -89,12 +89,34 @@ function EnemyClass(){
 		}else{
 			//drawImageflippedHorizontallyAndCentered(this.imgName, this.x + offsetX, this.y + offsetY);
 		}
-		
+		*/
+
+		/*
+		if (this.status=="WALKING_NORTH")
+		{
+			animationSystem.sprite_stateChange(this.id,"strip1",5)
+		}
+		if (this.status=="WALKING_SOUTH")
+		{
+			animationSystem.sprite_stateChange(this.id,"strip2",5)
+		}
+		if (this.status=="WALKING_EAST")
+		{
+			animationSystem.sprite_stateChange(this.id,"strip3",5)
+		}
+		if (this.status=="WALKING_WEST")
+		{
+			animationSystem.sprite_stateChange(this.id,"strip4",5)
+		}
+		*/
+
 		let healthBarW = 30;
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
 		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
 		
+
+		//updates the animation
 		if(!this.isDead)
 		{
 			animationSystem.sprite_update(this.id,{X:this.x,Y:this.y,ROT:this.rot});
@@ -151,7 +173,7 @@ function EnemyClass(){
 		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
-		this.id=animationSystem.register("testEnemy1",6,{X:this.x,Y:this.y});
+		this.id=animationSystem.register("testEnemy1",20,{X:this.x,Y:this.y});
 		//console.log(this.id);
 
 	}

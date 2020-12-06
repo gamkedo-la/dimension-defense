@@ -423,6 +423,7 @@ gameLoop = new function(){
 		this.towerList = [];
 
 		this.towerMenu = new TowerMenuClass();
+		animationSystem.resetList()
 	}
 
 	this.generateWaveVarsFromlevelList = function(level)

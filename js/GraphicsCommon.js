@@ -117,6 +117,6 @@ function drawSpriteAngle(imgName,row,col,dimensionX,dimensionY,atX,atY,atAngle,m
 	ctx.save();
 	ctx.translate(atX, atY);
 	ctx.rotate(atAngle);
-	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,-(image.get(imgName).width/maxRows)/2,-image.get(imgName).height/2,dimensionX,dimensionY);
+	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,-(image.get(imgName).width/maxRows)/2,-image.get(imgName).height/maxRows,dimensionX,dimensionY);
 	ctx.restore();
 }
