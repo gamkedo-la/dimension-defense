@@ -21,7 +21,7 @@ class animate{
     update()
     {
         this._gTime+=1;
-        this.animatedlist.forEach(sprite => this.anim_loop(sprite));
+        //this.animatedlist.forEach(sprite => this.anim_loop(sprite));
     }
 
     
@@ -68,8 +68,9 @@ class animate{
         }
     }
 
-    anim_loop(sprite,fps)
+    draw_anim_loop(spriteID,fps)
     {
+        let sprite=this.animatedlist[spriteID-1]
         if(sprite !=null)
         {
             if (this._gTime % sprite.fps == 0)
@@ -120,9 +121,6 @@ class animate{
     flipSprite(id,flipH,flipY)
     {
         let sprite=this.animatedlist[id-1];
-        
-        
-       
         
         if(sprite!=null)
         {

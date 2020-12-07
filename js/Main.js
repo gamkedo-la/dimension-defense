@@ -24,7 +24,6 @@ window.onload = function() {
 }
 
 function StartGame() {
-	var framesPerSecond = 60;
 	setInterval(updateAll, 1000/60);
 	setupInput();
 	

@@ -32,7 +32,7 @@ function EnemyClass(){
 	//Abilities
 	this.immuneToSlowdown = false;
 
-	this.id=0;  //1.this variable is used to tell the animationSystem which object it is.
+	this.spriteID;  //1.this variable is used to tell the animationSystem which object it is.
 
 	//move things here
 	this.move = function (){
@@ -70,6 +70,15 @@ function EnemyClass(){
 			gameLoop.gums[this.myGum].setPosition(this.x, this.y)
 		}
 
+		animationSystem.sprite_update(this.spriteID,{X:this.x,Y:this.y,ROT:this.rot});
+		
+		if(this.flipImg)
+		{
+			animationSystem.flipSprite(this.spriteID,true,false);
+		}else{
+			animationSystem.flipSprite(this.spriteID,false,false);
+		}
+
 		//reset the slowdown effect
 		this.speed = this.defaultSpeed;
 
@@ -79,47 +88,14 @@ function EnemyClass(){
 	//draw things here
 	this.draw = function(){
 
-		/*
-
-		if(!this.flipImg)
-		{
-			//drawBitmapCenteredWithRotation(this.imgName, this.x+offsetX , this.y+offsetY, this.rot);
-		}else{
-			//drawImageflippedHorizontallyAndCentered(this.imgName, this.x + offsetX, this.y + offsetY);
-		}
-		*/
-
-		/*
-		if (this.status=="WALKING_NORTH")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip1",5)
-		}
-		if (this.status=="WALKING_SOUTH")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip2",5)
-		}
-		if (this.status=="WALKING_EAST")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip3",5)
-		}
-		if (this.status=="WALKING_WEST")
-		{
-			animationSystem.sprite_stateChange(this.id,"strip4",5)
-		}
-		*/
-
+		animationSystem.draw_anim_loop(this.spriteID, 5)
+	
 		let healthBarW = 30;
 		let healthBarH = 6;
 		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
 		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
 
-
-		//updates the animation
-		if(!this.isDead)
-		{
-			animationSystem.sprite_update(this.id,{X:this.x,Y:this.y,ROT:this.rot});
-		}
-
+		animationSystem.draw_anim_loop(this.spriteID, 5)
 	}
 
 	this.isDeadMove = function(){
@@ -141,6 +117,7 @@ function EnemyClass(){
 	//Inititalize
 	this.init = function(pathNumber, enemyType)
 	{
+		let sprite;
 
 		for (let i = 0; i < enemyList.length; i++)
 		{
@@ -152,6 +129,7 @@ function EnemyClass(){
 				this.coins = enemyList[i].coins;
 				this.r = enemyList[i].r;
 				this.isImgSideview = enemyList[i].isImgSideview;
+				sprite = enemyList[i].sprite;
 				for (let a = 0; a < enemyList[i].ability.length; a++)
 				{
 					switch (enemyList[i].ability[a]) {
@@ -176,7 +154,7 @@ function EnemyClass(){
 		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
-		this.id=animationSystem.register("testEnemy1",20,{X:this.x,Y:this.y});
+		this.spriteID=animationSystem.register(sprite,5,{X:this.x,Y:this.y});
 		//console.log(this.id);
 
 	}

@@ -4,6 +4,7 @@ var enemyList =
     {
         type: 'turtle',
         imgName: 'theUnderturtler',
+        sprite: 'testEnemy1',
         isImgSideview: false,
         health: 18,
         speed: 2,
@@ -15,6 +16,7 @@ var enemyList =
     {
         type: 'ant',
         imgName: 'ant',
+        sprite: 'AntEnemy',
         isImgSideview: true,
         health: 10,
         speed: 4,
