@@ -9,6 +9,10 @@ function MissleTowerClass(){
 	this.indexY;
 	this.image;
 
+    // FIXME how to implement politely?
+	this.image = "MissileTowerTurret";
+	this.imageBase = "MissileTowerBase";
+
 	this.level = 0;
 	this.price = [200, 300]
 
@@ -74,7 +78,16 @@ function MissleTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle)
+
+		// draw the base of the tower that does not rotate
+		if (this.imageBase) { // optional
+		    drawBitmapCenteredWithRotation(this.imageBase, this.x + offsetX, this.y + offsetY, 0);
+		}
+
+		// draw the part that rotates
+		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle);
+
+		// draw all the missiles
 		for(let i = 0; i < this.shotList.length; i++)
 		{
 			colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
@@ -131,7 +144,7 @@ function MissleTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "gunTowerL" + this.level;
+		this.image = "MissileTowerTurret";//FIXME +"L" + this.level;
 		let random = Math.floor(Math.random() * Math.floor(50));
 
 		switch(this.level){
