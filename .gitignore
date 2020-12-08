@@ -5,3 +5,4 @@
 
 not_for_repo/
 *.db
+debug.log
