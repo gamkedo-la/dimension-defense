@@ -13,6 +13,8 @@ function MissleTowerClass(){
 	this.image = "MissileTowerTurret";
 	this.imageBase = "MissileTowerBase";
 	this.imageProjectile = "Missile";
+	this.imageMuzzleFlash = "MuzzleFlash";
+	this.muzzleFlashAlpha = 0;
 
 	this.level = 0;
 	this.price = [200, 300]
@@ -105,7 +107,14 @@ function MissleTowerClass(){
                  this.angle+angleWobble
                  // lol the true solution is to calc the ang based on missile velocity
     		);
+		}
 
+		// we may have just fired a shot! draw some fx
+		if (this.muzzleFlashAlpha>0) {
+            ctx.globalAlpha = this.muzzleFlashAlpha;
+            this.muzzleFlashAlpha -= 0.025; // fade out
+            drawBitmapCenteredWithRotation(this.imageMuzzleFlash, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);			
+            ctx.globalAlpha = 1;
 		}
 
 	}
@@ -140,6 +149,9 @@ function MissleTowerClass(){
 			isDead: false
 		};
 		this.shotList.push(newShot);
+
+		// add a little muzzle flash effect
+		this.muzzleFlashAlpha = 1;
 	}
 
 	this.isUpgradeable = function()
