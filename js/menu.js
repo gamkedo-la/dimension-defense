@@ -18,9 +18,8 @@ const Menu = new (function () {
   ];
  
   this.draw = function () {
-    drawImageWithAngle("gum1", itemsX , topItemY + this.cursor * rowHeight - 30 , 0);
       for (let i = 0; i < menuText[current].length; i++) {
-        colorRect(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 30, '#00ff0f');
+        colorRectWithAlpha(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 39, '#00ff0f', 0.85);
         colorTextBold(
           menuText[current][i],
           itemsX,
@@ -44,25 +43,41 @@ const Menu = new (function () {
     }
   }
 
-  this.checkState = function checkState () {
+  this.mouseClicked = function()
+	{
     const selectedItemOnPage = menuText[current][this.cursor];
     for (let i = 0; i < menuText[current].length; i++){
       if (selectedItemOnPage === menuText[current][i].toString()) {
-          colorRect(topItemY, itemsX - 30 + rowHeight * i, itemsWidth, 30, 'red');
+				switch(this.menuText[i])
+				{
+					case 'restart':
+            location.reload();
+            break;
+        }
+    }
+  }
+}
+
+  this.checkState = function() {
+    const selectedItemOnPage = menuText[current][this.cursor];
+    for (let i = 0; i < menuText[current].length; i++){
+      if (selectedItemOnPage === menuText[current][i].toString()) {
+          colorRect(topItemY, itemsX - 30 + rowHeight * i, itemsWidth, 40, 'red');
           colorTextBold(
             menuText[current][i].toString(),
             itemsX,
             topItemY + rowHeight * i,
             60,
             "#00ffAA"
-          );  
+          );
       } 
+      drawImageWithAngle("gum1", itemsX , topItemY + this.cursor * rowHeight - 30 , 90);
     }
     this.cursor = 0;
   }
 
   this.menuMouse = function () {
-    //colorTextShadow(menuPageText[currentPage][i].split('').join(' '), itemsX - 350, topItemY + rowHeight * i, "#09A9A9", "35px Arial");
+    const selectedItemOnPage = menuText[current][this.cursor];
     for (let i = 0; i < menuText[current].length; i++) {
       if (
         //mouseX > itemsX - 350 && mousePosX + itemsWidth &&
