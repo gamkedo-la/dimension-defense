@@ -9,9 +9,10 @@ function MissleTowerClass(){
 	this.indexY;
 	this.image;
 
-    // FIXME how to implement politely?
+    // FIXME perhaps these should be set later, after all inits? seems ok
 	this.image = "MissileTowerTurret";
 	this.imageBase = "MissileTowerBase";
+	this.imageProjectile = "Missile";
 
 	this.level = 0;
 	this.price = [200, 300]
@@ -85,12 +86,26 @@ function MissleTowerClass(){
 		}
 
 		// draw the part that rotates
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle);
+		// with a little fake AI (a wobble! =)
+		var angleWobble = Math.cos(performance.now()/555)*0.25;
+		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);
 
 		// draw all the missiles
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
+			//colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
+    		
+    		drawBitmapCenteredWithRotation(
+    		    this.imageProjectile, 
+    		    this.shotList[i].x + offsetX, 
+    		    this.shotList[i].y + offsetY, 
+                // FIXME: the missile angle seems wrong.. need to change to radians or something maybe
+    		    //this.shotList[i].r
+                // cheap hack solution: copy the turret angle lol
+                 this.angle+angleWobble
+                 // lol the true solution is to calc the ang based on missile velocity
+    		);
+
 		}
 
 	}
