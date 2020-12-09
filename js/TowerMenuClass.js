@@ -185,8 +185,9 @@ function TowerMenuClass(){
 					case 'upgrade':
 						if(gameLoop.coins - gameLoop.towerList[this.towerIndex].getUpgradePrice() >= 0)
 						{
-							gameLoop.towerList[this.towerIndex].upgrade();
+							//Keep this order!
 							gameLoop.removeCoins(gameLoop.towerList[this.towerIndex].getUpgradePrice())
+							gameLoop.towerList[this.towerIndex].upgrade();				
 						}else{
 							dontCloseMenu = true;
 						}						
