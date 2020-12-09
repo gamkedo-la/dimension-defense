@@ -67,7 +67,11 @@ function drawImageWithAngle(imgName, atX,atY, atAngel) {
 }
 
 function drawImageScaled(imgName, atX,atY, scale) {
-	ctx.drawImage(image.get(imgName),atX ,atY , (scale / 100) * image.get(imgName).width, (scale / 100) * image.get(imgName).height);
+	ctx.save();
+	ctx.translate(atX,atY);
+	ctx.scale(scale,scale);
+	ctx.drawImage(image.get(imgName),0,0);
+	ctx.restore();
 }
 
 function drawImageAtWidthSize(imgName, atX,atY, widthSize) {
@@ -116,6 +120,7 @@ function copyToClipboard(theThing){
 			document.execCommand("copy");
 			document.body.removeChild(dummy);
 			return;
+	//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
 }
 
 function copyArray(arrayToCopy)

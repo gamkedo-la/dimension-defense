@@ -1,13 +1,4 @@
 
-var debug_MODE = {
-	path: false,
-};
-
-var mouseAction ={
-	selected: undefined,
-	action: undefined
-};
-
 var offsetX = 0;
 var offsetY = 0;
 
@@ -15,8 +6,8 @@ var offsetY = 0;
 levelEditor = new function(){
 	
 	this.lvlName = "LevelName";
-	this.toolbarHeight = 135;
-	this.toolbarStartY = 735 - this.toolbarHeight; //600 is canvas height
+	this.toolbarHeight = 150;
+	this.toolbarStartY = 750 - this.toolbarHeight; //750 is canvas height
 	this.buttonList = [];
 
 	this.mapImage;
@@ -39,7 +30,7 @@ levelEditor = new function(){
 	//move things here
 	this.move = function (){
 		//this.moveMapWithMouse();	
-		//console.log(this.mapGumAltarPos)
+		
 	}
 
 	//draw things here
@@ -63,13 +54,30 @@ levelEditor = new function(){
 		colorText(this.levelData.gumAmounts[this.currentGumAltar], 155, 80+this.toolbarStartY, 20, '#ffffff');
 
 		colorText('Wave', 244, 18+this.toolbarStartY, 18, '#ffffff');
-		colorText(this.currentWave + 2, 255, 41+this.toolbarStartY, 20, '#ffffff');
-		colorText('StartDelay', 222, 85+this.toolbarStartY, 15, '#ffffff');
-		colorText('111', 250, 106+this.toolbarStartY, 20, '#ffffff');
+		colorText(this.currentWave+1, 255, 41+this.toolbarStartY, 20, '#ffffff');
+		colorText('WaveDelay', 222, 85+this.toolbarStartY, 16, '#ffffff');
+		colorText(this.levelData.waveStartDelay[this.currentWave], 250, 106+this.toolbarStartY, 20, '#ffffff');
 
-		colorText(this.message, 10, 128+this.toolbarStartY, 16, '#fcbe03');
+		colorText(this.message, 10, 143+this.toolbarStartY, 16, '#fcbe03');
 
-		drawButtons(this.buttonList, 'lvlEditorBTN', 'pathBTN');
+		drawButtons(this.buttonList, 'lvlEditorBTN', 'pathBTN','subWaveBTN'+this.currentWave);
+
+		for(let i = 0; i < this.levelData.wave[this.currentWave].length; i++)
+		{
+			let x = 300 + (75 * i);
+			let g = this.levelData.wave[this.currentWave][i];
+			colorText('Enemy',25 + x, 14+this.toolbarStartY, 16, '#ffffff');
+			drawImageScaled(enemyList[g.enemyType].LvlEditorImgName,35 + x, 13 + this.toolbarStartY, 0.7);
+
+			colorText('Amount',25 + x, 55+this.toolbarStartY, 16, '#ffffff');
+			colorText(g.amountToSpawn,45 + x, 70+this.toolbarStartY, 18, '#ffffff');
+
+			colorText('Delay',25 + x, 85+this.toolbarStartY, 18, '#ffffff');
+			colorText(g.delayBetweenSpawn,45 + x, 100+this.toolbarStartY, 18, '#ffffff');
+
+			colorText('OnPath',25 + x, 115+this.toolbarStartY, 16, '#ffffff');
+			colorText(g.spawnOnPath,45 + x, 130+this.toolbarStartY, 18, '#ffffff');
+		}
 
 	}
 
@@ -143,10 +151,10 @@ levelEditor = new function(){
 
 	this.selectWave = function(direction){
 		this.currentWave += direction;
-
+		console.log(2)
 		if (this.currentWave < 0)
 		{
-			this.currentWave == this.levelData.wave.length - 1;
+			this.currentWave = this.levelData.wave.length - 1;
 		}
 		if (this.currentWave >= this.levelData.wave.length)
 		{
@@ -154,10 +162,52 @@ levelEditor = new function(){
 		}
 	}
 
+	this.selectEnemy = function(position, direction){
+		position += direction;
+
+		if (position < 0)
+		{
+			position = enemyList.length - 1;
+		}
+		if (position >= enemyList.length)
+		{
+			position = 0;
+		}
+		return position;
+	}
+
 	this.addNewWave = function(){
-		this.levelData.wave.push({});
-		this.levelData.waveStartDelay.push(0);
-		this.selectWave(1);
+		this.levelData.wave.push([]);
+		this.levelData.waveStartDelay.push(5);
+		this.currentWave = this.levelData.wave.length - 1;
+		this.levelData.wave[this.currentWave] = [];
+
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+	}
+
+	this.addNewSubWave = function(){
+		let swid = this.levelData.wave[this.currentWave].length;
+		let x = 300 + (75 * swid);
+		this.levelData.wave[this.currentWave][swid] = {
+			enemyType: 0,
+			spawnOnPath: this.pathList[0],
+			amountToSpawn: 1,
+			delayBetweenSpawn: 2,
+		};
+
+		GenerateButton(this.buttonList, 70+x, 20+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectEnemyFWRD'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 20+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectEnemyBWRD'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 58+this.toolbarStartY, 15, 15, '#ebc117','+', 3, -5, 18, '#000000', 'addEnemyAmount'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 58+this.toolbarStartY, 15, 15, '#ebc117','-', 3, -5, 18, '#000000', 'subEnemyAmount'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 88+this.toolbarStartY, 15, 15, '#ebc117','+', 3, -5, 18, '#000000', 'addSpawnDelay'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 88+this.toolbarStartY, 15, 15, '#ebc117','-', 3, -5, 18, '#000000', 'subSpawnDelay'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 118+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectPathFWRD'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 118+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectPathBWRD'+swid, 'subWaveBTN'+this.currentWave);
 	}
 
 	this.removeWave = function(){
@@ -189,23 +239,6 @@ levelEditor = new function(){
 		}
 	}
 
-	this.addNewPath = function(){	
-		if(this.pathList.length == 8){
-			console.log("cant add more paths.");
-			return;
-		}
-		
-		this.pathList.push(1);
-		
-		let pathPlace = this.pathList.length - 1; //should have named this PathIndex tbh....
-		let pathPlaceX = 1 * (pathPlace / 4 >= 1);
-		let pathPlaceY = pathPlace % 4;
-		
-		GenerateButton(this.buttonList, 145 * pathPlaceX + 210, 26 * pathPlaceY + 10+this.toolbarStartY, 20, 20, '#ff4d4d','💀', 0, 0, 16, '#000000','pathDelete' + pathPlace, 'pathBTN');
-		GenerateButton(this.buttonList, 145 * pathPlaceX + 235, 26 * pathPlaceY + 10+this.toolbarStartY, 80, 20, '#32ff7e','Path ' + pathPlace, 4, -3, 20, '#000000','pathActive' + pathPlace, 'pathBTN');
-		GenerateButton(this.buttonList, 145 * pathPlaceX + 320, 26 * pathPlaceY + 10+this.toolbarStartY, 20, 20, '#17c0eb','🙈', -1, -1, 16, '#000000','pathShow' + pathPlace, 'pathBTN');
-	}
-
 	this.saveMap = function(){
 		if(this.isMapValid == 1){
 			copyToClipboard(this.copyMap[0]);
@@ -216,11 +249,46 @@ levelEditor = new function(){
 		}
 	}
 
+	//Inititalize things on first run, like buttons an such
+	this.init = function(mapImage){
+		this.mapImage = mapImage;
+
+		for (let i = 0; i < mapList.length; i++)
+		{
+			if(this.mapImage == mapList[i].name)
+			{
+				this.generateMapVarsFromEditorMapList(mapList[i]);
+				break;
+			}
+		}
+		this.message = 'Start by renaming the level and changing the offset!';
+
+		this.levelData = 
+		{
+			levelName: this.lvlName,
+			mapName: this.mapImage,
+			waveStartDelay: [],
+			gumAmounts: [],
+			startOffset: {x:0, y:0},
+			wave: []
+		}
+
+		for(i = 0; i < this.mapGumAltarPos.length; i++)
+		{
+			this.levelData.gumAmounts.push(0);
+		}
+
+		this.addNewWave();
+		this.addNewWave();
+		this.generateMainButtons();
+	}
+
 	this.moveMapWithMouse = function()
 	{
+		
         if (draggingMouse) {
             offsetX = dragMouseDX;
-    	    offsetY = dragMouseDY;
+			offsetY = dragMouseDY;
 		}
 		
 		let img = image.get(this.mapImage);
@@ -233,8 +301,8 @@ levelEditor = new function(){
 		if (offsetY > 0) {
 			offsetY = 0;
 		}
-		if (offsetY < canvas.height - img.height) {
-			offsetY = canvas.height - img.height;
+		if (offsetY < canvas.height - this.toolbarHeight - img.height) {
+			offsetY = canvas.height - this.toolbarHeight - img.height;
 		}
 
 	}
@@ -242,97 +310,103 @@ levelEditor = new function(){
 	this.onMouseClicked = function(){
 		//var mouseIDX = pixeltoindex(mouseX);
 		//var mouseIDY = pixeltoindex(mouseY);
-		if(mouseY < this.toolbarStartY){
-			mapGrid.placeTile(this.activePath, this.tileOnHand);
-			
-		}else{
-			for(let i = 0; i < this.buttonList.length; i++)
+		let mainbtns = []
+		for(let i = 0; i < this.buttonList.length; i++)
+		{
+			if(this.buttonList[i].group == 'lvlEditorBTN')
 			{
-				if(mouseX > this.buttonList[i].x && mouseX < this.buttonList[i].x + this.buttonList[i].w &&
-					mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h)
+				mainbtns.push(i);
+			}
+		}
+		for(let g = 0; g < mainbtns.length; g++)
+		{
+			console.log(mouseY)
+			let i = mainbtns[g];
+			if(mouseX > this.buttonList[i].x && mouseX < this.buttonList[i].x + this.buttonList[i].w &&
+				mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h)
+			{
+				
+				switch (this.buttonList[i].name) 
 				{
-					
-					switch (this.buttonList[i].name) 
-					{
-						case 'subOffXBTN':
-							this.changeLVLStartOffset(1,'x');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'subsubOffXBTN':
-							this.changeLVLStartOffset(20,'x');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'addOffXBTN':
-							this.changeLVLStartOffset(-1,'x');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'addaddOffXBTN':
-							this.changeLVLStartOffset(-20,'x');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'subOffYBTN':
-							this.changeLVLStartOffset(1,'y');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'subsubOffYBTN':
-							this.changeLVLStartOffset(20,'y');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'addOffYBTN':
-							this.changeLVLStartOffset(-1,'y');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'addaddOffYBTN':
-							this.changeLVLStartOffset(-20,'y');
-							this.message = "Level start offset has been changed!";
-							return;
-						case 'backGumaltarBTN':
-							this.selectGumaltar(-1);
-							this.message = "Selected Gum Altar: " + (this.currentGumAltar + 1);
-							return;
-						case 'forwGumaltarBTN':
-							this.selectGumaltar(1);
-							this.message = "Selected Gum Altar: " + (this.currentGumAltar + 1);
-							return;
-						case 'subGumAmtBTN':
-							this.changeGumAmt(-1);
-							this.message = "Gums on altar " + (this.currentGumAltar + 1) + " removed";
-							return;
-						case 'addGumAmtBTN':
-							this.changeGumAmt(1);
-							this.message = "Gums on altar " + (this.currentGumAltar + 1) + " added";
-							return;
-						case 'addWaveBTN':
-							this.addNewWave();
-							this.message = "New wave added!";
-							return;
-						case 'delWaveBTN':
-							this.message = "Wave " + this.currentWave + "has been deleted.";
-							this.removeWave();			
-							return;
-						case 'backWaveBTN':
-							this.selectWave(-1);
-							this.message = "Selected Wave: " + this.currentWave;
-							return;
-						case 'forwWaveBTN':
-							this.selectWave(1);
-							this.message = "Selected Wave: " + this.currentWave;
-							return;
-						case 'subStartDelayBTN':
-							this.changeWaveStartDelay(-1)
-							this.message = "Start delay for wave " + this.currentWave + "has been changed.";
-							return;		
-						case 'addStartDelayBTN':
-							this.changeWaveStartDelay(1)
-							this.message = "Start delay for wave " + this.currentWave + "has been changed.";
-							return;
-						case 'saveBTN':
-							this.saveMap();	
-							return;
-					}
+					case 'subOffXBTN':
+						this.changeLVLStartOffset(1,'x');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'subsubOffXBTN':
+						this.changeLVLStartOffset(20,'x');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'addOffXBTN':
+						this.changeLVLStartOffset(-1,'x');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'addaddOffXBTN':
+						this.changeLVLStartOffset(-20,'x');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'subOffYBTN':
+						this.changeLVLStartOffset(1,'y');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'subsubOffYBTN':
+						this.changeLVLStartOffset(20,'y');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'addOffYBTN':
+						this.changeLVLStartOffset(-1,'y');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'addaddOffYBTN':
+						this.changeLVLStartOffset(-20,'y');
+						this.message = "Level start offset has been changed!";
+						return;
+					case 'backGumaltarBTN':
+						this.selectGumaltar(-1);
+						this.message = "Selected Gum Altar: " + (this.currentGumAltar + 1);
+						return;
+					case 'forwGumaltarBTN':
+						this.selectGumaltar(1);
+						this.message = "Selected Gum Altar: " + (this.currentGumAltar + 1);
+						return;
+					case 'subGumAmtBTN':
+						this.changeGumAmt(-1);
+						this.message = "Gums on altar " + (this.currentGumAltar + 1) + " removed";
+						return;
+					case 'addGumAmtBTN':
+						this.changeGumAmt(1);
+						this.message = "Gums on altar " + (this.currentGumAltar + 1) + " added";
+						return;
+					case 'addWaveBTN':
+						this.addNewWave();
+						this.message = "New wave added!";
+						return;
+					case 'delWaveBTN':
+						this.message = "Wave " + (this.currentWave + 1)+ "has been deleted.";
+						this.removeWave();			
+						return;
+					case 'backWaveBTN':
+						this.selectWave(-1);
+						this.message = "Selected Wave: " + (this.currentWave + 1);
+						return;
+					case 'forwWaveBTN':
+						this.selectWave(1);
+						this.message = "Selected Wave: " + (this.currentWave + 1);
+						return;
+					case 'subStartDelayBTN':
+						this.changeWaveStartDelay(-1)
+						this.message = "Start delay for wave " + (this.currentWave + 1) + "has been changed.";
+						return;		
+					case 'addStartDelayBTN':
+						this.changeWaveStartDelay(1)
+						this.message = "Start delay for wave " +(this.currentWave + 1) + "has been changed.";
+						return;
+					case 'saveBTN':
+						this.saveMap();	
+						return;
 				}
 			}
 		}
+		
 	}
 
 	this.generateMapVarsFromEditorMapList = function(mapToProcess)
@@ -395,36 +469,8 @@ levelEditor = new function(){
 
 	}
 
-	//Inititalize things on first run, like buttons an such
-	this.init = function(mapImage){
-		this.mapImage = mapImage;
-
-		for (let i = 0; i < mapList.length; i++)
-		{
-			if(this.mapImage == mapList[i].name)
-			{
-				this.generateMapVarsFromEditorMapList(mapList[i]);
-				break;
-			}
-		}
-		this.message = 'Start by renaming the level and changing the offset!';
-
-		this.levelData = 
-		{
-			levelName: this.lvlName,
-			mapName: this.mapImage,
-			waveStartDelay: [],
-			gumAmounts: [],
-			startOffset: {x:0, y:0},
-			wave: []
-		}
-
-		for(i = 0; i < this.mapGumAltarPos.length; i++)
-		{
-			this.levelData.gumAmounts.push(0);
-		}
-
-		this.addNewWave();
+	this.generateMainButtons = function()
+	{
 
 		GenerateButton(this.buttonList, 5, 5+this.toolbarStartY, 115, 20, '#17c0eb',this.lvlName, 4, -2, 16, '#000000', 'lvlNameBTN', 'lvlEditorBTN');
 

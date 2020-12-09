@@ -10,22 +10,42 @@ const KEY_D = 68;
 
 var mouseX = 0;
 var mouseY = 0;
+var draggingMouse = false;
+var dragMouseX = 0;
+var dragMouseY = 0;
+var dragMouseDX = 0; // delta X (dist)
+var dragMouseDY = 0;
+
 
 function setupInput() {
 	canvas.addEventListener('mousemove', updateMousePos);
 	document.addEventListener("mousedown", mouseclicked);
+	document.addEventListener("mouseup", mouseUp);
 
 	document.addEventListener('keydown', keyPressed);
 	document.addEventListener('keyup', keyReleased);
 } 
 
-  function mouseclicked(evt) {
+function mouseUp(evt) {
+	switch (scene) {
+		case 'levelEditor':
+			draggingMouse = false; // this is a mouseDown event
+			break;
+	}
+    
+}
+
+
+function mouseclicked(evt) {
 	switch (scene) {
 		case 'mainMenu':
 			mainMenu.onMouseClicked();
 			break;
 		case 'levelEditor':
 			levelEditor.onMouseClicked();
+			draggingMouse = true; // this is a mouseDown event
+            dragMouseX = mouseX;
+			dragMouseY = mouseY;
 			break;
 	}
 	
@@ -47,21 +67,18 @@ function updateMousePos(evt) {
 
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
+
+	if (draggingMouse) {
+        dragMouseDX += mouseX - dragMouseX;
+    	dragMouseDY += mouseY - dragMouseY;
+    	dragMouseX = mouseX;
+    	dragMouseY = mouseY;
+    	//console.log("dragging mouse: "+mouseX+","+mouseY);
+    }
 }
 
 function keySet(keyEvent, setTo) {
-/*	if(keyEvent.keyCode == blueWarrior.controlKeyLeft) {
-		blueWarrior.keyHeld_West = setTo;
-	}
-	if(keyEvent.keyCode == blueWarrior.controlKeyRight) {
-		blueWarrior.keyHeld_East = setTo;
-	}
-	if(keyEvent.keyCode == blueWarrior.controlKeyUp) {
-		blueWarrior.keyHeld_North = setTo;
-	}
-	if(keyEvent.keyCode == blueWarrior.controlKeyDown) {
-		blueWarrior.keyHeld_South = setTo;
-	}*/
+
 }
 
 function keyPressed(evt) {

@@ -2,8 +2,8 @@ var enemyList =
 [
 
     {
-        type: 'turtle',
-        imgName: 'theUnderturtler',
+        type: 'turtle',//never change this or levels may break
+        LvlEditorImgName: 'theUnderturtler',//A single image of the enemy in a 48x48px image
         sprite: 'testEnemy1',
         isImgSideview: false,
         health: 18,
@@ -14,8 +14,8 @@ var enemyList =
     },
 
     {
-        type: 'ant',
-        imgName: 'ant',
+        type: 'ant',//never change this or levels may break
+        LvlEditorImgName: 'ant',//A single image of the enemy in a 48x48px image
         sprite: 'AntEnemy',
         isImgSideview: true,
         health: 10,
