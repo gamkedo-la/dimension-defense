@@ -124,6 +124,10 @@ class animate{
         
         if(sprite!=null)
         {
+            sprite.flipH=flipH; 
+            sprite.flipY=flipY;
+            //removed so we can flip the image back
+            /*
             //console.log("flipH:"+sprite.flipH+","+"flipY:"+sprite.flipY)
             if(flipH)
             {
@@ -134,6 +138,7 @@ class animate{
                 //console.log("flipY:"+sprite.flipY)
                 sprite.flipY=flipY;
             }
+            */
         }
     }
     

@@ -27,8 +27,9 @@ image = new function (){
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 
 		// enemies
-		{imgName: 'theUnderturtler', fileName: "enemyTurtle.png", type: 'enemy'},
-		{imgName: 'ant', fileName: "enemyAnt.png", type: 'enemy'},
+		{imgName: 'turtleSingle', fileName: "enemyTurtleSingle.png", type: 'enemy'},
+		{imgName: 'antSingle', fileName: "enemyAntSingle.png", type: 'enemy'},
+		{imgName: 'carSingle', fileName: "enemyCarSingle.png", type: 'enemy'},
 
 		// atlas for now, maybe animation strip will be better ,cas.
 		{imgName:'strip16',fileName:"strip16.png",type:'animation',animationInfo:{Row:1,Col:10,orient:"horizontal"}},
@@ -37,7 +38,8 @@ image = new function (){
 		//Loading animation sprites
 		{imgName:'testEnemy1',fileName:"enemyTurtleSprite.png",type:'animation'},
 		{imgName:'turtleEnemy',fileName:"enemyTurtleSprite.png",type:'animation'},
-		{imgName:'AntEnemy',fileName:"enemyAntSprite.png",type:'animation'}
+		{imgName:'AntEnemy',fileName:"enemyAntSprite.png",type:'animation'},
+		{imgName:'CarEnemy',fileName:"enemyCarSprite.png",type:'animation'}
 	];
 
 	//creating different lists upfront

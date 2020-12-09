@@ -27,7 +27,7 @@ animationInfo=
         flipH:false,
         flipY:false,        
         orient:"horizontal"
-        },
+    },
 
     'AntEnemy':{
         row:1,
@@ -37,6 +37,20 @@ animationInfo=
         maxFrame:4,
         startFrame:1,
         endFrame:4,
+        currentFrame:1,
+        flipH:false,
+        flipY:false,        
+        orient:"horizontal"
+    },
+
+    'CarEnemy':{
+        row:1,
+        col:3,
+        cell_W:48,
+        cell_H:48,
+        maxFrame:3,
+        startFrame:1,
+        endFrame:3,
         currentFrame:1,
         flipH:false,
         flipY:false,        

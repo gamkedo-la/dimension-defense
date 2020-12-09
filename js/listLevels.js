@@ -10,9 +10,39 @@ var levelList = [
             //wave 1 
             [
                 {
+                    enemyType: 'car',
+                    spawnOnPath: 0,
+                    amountToSpawn: 1,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'ant',
+                    spawnOnPath: 0,
+                    amountToSpawn: 1,
+                    delayBetweenSpawn: 2,
+                },
+                {
                     enemyType: 'turtle',
                     spawnOnPath: 0,
-                    amountToSpawn: 5,
+                    amountToSpawn: 1,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'car',
+                    spawnOnPath: 0,
+                    amountToSpawn: 1,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'ant',
+                    spawnOnPath: 0,
+                    amountToSpawn: 1,
+                    delayBetweenSpawn: 2,
+                },
+                {
+                    enemyType: 'turtle',
+                    spawnOnPath: 0,
+                    amountToSpawn: 1,
                     delayBetweenSpawn: 2,
                 },
             ],

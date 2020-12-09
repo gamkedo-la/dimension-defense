@@ -28,7 +28,7 @@ gameLoop = new function(){
 	this.towerList = [];
 	this.towerMenu;
 
-	this.coins = 500;
+	this.coins = 2000;
 
 	//move things here
 	this.move = function (){
