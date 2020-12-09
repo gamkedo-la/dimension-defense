@@ -84,6 +84,20 @@ function MissleTowerClass(){
 	this.drawMissiles = function() {
 		// draw all the missiles
 		let x,y,a,i;
+		
+		// draw their smoke trails
+		for(i = 0; i < this.projectileTrails.length; i++) {
+            ctx.globalAlpha = this.projectileTrails[i].a;
+			drawBitmapCenteredWithRotation(this.imageMissileTrail,this.projectileTrails[i].x,this.projectileTrails[i].y,this.projectileTrails[i].a*10);
+			this.projectileTrails[i].a -= 0.025;
+			if (this.projectileTrails[i].a<0) {
+				this.projectileTrails.splice(i,1); // one less iten in array // FIXME might be GC spammy here? need to test
+				i--; // so we don't skip the next index which just shifted over
+			}
+		}
+		ctx.globalAlpha = 1; // reset
+
+		// now draw the missiles themselves
 		for(i = 0; i < this.shotList.length; i++)
 		{
 			x = this.shotList[i].x + offsetX;
@@ -94,18 +108,6 @@ function MissleTowerClass(){
 			// occasionally remember smoke trail location
 			if (Math.random()<0.4) this.projectileTrails.push({x:x,y:y,a:1});
 		}
-		// draw their smoke trails
-		for(i = 0; i < this.projectileTrails.length; i++) {
-            ctx.globalAlpha = this.projectileTrails[i].a;
-			drawBitmapCenteredWithRotation(this.imageMissileTrail,this.projectileTrails[i].x,this.projectileTrails[i].y,this.projectileTrails[i].a*10);
-			this.projectileTrails[i].a -= 0.025;
-			if (this.projectileTrails[i].a<0) {
-				this.projectileTrails.splice(i,1); // one less iten in array // FIXME might be GC spammy here? need to test
-				i--; // so we don't skip the next index which just shifted over
-			}
-
-		}
-		ctx.globalAlpha = 1; // reset
 	}
 
 	//draw things here
