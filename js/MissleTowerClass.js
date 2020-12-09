@@ -120,7 +120,7 @@ function MissleTowerClass(){
 
 		// draw the part that rotates
 		// with a little fake AI (a wobble! =)
-		let angleWobble = degreesToRadian(Math.cos(performance.now()/555)*0.25);
+		let angleWobble = degreesToRadian(Math.cos(performance.now()/555)*4);
 		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);
 		
         this.drawMissiles();
