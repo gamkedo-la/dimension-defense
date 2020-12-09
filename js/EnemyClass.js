@@ -36,7 +36,11 @@ function EnemyClass(){
 
 	//move things here
 	this.move = function (){
-
+		if(this.isDead)
+		{
+			this.isDeadMove();
+			return;
+		}
 		this.indexX = returnIndexPosFromPixelPos(this.x);
 		this.indexY = returnIndexPosFromPixelPos(this.y);
 

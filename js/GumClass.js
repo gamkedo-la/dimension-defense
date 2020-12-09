@@ -32,7 +32,11 @@ function GumClass(){
 
 	//draw things here
 	this.draw = function(){
-
+		if(this.isDead)
+		{
+			return;
+		}
+		
 		drawImageWithAngle("gum1", this.x + offsetX, this.y + offsetY, 0);
 
 	}

@@ -28,12 +28,13 @@ gameLoop = new function(){
 	this.towerList = [];
 	this.towerMenu;
 
-	this.coins = 1000;
+	this.coins = 500;
 
 	//move things here
 	this.move = function (){
 		gameTimer++;
 		this.moveMapWithMouse();
+		this.constrainOffsetsToCanvas();
 
 		let remainingGums = 0;
 		for(let i = 0; i < this.gums.length; i++)
@@ -66,16 +67,12 @@ gameLoop = new function(){
 			this.towerList[i].move();
 		}
 
-
+		//Loop runs backwards to avoid skipping elements bug
 		for (let i = this.enemyList.length - 1; i >= 0; i--)
 		{
 			if(this.enemyList[i].canBeRemoved)		
 			{
 				this.enemyList.splice(i, 1);
-			}
-			else if (this.enemyList[i].isDead)
-			{
-				this.enemyList[i].isDeadMove();
 			}
 			else
 			{
@@ -104,11 +101,7 @@ gameLoop = new function(){
 
 		for(let i = 0; i < this.gums.length; i++)
 		{
-			if(!this.gums[i].isDead)
-			{
-				this.gums[i].draw();
-			}
-			
+			this.gums[i].draw();			
 		}
 
 		for (let i = 0; i < this.towerList.length; i++)
@@ -204,7 +197,9 @@ gameLoop = new function(){
 			offsetX = dragMouseDX;
 			offsetY = dragMouseDY;
 		}
-		
+	}
+
+	this.constrainOffsetsToCanvas =function(){
 		let img = image.get(this.mapName);
 		if (offsetX > 0) {
 			offsetX = 0;
@@ -218,7 +213,6 @@ gameLoop = new function(){
 		if (offsetY < canvas.height - img.height) {
 			offsetY = canvas.height - img.height;
 		}
-
 	}
 
 	this.spawnTower = function(atIndexX, atIndexY, towerType)
