@@ -14,7 +14,9 @@ function MissleTowerClass(){
 	this.imageBase = "MissileTowerBase";
 	this.imageProjectile = "Missile";
 	this.imageMuzzleFlash = "MuzzleFlash";
+	this.imageMissileTrail = "MissileTrail";
 	this.muzzleFlashAlpha = 0;
+	this.projectileTrails = []; // many [x,y,alpha]
 
 	this.level = 0;
 	this.price = [200, 300]
@@ -79,6 +81,33 @@ function MissleTowerClass(){
 	}
 
 
+	this.drawMissiles = function() {
+		// draw all the missiles
+		let x,y,a,i;
+		for(i = 0; i < this.shotList.length; i++)
+		{
+			x = this.shotList[i].x + offsetX;
+			y = this.shotList[i].y + offsetY;
+			a = this.shotList[i].angle;
+            // render the missile
+			drawBitmapCenteredWithRotation(this.imageProjectile,x,y,a);
+			// occasionally remember smoke trail location
+			if (Math.random()<0.4) this.projectileTrails.push({x:x,y:y,a:1});
+		}
+		// draw their smoke trails
+		for(i = 0; i < this.projectileTrails.length; i++) {
+            ctx.globalAlpha = this.projectileTrails[i].a;
+			drawBitmapCenteredWithRotation(this.imageMissileTrail,this.projectileTrails[i].x,this.projectileTrails[i].y,this.projectileTrails[i].a*10);
+			this.projectileTrails[i].a -= 0.025;
+			if (this.projectileTrails[i].a<0) {
+				this.projectileTrails.splice(i,1); // one less iten in array // FIXME might be GC spammy here? need to test
+				i--; // so we don't skip the next index which just shifted over
+			}
+
+		}
+		ctx.globalAlpha = 1; // reset
+	}
+
 	//draw things here
 	this.draw = function(){
 
@@ -91,16 +120,8 @@ function MissleTowerClass(){
 		// with a little fake AI (a wobble! =)
 		let angleWobble = degreesToRadian(Math.cos(performance.now()/555)*0.25);
 		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);
-		// draw all the missiles
-		for(let i = 0; i < this.shotList.length; i++)
-		{
-    		drawBitmapCenteredWithRotation(
-    		    this.imageProjectile, 
-    		    this.shotList[i].x + offsetX, 
-    		    this.shotList[i].y + offsetY, 
-    		    this.shotList[i].angle + angleWobble
-    		);
-		}
+		
+        this.drawMissiles();
 
 		// we may have just fired a shot! draw some fx
 		if (this.muzzleFlashAlpha>0) {
