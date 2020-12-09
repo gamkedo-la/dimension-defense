@@ -10,12 +10,10 @@ image = new function (){
 		{imgName: 'toyCarMap', fileName: "toyCarMap.png", type: 'gameMap'},
 		{imgName: 'blocksMap', fileName: 'blocksMap.png', type: 'gameMap'},
 
-		{imgName: 'gunTower', fileName: "gunTower.png", type: 'tower'},
 		{imgName: 'gunTowerL1', fileName: "towerGun-1.png", type: 'tower'},
 		{imgName: 'gunTowerL2', fileName: "towerGun-2.png", type: 'tower'},
 		{imgName: 'gunTowerL3', fileName: "towerGun-3.png", type: 'tower'},
 		
-		{imgName: 'slowTower', fileName: "slowTower.png", type: 'tower'},
 		{imgName: 'slowTowerL1', fileName: "TowerSlow-1.png", type: 'tower'},
 		{imgName: 'slowTowerL2', fileName: "TowerSlow-2.png", type: 'tower'},
 		{imgName: 'slowTowerL3', fileName: "TowerSlow-3.png", type: 'tower'},
@@ -38,6 +36,7 @@ image = new function (){
 		
 		//Loading animation sprites
 		{imgName:'testEnemy1',fileName:"enemyTurtleSprite.png",type:'animation'},
+		{imgName:'turtleEnemy',fileName:"enemyTurtleSprite.png",type:'animation'},
 		{imgName:'AntEnemy',fileName:"enemyAntSprite.png",type:'animation'}
 	];
 

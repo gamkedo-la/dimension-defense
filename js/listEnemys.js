@@ -4,10 +4,10 @@ var enemyList =
     {
         type: 'turtle',//never change this or levels may break
         LvlEditorImgName: 'theUnderturtler',//A single image of the enemy in a 48x48px image
-        sprite: 'testEnemy1',
+        sprite: 'turtleEnemy',
         isImgSideview: false,
         health: 18,
-        speed: 2,
+        speed: 1.5,
         coins: 30,
         r: 15, //collisionbox
         ability: ['immuneToSlowdown']     
