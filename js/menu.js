@@ -13,8 +13,15 @@ const Menu = new (function () {
     "help",
   ];
 
+  let optionsMenuList = [
+    "sound",
+    "msuic",
+    "control",
+  ];
+
   let menuText = [
     pausMenuList,
+    optionsMenuList
   ];
  
   this.draw = function () {
@@ -34,11 +41,11 @@ const Menu = new (function () {
     this.menuMouse();
     // Position arrow at last option on screen
     if (this.cursor < 0) {
-      this.cursor = pausMenuList[current].length - 1;
+      this.cursor = menuText[current].length - 1;
     }
 
     // Position arrow at first option on screen
-    if (this.cursor >= pausMenuList[current].length) {
+    if (this.cursor >= menuText[current].length) {
       this.cursor = 0;
     }
   }
@@ -47,12 +54,20 @@ const Menu = new (function () {
 	{
     const selectedItemOnPage = menuText[current][this.cursor];
     for (let i = 0; i < menuText[current].length; i++){
+      //console.log(menuText[current][i]);
       if (selectedItemOnPage === menuText[current][i].toString()) {
-				switch(this.menuText[i])
+				switch(selectedItemOnPage)
 				{
-					case 'restart':
+					case "restart":
             location.reload();
             break;
+          case 'help':
+
+            break;
+          case 'Options':
+            break;
+              default:
+                console.log("default");
         }
     }
   }

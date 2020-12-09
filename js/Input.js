@@ -47,7 +47,10 @@ function mouseclicked(evt) {
             draggingMouse = true; // this is a mouseDown event
             dragMouseX = mouseX;
 			dragMouseY = mouseY;
-		
+			break;
+
+			case 'subMenu':
+			Menu.mouseClicked();
 			break;
 	}
 	
