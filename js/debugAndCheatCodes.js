@@ -4,14 +4,14 @@ var cheatBuffer = "";
 /*
 INFO: copy the whole "cheat ={...}" part and insert your own stuff in the cheatList array.
 
-code: The cheatcode, must be all lowercase! Uppercase is reserved for special keys.
+code: The cheatcode, must be all lowercase!
 active: Tells if the cheatcode is enabled or disabled. Action will not run if disabled. Takes true or false.
 action: Runs the code when a cheat gets activated.
 
-(Special keys: U = ArrowUp; D = ArrowDown; L = ArrowLeft; R = ArrowRight)
+(Special keys: ^ = ArrowUp; _ = ArrowDown; < = ArrowLeft; > = ArrowRight)
 */
 
-function cheats(key, isSingleKeyRun) {
+function cheats(key) {
 
 let isDebugModeON = true;
 
@@ -19,7 +19,7 @@ let isDebugModeON = true;
 let cheatList = [
 	cheat = 
 	{
-		code: '1',
+		code: '^_<>',
 		active: isDebugModeON,
 		action: function() {
 			gameLoop.init('lvlPencil');
@@ -35,7 +35,7 @@ let cheatList = [
 	},
 	cheat = 
 	{
-		code: '3',
+		code: '22',
 		active: isDebugModeON,
 		action: function() {
 			gameLoop.init('lvlBlocks');
@@ -57,7 +57,7 @@ let cheatList = [
 //
 	let mightMatchCode = 0; //counts possible solutions
 	let keyBuffer = "";
-	
+
 	// Turn inputs to lowercase and special case buttons to uppercase letters
 	if(key.length === 1) 
 	{
@@ -66,21 +66,19 @@ let cheatList = [
 		switch(key)
 		{
 			case "ArrowUp":
-				keyBuffer = "U";
+				keyBuffer = "^";
 				break;
 			case "ArrowDown":
-				keyBuffer = "D";
+				keyBuffer = "_";
 				break;
 			case "ArrowLeft":
-				keyBuffer = "L";
+				keyBuffer = "<";
 				break;
 			case "ArrowRight":
-				keyBuffer = "R";
+				keyBuffer = ">";
 				break;		
 		}
 	}
-	
-
 	
 	if(keyBuffer != "") {
 		//add the pressed key to the current buffer string
@@ -105,13 +103,13 @@ let cheatList = [
 				}
 			}
 		});
-
+		
 		//Reset complete string if nothing has matched.
 		//We keep the last string in the cheatbuffer in case of crosstyping.
 		if (mightMatchCode == 0 && keyBuffer.length == 1 && keyBuffer != " " && cheatBuffer.length > 1) {
 			cheatBuffer = "";
 			//We run this to see if it was a single letter cheatCode
-			cheats(keyBuffer,true);
+			cheats(keyBuffer);
 		}
 	}
 }
