@@ -89,23 +89,16 @@ function MissleTowerClass(){
 
 		// draw the part that rotates
 		// with a little fake AI (a wobble! =)
-		var angleWobble = Math.cos(performance.now()/555)*0.25;
+		let angleWobble = degreesToRadian(Math.cos(performance.now()/555)*0.25);
 		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);
-
 		// draw all the missiles
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			//colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
-    		
     		drawBitmapCenteredWithRotation(
     		    this.imageProjectile, 
     		    this.shotList[i].x + offsetX, 
     		    this.shotList[i].y + offsetY, 
-                // FIXME: the missile angle seems wrong.. need to change to radians or something maybe
-    		    //this.shotList[i].r
-                // cheap hack solution: copy the turret angle lol
-                 this.angle+angleWobble
-                 // lol the true solution is to calc the ang based on missile velocity
+    		    this.shotList[i].angle + angleWobble
     		);
 		}
 
