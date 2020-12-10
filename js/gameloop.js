@@ -30,6 +30,9 @@ gameLoop = new function(){
 
 	this.coins = 2000;
 
+	//id for coin animation
+	this.id=null;
+
 	//move things here
 	this.move = function (){
 		gameTimer++;
@@ -110,7 +113,10 @@ gameLoop = new function(){
 		}
 
 		colorRect(20,10, 130, 30, "white");
-		animationSystem.sprite_update(2,{X: 50,Y: 50});
+
+		//call the draw_anim_loop function
+		animationSystem.draw_anim_loop(this.id, 5);
+		
 		colorText(this.coins, 25, 30, 20, "black");
 
 		this.drawTowerPlaceableIndicator();
@@ -361,13 +367,18 @@ gameLoop = new function(){
 	//Inititalize
 	this.init = function(levelName)
 	{
-		animationsystem.register("UI_Coin",1,{X:50,Y:50});
+		
 		this.resetGame();
 
+		//Registers the id.
+		this.id=animationSystem.register("UI_Coin",4,{X:50,Y:50});
 		for (let i = 0; i < levelList.length; i++)
 		{
 			if(levelName == levelList[i].levelName)
 			{
+				
+				
+				
 				this.generateWaveVarsFromlevelList(levelList[i]);
 				this.mapName = levelList[i].mapName;
 				break;

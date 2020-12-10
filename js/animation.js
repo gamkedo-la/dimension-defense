@@ -44,12 +44,13 @@ class animate{
         {
             this.animatedlist.push(obj);
             return this.entities;
-        }      
+        }    
     }
 
 
     sprite_update(id,pos_object)
     {
+        //console.log(this.animatedlist);
         let sprite=this.animatedlist[id-1]
         
         if(sprite!=null)
