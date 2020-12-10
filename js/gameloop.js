@@ -361,6 +361,7 @@ gameLoop = new function(){
 	//Inititalize
 	this.init = function(levelName)
 	{
+		animationsystem.register("UI_Coin",1,{X:50,Y:50});
 		this.resetGame();
 
 		for (let i = 0; i < levelList.length; i++)
