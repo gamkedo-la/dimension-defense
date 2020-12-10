@@ -56,7 +56,21 @@ animationInfo=
         flipY:false,        
         orient:"horizontal"
     },
-
+	
+	'UI_Coin':{
+    row:1,
+    col:4,
+    cell_W:50,
+    cell_H:50,
+    maxFrame:4,
+    startFrame:1,
+    endFrame:4,
+    currentFrame:1,
+    flipH:false,
+    flipY:false,        
+    orient:"horizontal"
+    },
+	
     'multiState':{
         row:10,
         col:10,
@@ -83,6 +97,7 @@ animationInfo=
             "strip9":9,
             "strip10":10
         }
+		
 
     },
 

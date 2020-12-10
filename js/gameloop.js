@@ -110,7 +110,8 @@ gameLoop = new function(){
 		}
 
 		colorRect(20,10, 130, 30, "white");
-		colorText("Coins: " + this.coins, 25, 30, 20, "black");
+		animationSystem.sprite_update(2,{X: 50,Y: 50});
+		colorText(this.coins, 25, 30, 20, "black");
 
 		this.drawTowerPlaceableIndicator();
 

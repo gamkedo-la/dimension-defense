@@ -39,7 +39,8 @@ image = new function (){
 		{imgName:'testEnemy1',fileName:"enemyTurtleSprite.png",type:'animation'},
 		{imgName:'turtleEnemy',fileName:"enemyTurtleSprite.png",type:'animation'},
 		{imgName:'AntEnemy',fileName:"enemyAntSprite.png",type:'animation'},
-		{imgName:'CarEnemy',fileName:"enemyCarSprite.png",type:'animation'}
+		{imgName:'CarEnemy',fileName:"enemyCarSprite.png",type:'animation'},
+		{imgName:'UI_Coin',fileName:"Coin.png",type:'animation'},
 	];
 
 	//creating different lists upfront
