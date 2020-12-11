@@ -50,28 +50,7 @@ const Menu = new (function () {
     }
   }
 
-  this.mouseClicked = function()
-	{
-    const selectedItemOnPage = menuText[current][this.cursor];
-    for (let i = 0; i < menuText[current].length; i++){
-      //console.log(menuText[current][i]);
-      if (selectedItemOnPage === menuText[current][i].toString()) {
-				switch(selectedItemOnPage)
-				{
-					case "restart":
-            location.reload();
-            break;
-          case 'help':
-
-            break;
-          case 'Options':
-            break;
-              default:
-                console.log("default");
-        }
-    }
-  }
-}
+  
 
   this.checkState = function() {
     const selectedItemOnPage = menuText[current][this.cursor];
@@ -85,7 +64,28 @@ const Menu = new (function () {
             60,
             "#00ffAA"
           );
-      } 
+      }
+      this.mouseClicked = function()
+	  {
+    for (let i = 0; i < menuText[current].length; i++){
+      if (selectedItemOnPage === menuText[current][i].toString()) {
+        switch(selectedItemOnPage)
+				{
+					case "restart":
+            location.reload();
+            break;
+          case 'help':
+
+            break;
+          case 'Options':
+            break;
+              default:
+                console.log("default");
+        }
+
+    }
+  }
+}
       drawImageWithAngle("gum1", itemsX , topItemY + this.cursor * rowHeight - 30 , 90);
     }
     this.cursor = 0;
