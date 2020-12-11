@@ -1,10 +1,10 @@
 
 
-var musicVolume = 0.7;
-var effectsVolume = 0.7;
+var musicVolume = 0.75;
+var effectsVolume = 0.75;
 var isMuted = false;
 var firstGesture = false;
-const VOLUME_INCREMENT = 0.0333;
+const VOLUME_INCREMENT = 0.25;
 
 
 //define sounds
@@ -282,7 +282,7 @@ function setMusicVolume(amount) {
 	} else if (musicVolume < 0.0) {
 		musicVolume = 0.0;
 	}
-	backgroundMusic.setVolume(musicVolume);
+	//backgroundMusic.setVolume(musicVolume);
 }
 
 function turnMusicVolumeUp() {
@@ -316,8 +316,10 @@ function setVolume(amount) {
 }
 
 function turnVolumeUp() {
+	var effectsVolumeWas = effectsVolume;
 	turnMusicVolumeUp();
 	turnEffectsVolumeUp();
+	return effectsVolumeWas != effectsVolume;// true if volume was able to change
 }
 
 function turnVolumeDown() {

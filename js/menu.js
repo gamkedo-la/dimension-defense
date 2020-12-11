@@ -8,20 +8,13 @@ const Menu = new (function () {
   let rowHeight = 40;
 
   let pausMenuList = [
-    "Options",
+    "volume",
     "restart",
     "help",
   ];
 
-  let optionsMenuList = [
-    "sound",
-    "msuic",
-    "control",
-  ];
-
   let menuText = [
     pausMenuList,
-    optionsMenuList
   ];
  
   this.draw = function () {
@@ -34,6 +27,15 @@ const Menu = new (function () {
           60,
           "white"
         );
+        if (menuText[current][i] == 'volume' ) {
+          colorTextBold(
+            Math.floor(effectsVolume * 100) +  "%" ,
+            itemsX + itemsWidth + 10,
+            topItemY + rowHeight * i,
+            60,
+            "white"
+          );
+        }
     }
   }
 
@@ -77,10 +79,14 @@ const Menu = new (function () {
           case 'help':
 
             break;
-          case 'Options':
+          case 'volume':
+            if (turnVolumeUp() == false) {
+              setVolume(0);
+            }
             break;
-              default:
-                console.log("default");
+          default:
+            console.log("unhandeled menu item");
+            break;
         }
 
     }
