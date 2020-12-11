@@ -18,7 +18,7 @@ gameLoop = new function(){
 	this.mapStartPos = [];
 	this.mapGoalPos = [];
 	this.mapGumAltarPos = [];
-
+	this.lostTimerFrames = 0;
 	this.gums = [];
 	this.currentWave;
 	this.waveSubCounter;
@@ -35,6 +35,10 @@ gameLoop = new function(){
 
 	//move things here
 	this.move = function (){
+		if (this.lostTimerFrames > 0){
+			this.lostTimerFrames++;
+			return;
+		}
 		gameTimer++;
 		this.moveMapWithMouse();
 		this.constrainOffsetsToCanvas();
@@ -51,6 +55,7 @@ gameLoop = new function(){
 
 		if(remainingGums == 0)
 		{
+			this.lostTimerFrames = 1;
 			console.log("Game Over, you lost all your gum!");
 			// Insert code for lose screen call here
 			return;
@@ -120,11 +125,23 @@ gameLoop = new function(){
 		colorText(this.coins, 55, 45, 50, "black");
 
 		this.drawTowerPlaceableIndicator();
+		if (this.lostTimerFrames > 0){
+			this.towerMenu = false;
+			let loseBoxW = 400; 
+			let loseBoxH = 300; 
+			colorRectWithAlpha( canvas.width/2 - loseBoxW/2, canvas.height/2 - loseBoxH/2, loseBoxW, loseBoxH, 'red', 0.7);
+			let textAlignWas = ctx.textAlign;
+			ctx.textAlign = "center";
+			colorText("YOU LOST", canvas.width/2, canvas.height/2, 50, "black");
+			colorText("CLICK TO TRY AGAIN", canvas.width/2, canvas.height/2 + 80, 20, "black");
+			ctx.textAlign = textAlignWas;
+		}
 
 		if(this.towerMenu.isActive)
 		{
 			this.towerMenu.draw();
 		}
+
 
 	}
 
@@ -164,7 +181,10 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
-
+		if(this.lostTimerFrames > 0){
+			location.reload();
+			return;
+		}
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
@@ -420,7 +440,7 @@ gameLoop = new function(){
 		this.mapStartPos = [];
 		this.mapGoalPos = [];
 		this.mapGumAltarPos = [];
-
+		this.lostTimerFrames = 0;
 		this.gums = [];
 		this.currentWave = 0;
 		this.waveSubCounter = 0;
