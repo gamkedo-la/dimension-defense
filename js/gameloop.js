@@ -18,8 +18,9 @@ gameLoop = new function(){
 	this.mapStartPos = [];
 	this.mapGoalPos = [];
 	this.mapGumAltarPos = [];
-	this.lostTimerFrames = 0;
+	this.isGameOver = false;
 	this.gums = [];
+	this.remainingGums = 0;
 	this.currentWave;
 	this.waveSubCounter;
 	this.noMoreWaves;
@@ -27,6 +28,7 @@ gameLoop = new function(){
 	this.enemyList = [];
 	this.towerList = [];
 	this.towerMenu;
+	this.gameOverScreen = new GameOverScreen();
 
 	this.coins = 2000;
 
@@ -35,36 +37,38 @@ gameLoop = new function(){
 
 	//move things here
 	this.move = function (){
-		if (this.lostTimerFrames > 0){
-			this.lostTimerFrames++;
+		if (this.isGameOver){
 			return;
 		}
 		gameTimer++;
 		this.moveMapWithMouse();
 		this.constrainOffsetsToCanvas();
 
-		let remainingGums = 0;
+		this.remainingGums = 0;
 		for(let i = 0; i < this.gums.length; i++)
 		{
 			if(!this.gums[i].isDead)
 			{
 				this.gums[i].move();
-				remainingGums++;
+				this.remainingGums++;
 			}
 		}
 
-		if(remainingGums == 0)
+		if(this.remainingGums == 0)
 		{
-			this.lostTimerFrames = 1;
+			this.isGameOver = true;
 			console.log("Game Over, you lost all your gum!");
 			// Insert code for lose screen call here
+			this.towerMenu = false;
 			return;
 		}
 
 		if(this.enemyList.length == 0 && this.noMoreWaves)
 		{
+			this.isGameOver = true;
 			console.log("You won");
 			//Insert code for win screen call here
+			this.towerMenu = false;
 			return;
 		}
 
@@ -123,26 +127,16 @@ gameLoop = new function(){
 		animationSystem.draw_anim_loop(this.id, 2);
 		
 		colorText(this.coins, 55, 45, 50, "black");
-
+		
 		this.drawTowerPlaceableIndicator();
-		if (this.lostTimerFrames > 0){
-			this.towerMenu = false;
-			let loseBoxW = 400; 
-			let loseBoxH = 300; 
-			colorRectWithAlpha( canvas.width/2 - loseBoxW/2, canvas.height/2 - loseBoxH/2, loseBoxW, loseBoxH, 'red', 0.7);
-			let textAlignWas = ctx.textAlign;
-			ctx.textAlign = "center";
-			colorText("YOU LOST", canvas.width/2, canvas.height/2, 50, "black");
-			colorText("CLICK TO TRY AGAIN", canvas.width/2, canvas.height/2 + 80, 20, "black");
-			ctx.textAlign = textAlignWas;
-		}
 
+		let hasWon = this.remainingGums != 0 && this.enemyList.length == 0 && this.noMoreWaves;
+		this.gameOverScreen.draw(this.isGameOver, hasWon);
+		
 		if(this.towerMenu.isActive)
 		{
 			this.towerMenu.draw();
 		}
-
-
 	}
 
 	this.towerPlaceableIndicatorRadius = 11;
@@ -181,7 +175,7 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
-		if(this.lostTimerFrames > 0){
+		if(this.isGameOver){
 			location.reload();
 			return;
 		}
@@ -440,8 +434,9 @@ gameLoop = new function(){
 		this.mapStartPos = [];
 		this.mapGoalPos = [];
 		this.mapGumAltarPos = [];
-		this.lostTimerFrames = 0;
+		this.isGameOver = false;		
 		this.gums = [];
+		this.remainingGums = 0;
 		this.currentWave = 0;
 		this.waveSubCounter = 0;
 		this.noMoreWaves = false;
