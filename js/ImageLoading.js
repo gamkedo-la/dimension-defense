@@ -18,6 +18,14 @@ image = new function (){
 		{imgName: 'slowTowerL2', fileName: "TowerSlow-2.png", type: 'tower'},
 		{imgName: 'slowTowerL3', fileName: "TowerSlow-3.png", type: 'tower'},
 
+		{imgName: 'ElectricTowerL1P', fileName: "ElectricTower-1.png", type: 'tower'},
+		{imgName: 'ElectricTowerL1A', fileName: "ElectricTower-2.png", type: 'tower'},
+		{imgName: 'ElectricTowerL2P', fileName: "ElectricTower-3.png", type: 'tower'},
+		{imgName: 'ElectricTowerL2A', fileName: "ElectricTower-4.png", type: 'tower'},
+		{imgName: 'ElectricTowerL3P', fileName: "ElectricTower-5.png", type: 'tower'},
+		{imgName: 'ElectricTowerL3A', fileName: "ElectricTower-6.png", type: 'tower'},
+
+
 		{imgName: 'MissileTowerBase', fileName: "MissileTowerBase.png", type: 'tower'},
 		{imgName: 'MissileTowerTurret', fileName: "MissileTowerTurret.png", type: 'tower'},
 		{imgName: 'Missile', fileName: "Missile.png", type: 'tower'},

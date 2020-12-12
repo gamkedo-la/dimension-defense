@@ -31,6 +31,7 @@ function EnemyClass(){
 
 	//Abilities
 	this.immuneToSlowdown = false;
+	this.speedUpWhenElectrecuted = false;
 
 	this.spriteID;  //1.this variable is used to tell the animationSystem which object it is.
 
@@ -83,7 +84,7 @@ function EnemyClass(){
 			animationSystem.flipSprite(this.spriteID,false,false);
 		}
 
-		//reset the slowdown effect
+		//reset the speed effect
 		this.speed = this.defaultSpeed;
 
 	}
@@ -140,6 +141,9 @@ function EnemyClass(){
 						case 'immuneToSlowdown':
 							this.immuneToSlowdown = true;
 							break;
+						case 'speedUpWhenElectrecuted':
+							this.speedUpWhenElectrecuted = true;
+							break;
 					}
 				}
 				break;
@@ -179,6 +183,19 @@ function EnemyClass(){
 			gameLoop.addCoins(this.coins);
 			animationSystem.destroyEntity(this.id)
 
+		}
+	}
+
+	this.getElectrecuted = function(damageAmount, hitRate)
+	{
+		if(this.speedUpWhenElectrecuted)
+		{
+			this.speed += 2;
+		}
+
+		if(gameTimer % hitRate == 0)
+		{
+			this.takeHit(damageAmount);
 		}
 	}
 

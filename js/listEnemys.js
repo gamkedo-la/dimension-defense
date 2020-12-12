@@ -34,7 +34,7 @@ var enemyList =
         speed: 4,
         coins: 30,
         r: 15, //collisionbox
-        ability: []     
+        ability: ['speedUpWhenElectrecuted']     
     },
 
 ];

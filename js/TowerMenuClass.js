@@ -29,7 +29,8 @@ function TowerMenuClass(){
 	this.towerList = [
 		"gunTower",
 		"slowdownTower",
-		"missleTower"
+		"missleTower",
+		"electroTower"
 	]
 	
 	this.move = function (){
@@ -66,7 +67,7 @@ function TowerMenuClass(){
 				if(this.isUpgradeMenu)
 				{
 					//Upgrade Menu
-					if(gameLoop.coins - this.btnList[i].price < 0 && this.btnList[i].type == 'upgrade')
+					if(gameLoop.coins - this.btnList[i].price < 0 || this.btnList[i].type == 'sell')
 					{
 						colorText(this.btnList[i].price + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
 						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
@@ -120,6 +121,10 @@ function TowerMenuClass(){
 					this.btnList[i].txt = "Missle Tower";
 					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
 					break;
+				case "electroTower":
+					this.btnList[i].txt = "Electro Tower";
+					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
+					break;
 			}
 		
 		}
@@ -138,8 +143,8 @@ function TowerMenuClass(){
 		for(let i = 0; i < gameLoop.towerList[towerIndex].level - 1; i++)
 		{
 			sellprice += gameLoop.towerList[towerIndex].price[i];
+			
 		}
-
 		sellprice = sellprice/2;
 
 		if(gameLoop.towerList[towerIndex].isUpgradeable())

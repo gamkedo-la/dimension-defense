@@ -249,6 +249,9 @@ gameLoop = new function(){
 			case "missleTower":
 				newTower = new MissleTowerClass();
 				break;
+			case "electroTower":
+				newTower = new ElectricTowerClass();
+				break;
 		}
 		newTower.init(atIndexX, atIndexY);
 		this.towerList.push(newTower);
@@ -279,6 +282,8 @@ gameLoop = new function(){
 			case "slowdownTower":
 				return 100;
 			case "missleTower":
+				return 250;
+			case "electroTower":
 				return 150;
 		}			
 	}
