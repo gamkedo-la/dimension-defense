@@ -1,6 +1,6 @@
 var canvas;
 var ctx;
-var scene = 'game';
+var scene = 'mainMenu';
 gameIsPaused = false;
 pauseMenu = false;
 
@@ -56,6 +56,10 @@ function updateAll() {
 			gameLoop.move();
 			gameLoop.draw();
 			animationSystem.update();
+			break;
+		case 'mainMenu':
+			MainMenu.draw();
+			MainMenu.update();
 			break;
 
 		case 'pause':

@@ -49,8 +49,11 @@ function mouseclicked(evt) {
 			dragMouseY = mouseY;
 			break;
 
-			case 'pauseMenu':
+		case 'pauseMenu':
 			PauseMenu.mouseClicked();
+			break;
+		case 'mainMenu':
+			MainMenu.mouseClicked();
 			break;
 	}
 	
