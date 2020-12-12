@@ -64,7 +64,7 @@ function MissleTowerClass(){
 				this.shotList.splice(i, 1);
 			} else {
 				this.shotList[i].angle = getAngleBetween2PointsInRadian(this.shotList[i].x, this.shotList[i].y, 
-					gameLoop.enemyList[this.shotList[i].enemyID].x, gameLoop.enemyList[this.shotList[i].enemyID].y);
+				gameLoop.enemyList[this.shotList[i].enemyID].x, gameLoop.enemyList[this.shotList[i].enemyID].y);
 
 				this.shotList[i].x += Math.cos(this.shotList[i].angle) * this.shotList[i].speed;
 				this.shotList[i].y += Math.sin(this.shotList[i].angle) * this.shotList[i].speed;

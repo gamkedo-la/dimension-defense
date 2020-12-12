@@ -58,8 +58,8 @@ function updateAll() {
 			animationSystem.update();
 			break;
 		case 'mainMenu':
+            MainMenu.move();
 			MainMenu.draw();
-			MainMenu.update();
 			break;
 
 		case 'pause':
@@ -70,8 +70,8 @@ function updateAll() {
 
 		case 'pauseMenu':
 			gameLoop.draw();
-			PauseMenu.draw();
-			PauseMenu.update();
+            PauseMenu.move();
+			PauseMenu.draw();			
 			break;
 
 	}

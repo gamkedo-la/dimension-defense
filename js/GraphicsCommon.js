@@ -7,6 +7,15 @@ function drawBitmapCenteredWithRotation(imgName, atX,atY, withAng) {
 	ctx.restore();
 }
 
+function drawBitmapCenteredWithRotationAndScale(imgName, atX,atY, withAng, scale) {
+	ctx.save();
+	ctx.translate(atX, atY);
+    ctx.scale(scale,scale);
+	ctx.rotate(withAng);
+	ctx.drawImage(image.get(imgName), -image.get(imgName).width/2, -image.get(imgName).height/2);
+	ctx.restore();
+}
+
 function drawImageWithAngle(imgName, atX,atY, atAngel) {
 	ctx.save();
 	ctx.translate(atX, atY);
