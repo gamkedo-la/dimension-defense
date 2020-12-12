@@ -1,4 +1,4 @@
-const Menu = new (function () {
+const PauseMenu = new (function () {
   let current = 0;
   let cursor = 0;
 
