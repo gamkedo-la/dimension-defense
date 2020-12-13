@@ -176,7 +176,7 @@ gameLoop = new function(){
 	this.onMouseClicked = function()
 	{
 		if(this.isGameOver){
-			location.reload();
+			MainMenu.mouseClickedPlayMenu();
 			return;
 		}
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);

@@ -76,7 +76,7 @@ const PauseMenu = new (function () {
         switch(selectedItemOnPage)
 				{
 					case "restart":
-            location.reload();
+            MainMenu.mouseClickedPlayMenu();
             break;
           case 'resume':
           StopGame();
