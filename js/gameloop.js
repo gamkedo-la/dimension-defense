@@ -28,9 +28,10 @@ gameLoop = new function(){
 	this.enemyList = [];
 	this.towerList = [];
 	this.towerMenu;
+    this.levelName;
 	this.gameOverScreen = new GameOverScreen();
 
-	this.coins = 2000;
+	this.coins;
 
 	//id for coin animation
 	this.id=null;
@@ -141,8 +142,11 @@ gameLoop = new function(){
 
 	this.towerPlaceableIndicatorRadius = 11;
 	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
-	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.49)
+	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3)
 	{
+        //pause menu fix
+        if(scene !== "game"){return};
+        
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
@@ -395,11 +399,9 @@ gameLoop = new function(){
 		{
 			if(levelName == levelList[i].levelName)
 			{
-				
-				
-				
 				this.generateWaveVarsFromlevelList(levelList[i]);
 				this.mapName = levelList[i].mapName;
+                this.levelName = levelList[i].levelName;
 				break;
 			}
 		}
@@ -448,6 +450,7 @@ gameLoop = new function(){
 		this.waveList = [];
 		this.enemyList = [];
 		this.towerList = [];
+        this.coins = 2000;
 
 		this.towerMenu = new TowerMenuClass();
 		animationSystem.resetList()

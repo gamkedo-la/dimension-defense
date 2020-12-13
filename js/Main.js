@@ -52,7 +52,6 @@ function updateAll() {
             MainMenu.move();
 			MainMenu.draw();
 			break;
-
 		case 'pauseMenu':
 			gameLoop.draw();
 			PauseMenu.draw();
