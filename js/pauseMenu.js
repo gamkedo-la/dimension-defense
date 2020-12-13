@@ -8,9 +8,10 @@ const PauseMenu = new (function () {
   let rowHeight = 40;
 
   let pausMenuList = [
+    "resume",
     "volume",
     "restart",
-    "help",
+    "help"
   ];
 
   let menuText = [
@@ -19,6 +20,7 @@ const PauseMenu = new (function () {
  
   this.draw = function () {
       for (let i = 0; i < menuText[current].length; i++) {
+        rectBorderOnly(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 39, 3, '#ffff00');
         colorRectWithAlpha(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 39, '#00ff0f', 0.85);
         colorTextBold(
           menuText[current][i],
@@ -76,9 +78,12 @@ const PauseMenu = new (function () {
 					case "restart":
             location.reload();
             break;
-          case 'help':
-
+          case 'resume':
+          StopGame();
             break;
+            case 'help':
+
+              break;
           case 'volume':
             if (turnVolumeUp() == false) {
               setVolume(0);

@@ -32,20 +32,11 @@ function StartGame() {
 function StopGame() {
 	if (!gameIsPaused) {
 			gameIsPaused = true;
-			this.scene = 'pause';
+			this.scene = 'pauseMenu';
 	} else if (gameIsPaused) {
 			gameIsPaused = false;
 			this.scene = 'game';
 	}
-}
-
-function showMenu() {
-	if (!pauseMenu) {
-		pauseMenu = true;
-		this.scene = 'pauseMenu';
-	} else if (pauseMenu) {
-		pauseMenu = false;
-		this.scene = 'game';}
 }
 
 function updateAll() {
@@ -62,16 +53,10 @@ function updateAll() {
 			MainMenu.draw();
 			break;
 
-		case 'pause':
-			gameLoop.draw();
-			animationSystem.update();
-			colorText("PAUSE", canvas.width/3, canvas.height/2, 70, 'red');
-			break;
-
 		case 'pauseMenu':
 			gameLoop.draw();
-            PauseMenu.move();
-			PauseMenu.draw();			
+			PauseMenu.draw();
+			PauseMenu.update();
 			break;
 
 	}

@@ -100,11 +100,8 @@ function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
 	keySet(evt, true);
 
-	if (evt.keyCode == KEY_P) {
+	if (evt.keyCode == KEY_P || KEY_ESC) {
 		StopGame();
-	}
-	if(evt.keyCode == KEY_ESC) {
-		showMenu();
 	}
 	evt.preventDefault();
 }
