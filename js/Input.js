@@ -48,7 +48,6 @@ function mouseclicked(evt) {
             dragMouseX = mouseX;
 			dragMouseY = mouseY;
 			break;
-
 		case 'pauseMenu':
 			PauseMenu.mouseClicked();
 			break;
@@ -100,7 +99,7 @@ function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
 	keySet(evt, true);
 
-	if (evt.keyCode == KEY_P || KEY_ESC) {
+	if (evt.keyCode == KEY_P || evt.keyCode == KEY_ESC) {
 		StopGame();
 	}
 	evt.preventDefault();
