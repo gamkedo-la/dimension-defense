@@ -49,6 +49,14 @@ let cheatList = [
 			gameLoop.init('toyCarMap');
 		}
 	},	
+    cheat = 
+	{
+		code: 'k',
+		active: isDebugModeON,
+		action: function() {
+			gameLoop.enemyList[0].takeHit(5000);
+		}
+	},	
 ];
 
 

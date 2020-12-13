@@ -99,7 +99,7 @@ function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
 	keySet(evt, true);
 
-	if (evt.keyCode == KEY_P || evt.keyCode == KEY_ESC) {
+	if (evt.keyCode == KEY_P || evt.keyCode == KEY_ESC && scene !== 'mainMenu') {
 		StopGame();
 	}
 	evt.preventDefault();

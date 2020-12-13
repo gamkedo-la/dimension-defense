@@ -57,6 +57,9 @@ const MainMenu = new (function () {
             case "playGame":
                 this.drawPlayGame();
                 break;
+            case "credits":
+                this.drawCredits();
+                break;
         }
     }
 
@@ -137,7 +140,7 @@ const MainMenu = new (function () {
     {
         let mapListRow = 0;
         let mapListCol = 0;
-
+        
         for(let i = 0; i < mapList.length; i++){
 
             if(i != 0 && i % mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
@@ -156,15 +159,20 @@ const MainMenu = new (function () {
 
         isHoveringMapItem = false;
 
+        
+
     }
 
     this.drawPlayGame = function()
     {
         let mapListRow = 0;
         let mapListCol = 0;
+
+        this.BackButtonToMainMenu();
         
         for(let i = 0; i < levelList.length; i++){
-            let drawbig = isHoveringMapItem * i == mapPreviewHoverItem;
+            let drawbig = false;
+            if(isHoveringMapItem && i === mapPreviewHoverItem){drawbig = true;}
             if(i != 0 && i % mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
             drawImageScaledToWidthSize(levelList[i].mapName, mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
                                 30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol, mapPrevievthumbWidth + (drawbig * 20));
@@ -176,6 +184,14 @@ const MainMenu = new (function () {
 
     }
 
+    this.drawCredits = function()
+    {
+        this.BackButtonToMainMenu();
+        colorText("Your name here", 150 , 100, 50, 'white');
+        colorText("for the low low price", 150 , 200, 50, 'white');
+        colorText("of just 1 commit!", 150 , 300, 50, 'white');
+    }
+
     this.mouseClicked = function () {
 
         switch (currentMenu) {
@@ -184,7 +200,10 @@ const MainMenu = new (function () {
                 break;
             case "playGame":
                 this.mouseClickedPlayMenu();
-                break;         
+                break;
+            case "credits":
+                this.mouseClickedCreditsScreen();
+                break;       
         }
 
     }
@@ -201,8 +220,12 @@ const MainMenu = new (function () {
         }
     }
 
-      this.mouseClickedPlayMenu = function()
+    this.mouseClickedPlayMenu = function()
     {
+        if(this.BackButtonToMainMenu())
+        {
+            currentMenu = "main"
+        }
         if(isHoveringMapItem === true)
         {    
             gameLoop.init(levelList[mapPreviewHoverItem].levelName);
@@ -211,19 +234,52 @@ const MainMenu = new (function () {
         }
     }
 
+    this.mouseClickedCreditsScreen = function()
+    {
+        if(this.BackButtonToMainMenu())
+        {
+            currentMenu = "main"
+        }
+    }
+
+    this.BackButtonToMainMenu = function()
+    {
+        let x = 20;
+        let y = 520;
+        let h = 50;
+        let w = 200;
+        if (mouseX > x && mouseX < x + w &&
+            mouseY > y && mouseY < y + h)
+        {
+            colorRectWithAlpha(x, y, w, h, '#7158e2', 0.85);
+            colorTextBold("Back", x + 10, y + h/1.5, 50, "#00ffAA" );
+           
+            return true;
+        }else{     
+            colorRectWithAlpha(x, y, w, h, '#17c0eb', 0.85);
+            colorTextBold("Back", x + 10, y + h/1.5, 45, "white" );
+            return false;
+        } 
+
+    }
+
+
     this.mainMenuSelect = function(menu)
     {
         for (let i = 0; i < mainMenuList.length; i++) {
             if (menu === mainMenuList[i].toString()) {
                 switch (menu) {
                     case "Play Game":
-                        currentMenu = "playGame"
+                        currentMenu = "playGame";
                         break;
                     case 'Volume':
                         if (turnVolumeUp() == false) {
                             setVolume(0);
                         }
                         break;
+                    case "Credits":
+                        currentMenu = "credits";
+                        break;  
                     default:
                         console.log("unhandeled menu item");
                         break;
