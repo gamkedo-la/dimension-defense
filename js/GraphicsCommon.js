@@ -24,6 +24,10 @@ function drawImageWithAngle(imgName, atX,atY, atAngel) {
 	ctx.restore();
 }
 
+function drawImageScaledToWidthSize(imgName, atX,atY, widthSize) {
+	ctx.drawImage(image.get(imgName),atX ,atY , widthSize, (widthSize / image.get(imgName).width) * image.get(imgName).height);
+}
+
 function drawImageScaled(imgName, atX,atY, scale) {
 	ctx.save();
 	ctx.translate(atX,atY);

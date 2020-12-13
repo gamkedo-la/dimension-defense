@@ -16,13 +16,8 @@ const MainMenu = new (function () {
         angle: 0,
         shoot: {},
     }
-
     let isShooting = false;
-
     let selectedItemOnPage;
-
-    let currentMenu = "main";
-
     let mainMenuList =
     [
         "Play Game",
@@ -30,11 +25,23 @@ const MainMenu = new (function () {
         "Credits",
     ];
 
+    let mapPreviewMaXRows = 3;
+    let mapPrevievthumbWidth = 200;
+    let mapPrevievRowDist = 30;
+    let mapPrevievColDist = 10;
+    let mapPreviewHoverItem;
+    let isHoveringMapItem = false;
+
+    let currentMenu = "main";
+
     this.move = function () {
         switch (currentMenu) {
-        case "main":
-            this.updateMainMenu();
-            break;
+            case "main":
+                this.moveMainMenu();
+                break;
+            case "playGame":
+                this.movePlayGame();
+                break;
         }
 
     }
@@ -47,11 +54,14 @@ const MainMenu = new (function () {
             case "main":
                 this.drawMainMenu();
                 break;
+            case "playGame":
+                this.drawPlayGame();
+                break;
         }
     }
 
-    this.updateMainMenu = function () {
-        this.checkMouseHover();
+    this.moveMainMenu = function () {
+        this.checkMouseHoverMainMenu();
 
         tower.angle = getAngleBetween2PointsInRadian(tower.x, tower.y, mouseX, mouseY);
         if(isShooting === true)
@@ -118,22 +128,49 @@ const MainMenu = new (function () {
                 muzzleFlashAlpha -= 0.025; // fade out
                 drawBitmapCenteredWithRotationAndScale("MuzzleFlash", tower.x, tower.y , tower.angle, 3);
                 ctx.globalAlpha = 1;		
-		    }
-            
-           
+		    }           
         }
+
+    }
+    
+    this.movePlayGame = function()
+    {
+        let mapListRow = 0;
+        let mapListCol = 0;
+
+        for(let i = 0; i < mapList.length; i++){
+
+            if(i != 0 && i % mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
+
+            if(mouseX > mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow && 
+                mouseX < mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow + mapPrevievthumbWidth &&
+                mouseY > mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol &&
+                mouseY < mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol + mapPrevievthumbWidth){
+                
+                isHoveringMapItem = true;
+                mapPreviewHoverItem = i;
+                return;				
+            }
+            mapListRow++;
+        }
+
+        isHoveringMapItem = false;
 
     }
 
     this.drawPlayGame = function()
     {
+        let mapListRow = 0;
+        let mapListCol = 0;
+        
         for(let i = 0; i < levelList.length; i++){
-            if(i != 0 && i % this.mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
-            drawImageAtWidthSize(mapList[i].name, this.mapPrevievRowDist + (this.mapPrevievthumbWidth + this.mapPrevievRowDist) * mapListRow,
-                                30 + this.mapPrevievColDist + (this.mapPrevievthumbWidth + this.mapPrevievColDist) * mapListCol, this.mapPrevievthumbWidth);
+            let drawbig = isHoveringMapItem * i == mapPreviewHoverItem;
+            if(i != 0 && i % mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
+            drawImageScaledToWidthSize(levelList[i].mapName, mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
+                                30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol, mapPrevievthumbWidth + (drawbig * 20));
             
-            colorText(mapList[i].name, this.mapPrevievRowDist + (this.mapPrevievthumbWidth + this.mapPrevievRowDist) * mapListRow,
-                        30 + this.mapPrevievColDist + (this.mapPrevievthumbWidth + this.mapPrevievColDist) * mapListCol - 5, 20, '#ffffff');
+            colorText(levelList[i].levelName, mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
+                        30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol - 5, 20, 'white');
             mapListRow++;
         }
 
@@ -141,8 +178,13 @@ const MainMenu = new (function () {
 
     this.mouseClicked = function () {
 
-        if (currentMenu == "main") {
-           this.mouseClickedMainMenu();
+        switch (currentMenu) {
+            case "main":
+                this.mouseClickedMainMenu();
+                break;
+            case "playGame":
+                this.mouseClickedPlayMenu();
+                break;         
         }
 
     }
@@ -159,31 +201,39 @@ const MainMenu = new (function () {
         }
     }
 
+      this.mouseClickedPlayMenu = function()
+    {
+        if(isHoveringMapItem === true)
+        {    
+            gameLoop.init(levelList[mapPreviewHoverItem].levelName);
+            currentMenu = "main";
+            scene = "game";
+        }
+    }
+
     this.mainMenuSelect = function(menu)
     {
         for (let i = 0; i < mainMenuList.length; i++) {
             if (menu === mainMenuList[i].toString()) {
                 switch (menu) {
                     case "Play Game":
-                    //this.currentMenu = "playGame";
-                    gameLoop.init('lvlPencil');
-                    scene = "game";
-                    break;
+                        currentMenu = "playGame"
+                        break;
                     case 'Volume':
-                    if (turnVolumeUp() == false) {
-                        setVolume(0);
-                    }
-                    break;
+                        if (turnVolumeUp() == false) {
+                            setVolume(0);
+                        }
+                        break;
                     default:
-                    console.log("unhandeled menu item");
-                    break;
+                        console.log("unhandeled menu item");
+                        break;
                 }
                 isShooting = false;
             }
         }
     }
 
-    this.checkMouseHover = function () {
+    this.checkMouseHoverMainMenu = function () {
         for (let i = 0; i < mainMenuList.length; i++) {
             if (
             mouseX > itemsX && mouseX < itemsX + itemsWidth &&
