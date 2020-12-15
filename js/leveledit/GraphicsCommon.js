@@ -37,7 +37,7 @@ function drawButtonSingle(fromArray, buttonName){
 			return;
 		}
 	}
-}
+}		
 
 function ChangeButtonAttribute(fromArray, buttonName, attribute, newData){
 	for(let i = 0; i < fromArray.length; i++){
@@ -48,7 +48,15 @@ function ChangeButtonAttribute(fromArray, buttonName, attribute, newData){
 	}
 }
 
-
+function returnBtnsFromGroup(fromArray, groupName){
+	let btn = [];
+	for(let i = 0; i < fromArray.length; i++){
+		if(fromArray[i].group == groupName){
+			btn.push(i);
+		}
+	}
+	return btn;
+}
 
 function drawBitmapCenteredWithRotation(imgName, atX,atY, withAng) {
 	ctx.save();

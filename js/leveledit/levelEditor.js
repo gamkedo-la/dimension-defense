@@ -6,8 +6,8 @@ var offsetY = 0;
 levelEditor = new function(){
 	
 	this.lvlName = "LevelName";
-	this.toolbarHeight = 150;
-	this.toolbarStartY = 750 - this.toolbarHeight; //750 is canvas height
+	this.toolbarHeight = 180;
+	this.toolbarStartY = 780 - this.toolbarHeight; //750 is canvas height
 	this.buttonList = [];
 
 	this.mapImage;
@@ -26,6 +26,7 @@ levelEditor = new function(){
 	this.currentGumAltar = 0;
 
 	this.levelData = [];
+	this.subWavePage = 0;
 
 	//move things here
 	this.move = function (){
@@ -58,25 +59,39 @@ levelEditor = new function(){
 		colorText('WaveDelay', 222, 85+this.toolbarStartY, 16, '#ffffff');
 		colorText(this.levelData.waveStartDelay[this.currentWave], 250, 106+this.toolbarStartY, 20, '#ffffff');
 
-		colorText(this.message, 10, 143+this.toolbarStartY, 16, '#fcbe03');
+		colorText(this.message, 10, 173+this.toolbarStartY, 16, '#fcbe03');
 
-		drawButtons(this.buttonList, 'lvlEditorBTN', 'pathBTN','subWaveBTN'+this.currentWave);
+		drawButtons(this.buttonList, 'lvlEditorBTN', 'pathBTN');
 
-		for(let i = 0; i < this.levelData.wave[this.currentWave].length; i++)
+		for(let i = 0; i < 6; i++)
 		{
-			let x = 300 + (75 * i);
-			let g = this.levelData.wave[this.currentWave][i];
-			colorText('Enemy',25 + x, 14+this.toolbarStartY, 16, '#ffffff');
-			drawImageScaled(enemyList[g.enemyType].LvlEditorImgName,35 + x, 13 + this.toolbarStartY, 0.7);
+			let swid = (this.subWavePage * 6) + i;
+			let x = 310 + (75 * i);
+			let g = this.levelData.wave[this.currentWave][swid];
+			ctx.save();
+			ctx.translate(x, 0);
+			drawButtonSingle(this.buttonList, 'selectEnemyFWRD'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'selectEnemyBWRD'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'addEnemyAmount'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'subEnemyAmount'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'addSpawnDelay'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'subSpawnDelay'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'selectPathFWRD'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'selectPathBWRD'+this.currentWave+"sw"+ swid);
+			drawButtonSingle(this.buttonList, 'deleteEnemy'+this.currentWave+"sw"+ swid);
+			
+			colorText('Enemy',25, 14+this.toolbarStartY, 16, '#ffffff');
+			drawImageScaled(enemyList[g.enemyType].LvlEditorImgName,35, 13 + this.toolbarStartY, 0.7);
 
-			colorText('Amount',25 + x, 55+this.toolbarStartY, 16, '#ffffff');
-			colorText(g.amountToSpawn,45 + x, 70+this.toolbarStartY, 18, '#ffffff');
+			colorText('Amount',25, 55+this.toolbarStartY, 16, '#ffffff');
+			colorText(g.amountToSpawn,45, 70+this.toolbarStartY, 18, '#ffffff');
 
-			colorText('Delay',25 + x, 85+this.toolbarStartY, 18, '#ffffff');
-			colorText(g.delayBetweenSpawn,45 + x, 100+this.toolbarStartY, 18, '#ffffff');
+			colorText('Delay',25, 85+this.toolbarStartY, 18, '#ffffff');
+			colorText(g.delayBetweenSpawn,45, 100+this.toolbarStartY, 18, '#ffffff');
 
-			colorText('OnPath',25 + x, 115+this.toolbarStartY, 16, '#ffffff');
-			colorText(g.spawnOnPath,45 + x, 130+this.toolbarStartY, 18, '#ffffff');
+			colorText('OnPath',25, 115+this.toolbarStartY, 16, '#ffffff');
+			colorText(g.spawnOnPath,45, 130+this.toolbarStartY, 18, '#ffffff');
+			ctx.restore();
 		}
 
 	}
@@ -151,7 +166,6 @@ levelEditor = new function(){
 
 	this.selectWave = function(direction){
 		this.currentWave += direction;
-		console.log(2)
 		if (this.currentWave < 0)
 		{
 			this.currentWave = this.levelData.wave.length - 1;
@@ -188,11 +202,17 @@ levelEditor = new function(){
 		this.addNewSubWave();
 		this.addNewSubWave();
 		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
+		this.addNewSubWave();
 	}
 
 	this.addNewSubWave = function(){
 		let swid = this.levelData.wave[this.currentWave].length;
-		let x = 300 + (75 * swid);
+		let x = 0;
 		this.levelData.wave[this.currentWave][swid] = {
 			enemyType: 0,
 			spawnOnPath: this.pathList[0],
@@ -200,14 +220,15 @@ levelEditor = new function(){
 			delayBetweenSpawn: 2,
 		};
 
-		GenerateButton(this.buttonList, 70+x, 20+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectEnemyFWRD'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 20+x, 20+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectEnemyBWRD'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 70+x, 58+this.toolbarStartY, 15, 15, '#ebc117','+', 3, -5, 18, '#000000', 'addEnemyAmount'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 20+x, 58+this.toolbarStartY, 15, 15, '#ebc117','-', 3, -5, 18, '#000000', 'subEnemyAmount'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 70+x, 88+this.toolbarStartY, 15, 15, '#ebc117','+', 3, -5, 18, '#000000', 'addSpawnDelay'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 20+x, 88+this.toolbarStartY, 15, 15, '#ebc117','-', 3, -5, 18, '#000000', 'subSpawnDelay'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 70+x, 118+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectPathFWRD'+swid, 'subWaveBTN'+this.currentWave);
-		GenerateButton(this.buttonList, 20+x, 118+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectPathBWRD'+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 20+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectEnemyFWRD'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 20+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectEnemyBWRD'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 58+this.toolbarStartY, 15, 15, '#ebc117','+', 3, -5, 18, '#000000', 'addEnemyAmount'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 58+this.toolbarStartY, 15, 15, '#ebc117','-', 3, -5, 18, '#000000', 'subEnemyAmount'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 88+this.toolbarStartY, 15, 15, '#ebc117','+', 3, -5, 18, '#000000', 'addSpawnDelay'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 88+this.toolbarStartY, 15, 15, '#ebc117','-', 3, -5, 18, '#000000', 'subSpawnDelay'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 70+x, 118+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectPathFWRD'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 20+x, 118+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectPathBWRD'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
+		GenerateButton(this.buttonList, 30+x, 138+this.toolbarStartY, 45, 20, '#ff4d4d','DEL', 3, -5, 20, '#000000', 'deleteEnemy'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
 	}
 
 	this.removeWave = function(){
@@ -310,17 +331,10 @@ levelEditor = new function(){
 	this.onMouseClicked = function(){
 		//var mouseIDX = pixeltoindex(mouseX);
 		//var mouseIDY = pixeltoindex(mouseY);
-		let mainbtns = []
-		for(let i = 0; i < this.buttonList.length; i++)
-		{
-			if(this.buttonList[i].group == 'lvlEditorBTN')
-			{
-				mainbtns.push(i);
-			}
-		}
+
+		let mainbtns = returnBtnsFromGroup(this.buttonList, "lvlEditorBTN")
 		for(let g = 0; g < mainbtns.length; g++)
 		{
-			console.log(mouseY)
 			let i = mainbtns[g];
 			if(mouseX > this.buttonList[i].x && mouseX < this.buttonList[i].x + this.buttonList[i].w &&
 				mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h)
