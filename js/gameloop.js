@@ -99,8 +99,6 @@ gameLoop = new function(){
 		}
 
 	}
-
-
 	//draw things here
 	this.draw = function(){
 		
@@ -127,8 +125,6 @@ gameLoop = new function(){
 		//call the draw_anim_loop function
 		animationSystem.draw_anim_loop(this.id, 2);
 		
-		colorText(this.coins, 55, 45, 50, "black");
-		
 		this.drawTowerPlaceableIndicator();
 
 		let hasWon = this.remainingGums != 0 && this.enemyList.length == 0 && this.noMoreWaves;
@@ -138,15 +134,27 @@ gameLoop = new function(){
 		{
 			this.towerMenu.draw();
 		}
+		this.drawUI();
 	}
 
 	this.towerPlaceableIndicatorRadius = 11;
 	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
+	
+	this.drawUI = function(){
+		colorRectWithAlpha(10,540, 150, 60, "white", 0.1);
+		colorText(this.coins, 55, 45, 50, "black");
+		colorTextBold("gums:" + this.remainingGums, 44, 563, 30, "blue");
+		colorTextBold("Wave:" + this.currentWave + "/" + this.waveList.length, 15, 598, 30, "green");
+		colorCircle(25,528, 28, "magenta");
+		colorText("pause", 0, 532, 20, "black");
+		colorRectWithAlpha(5,canvas.height/2-60, 60, 60, "black", 0.5);
+		colorText("Score", 8, canvas.height/2, 20, "yellow");
+	}
+
 	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3)
 	{
         //pause menu fix
         if(scene !== "game"){return};
-        
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
