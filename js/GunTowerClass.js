@@ -55,10 +55,10 @@ function GunTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle)
+		drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
+			colorCircle(this.shotList[i].x , this.shotList[i].y , this.shotList[i].r, this.shotList[i].color);
 		}
 
 	}

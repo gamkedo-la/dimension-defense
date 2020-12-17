@@ -40,7 +40,7 @@ function GumClass(){
 			return;
 		}
 		
-		drawImageWithAngle("gum1", this.x + offsetX, this.y + offsetY, 0);
+		drawImageWithAngle("gum1", this.x , this.y, 0);
 
 	}
 

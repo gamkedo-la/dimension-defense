@@ -93,14 +93,11 @@ function EnemyClass(){
 	//draw things here
 	this.draw = function(){
 
-		animationSystem.draw_anim_loop(this.spriteID, 5)
-	
 		let healthBarW = 30;
 		let healthBarH = 6;
-		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
-		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
-
-		animationSystem.draw_anim_loop(this.spriteID, 5)
+		colorRect(this.x  - healthBarW/2,this.y - 30, healthBarW, healthBarH, "red");
+		colorRect(this.x  - 15,this.y - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
+		animationSystem.draw_anim_loop(this.spriteID, 5)	
 	}
 
 	this.isDeadMove = function(){

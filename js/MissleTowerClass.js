@@ -100,8 +100,8 @@ function MissleTowerClass(){
 		// now draw the missiles themselves
 		for(i = 0; i < this.shotList.length; i++)
 		{
-			x = this.shotList[i].x + offsetX;
-			y = this.shotList[i].y + offsetY;
+			x = this.shotList[i].x ;
+			y = this.shotList[i].y ;
 			a = this.shotList[i].angle;
             // render the missile
 			drawBitmapCenteredWithRotation(this.imageProjectile,x,y,a);
@@ -115,13 +115,13 @@ function MissleTowerClass(){
 
 		// draw the base of the tower that does not rotate
 		if (this.imageBase) { // optional
-		    drawBitmapCenteredWithRotation(this.imageBase, this.x + offsetX, this.y + offsetY, 0);
+		    drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
 		}
 
 		// draw the part that rotates
 		// with a little fake AI (a wobble! =)
 		let angleWobble = degreesToRadian(Math.cos(performance.now()/555)*4);
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);
+		drawBitmapCenteredWithRotation(this.image, this.x, this.y, this.angle+angleWobble);
 		
         this.drawMissiles();
 
@@ -129,7 +129,7 @@ function MissleTowerClass(){
 		if (this.muzzleFlashAlpha>0) {
             ctx.globalAlpha = this.muzzleFlashAlpha;
             this.muzzleFlashAlpha -= 0.025; // fade out
-            drawBitmapCenteredWithRotation(this.imageMuzzleFlash, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);			
+            drawBitmapCenteredWithRotation(this.imageMuzzleFlash, this.x, this.y, this.angle+angleWobble);			
             ctx.globalAlpha = 1;
 		}
 
@@ -192,7 +192,7 @@ function MissleTowerClass(){
 
 		switch(this.level){
 			case 1:
-				this.minR = 200;
+				this.minR = 100;
 				this.maxR = 400;
 				this.shootSpeed = 3;
 				this.shootColor = '#1abdd6';
@@ -201,7 +201,7 @@ function MissleTowerClass(){
 				this.reloadTime = 300 + random;
 				break;
 			case 2:
-				this.minR = 200;
+				this.minR = 150;
 				this.maxR = 500;
 				this.shootSpeed = 4;
 				this.shootColor = '#d323d9';
@@ -210,7 +210,7 @@ function MissleTowerClass(){
 				this.reloadTime = 250 + random;
 				break;
 			case 3:
-				this.minR = 100;
+				this.minR = 150;
 				this.maxR = 500;
 				this.shootSpeed = 5;
 				this.shootColor = '#db2531';

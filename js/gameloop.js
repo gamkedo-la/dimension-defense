@@ -98,11 +98,14 @@ gameLoop = new function(){
 			this.towerMenu.move();
 		}
 	}
+
 	//draw things here
 	this.draw = function(){
+		ctx.save();
+		ctx.translate(offsetX, offsetY);
 		
 		//draw map
-		drawImageWithAngle(this.mapName, offsetX, offsetY, 0);
+		drawImageWithAngle(this.mapName, 0, 0, 0);
 
 		for(let i = 0; i < this.enemyList.length; i++)
 		{
@@ -119,7 +122,12 @@ gameLoop = new function(){
 			this.towerList[i].draw();
 		}
 
-		//colorRect(20,10, 130, 30, "white");
+		if(this.towerMenu.isActive)
+		{
+			this.towerMenu.draw();
+		}
+		
+		ctx.restore();
 
 		//call the draw_anim_loop function
 		animationSystem.draw_anim_loop(this.id, 2);
@@ -129,10 +137,7 @@ gameLoop = new function(){
 		let hasWon = this.remainingGums != 0 && this.enemyList.length == 0 && this.noMoreWaves;
 		this.gameOverScreen.draw(this.isGameOver, hasWon);
 		
-		if(this.towerMenu.isActive)
-		{
-			this.towerMenu.draw();
-		}
+		
 		this.drawUI();
 	}
 
@@ -415,30 +420,37 @@ gameLoop = new function(){
 			{
 				this.generateWaveVarsFromlevelList(levelList[i]);
 				this.mapName = levelList[i].mapName;
-                this.levelName = levelList[i].levelName;
+				this.levelName = levelList[i].levelName;
+				this.coins = levelList[i].coins;
+				offsetX = levelList[i].startOffset.x;
+				offsetY = levelList[i].startOffset.y;
+				dragMouseDX = offsetX;
+				dragMouseDY = offsetY;
+
+				for (let i = 0; i < mapList.length; i++)
+				{
+					if(this.mapName == mapList[i].name)
+					{
+						this.generateMapVarsFromEditorMapList(mapList[i]);
+						break;
+					}
+				}
+
+				for(let i = 0; i < this.pathList.length; i++)
+				{
+					for(let gi = 0; gi < levelList[i].gumAmounts[i]; gi++)
+					{
+							let newGum = new GumClass();
+							newGum.init(this.pathList[i]);
+							this.gums.push(newGum);
+					}
+				}
+
 				break;
 			}
 		}
 
-		for (let i = 0; i < mapList.length; i++)
-		{
-			if(this.mapName == mapList[i].name)
-			{
-				this.generateMapVarsFromEditorMapList(mapList[i]);
-				break;
-			}
-		}
-
-		let gumAmount = 5
-		for(let i = 0; i < this.pathList.length; i++)
-		{
-			for(let gi = 0; gi < gumAmount; gi++)
-			{
-					let newGum = new GumClass();
-					newGum.init(this.pathList[i]);
-					this.gums.push(newGum);
-			}
-		}
+	
 
 	}
 

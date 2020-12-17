@@ -46,11 +46,11 @@ function ElectricTowerClass(){
 
 		if(this.isActive)
 		{
-			drawBitmapCenteredWithRotation(this.imageActive, this.x + offsetX, this.y + offsetY, this.angle)
+			drawBitmapCenteredWithRotation(this.imageActive, this.x, this.y, this.angle)
 		}
 		else
 		{
-			drawBitmapCenteredWithRotation(this.imagePassiv, this.x + offsetX, this.y + offsetY, 0)
+			drawBitmapCenteredWithRotation(this.imagePassiv, this.x , this.y , 0)
 		}
 		
 	}

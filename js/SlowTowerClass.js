@@ -31,7 +31,7 @@ function SlowTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, 0)
+		drawBitmapCenteredWithRotation(this.image, this.x, this.y, 0)
 
 	}
 

@@ -54,14 +54,14 @@ function TowerMenuClass(){
 
 	this.draw = function(){
 		
-		colorRectWithAlpha(this.x + offsetX, this.y + offsetY, this.w * this.scale, this.h * this.scale, this.boxColor, 0.8);
+		colorRectWithAlpha(this.x, this.y, this.w * this.scale, this.h * this.scale, this.boxColor, 0.8);
 
 		if(!this.closeMenu){
 			for(let i = 0; i < this.btnList.length; i++)
 			{
 				if(i === this.hoveredBtn)
 				{
-					colorRectWithAlpha(this.x + offsetX,this.y + this.btnList[i].y + offsetY, this.w, this.btnH, this.bthnHoverColor, 0.9);
+					colorRectWithAlpha(this.x ,this.y + this.btnList[i].y, this.w, this.btnH, this.bthnHoverColor, 0.9);
 				}
 
 				if(this.isUpgradeMenu)
@@ -69,22 +69,22 @@ function TowerMenuClass(){
 					//Upgrade Menu
 					if(gameLoop.coins - this.btnList[i].price < 0 || this.btnList[i].type == 'sell')
 					{
-						colorText(this.btnList[i].price + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
-						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+						colorText(this.btnList[i].price + "$", this.x  + 2, this.y + this.btnList[i].y + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+						colorText(this.btnList[i].txt, this.x  + 50, this.y + this.btnList[i].y + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
 					}else{
-						colorText(this.btnList[i].price + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
-						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+						colorText(this.btnList[i].price + "$", this.x + 2, this.y + this.btnList[i].y + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+						colorText(this.btnList[i].txt, this.x + 50, this.y + this.btnList[i].y + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
 					}
 					
 				}else{
 					//New tower menu
 					if(gameLoop.coins - this.btnList[i].price < 0)
 					{
-						colorText(this.btnList[i].price  + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
-						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+						colorText(this.btnList[i].price  + "$", this.x + 2, this.y + this.btnList[i].y  + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
+						colorText(this.btnList[i].txt, this.x + 50, this.y + this.btnList[i].y + this.btnTxtSize, this.btnTxtSize, this.btnTxtNoMoneyColor);
 					}else{
-						colorText(this.btnList[i].price  + "$", this.x + offsetX + 2, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
-						colorText(this.btnList[i].txt, this.x + offsetX + 50, this.y + this.btnList[i].y + offsetY + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+						colorText(this.btnList[i].price  + "$", this.x + 2, this.y + this.btnList[i].y  + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
+						colorText(this.btnList[i].txt, this.x  + 50, this.y + this.btnList[i].y + this.btnTxtSize, this.btnTxtSize, this.btnTxtColor);
 					}
 				
 				}

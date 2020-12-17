@@ -2,6 +2,7 @@
 var offsetX = 0;
 var offsetY = 0;
 var editLvlName = false;
+const TILE_SIZE = 48;
 
 //mapEditor Main Loop
 levelEditor = new function(){
@@ -29,9 +30,12 @@ levelEditor = new function(){
 	this.levelData = [];
 	this.subWavePage = 0;
 
+	this.highlightedPath = false;
+	this.highlightedGumAltar = false;
+
 	//move things here
 	this.move = function (){
-		//this.moveMapWithMouse();	
+		this.moveMapWithMouse();	
 	}
 
 	//draw things here
@@ -54,7 +58,7 @@ levelEditor = new function(){
 		colorText('GumAmount', 130, 60+this.toolbarStartY, 16, '#ffffff');
 		colorText(this.levelData.gumAmounts[this.currentGumAltar], 155, 80+this.toolbarStartY, 20, '#ffffff');
 		colorText('Coins', 140, 110+this.toolbarStartY, 16, '#ffffff');
-		colorText(this.levelData.coins, 155, 130+this.toolbarStartY, 20, '#ffffff');
+		colorText(this.levelData.coins, 155, 130+this.toolbarStartY, 18, '#ffffff');
 
 		colorText('Wave', 244, 18+this.toolbarStartY, 18, '#ffffff');
 		colorText(this.currentWave+1, 255, 41+this.toolbarStartY, 20, '#ffffff');
@@ -63,7 +67,10 @@ levelEditor = new function(){
 
 		colorText(this.message, 10, 173+this.toolbarStartY, 16, '#fcbe03');
 
-		drawButtons(this.buttonList, 'lvlEditorBTN', 'pathBTN');
+		this.highlightPath(this.highlightedPath);
+		this.highlightGumAltar();
+
+		drawButtons(this.buttonList, 'lvlEditorBTN');
 
 		for(let i = 0; i < 6; i++)
 		{
@@ -160,6 +167,7 @@ levelEditor = new function(){
 		{
 			this.currentGumAltar = 0;
 		}
+		this.switchHighlightToGumAltar();
 	}
 
 	this.changeGumAmt = function(amount){
@@ -168,6 +176,7 @@ levelEditor = new function(){
 		{
 			this.levelData.gumAmounts[this.currentGumAltar] = 0;
 		}
+		this.switchHighlightToGumAltar();
 	}
 
 	this.changeCoinAmt = function(amount){
@@ -231,8 +240,18 @@ levelEditor = new function(){
 	}
 
 	this.saveMap = function(){
-		copyToClipboard(this.levelData);
-		console.log(this.levelData)
+		let ld = copyArray(this.levelData);
+
+		for(let w = 0; w < ld.wave.length; w++)
+		{
+			for(let sw = 0; sw < ld.wave[w].length; sw++)
+			{
+				ld.wave[w][sw].enemyType = enemyList[this.levelData.wave[w][sw].enemyType].type;
+			}
+		}
+
+		copyToClipboard(ld);
+		console.log(ld)
 		this.message = "Save data was copied to your clipboard, please insert into listLevels.js";
 	}
 
@@ -245,6 +264,7 @@ levelEditor = new function(){
 			amountToSpawn: 1,
 			delayBetweenSpawn: 2,
 		};
+		this.switchHighlightToPath(this.levelData.wave[this.currentWave][swid].spawnOnPath)
 
 		GenerateButton(this.buttonList, 70+x, 20+this.toolbarStartY, 15, 15, '#ebc117','>', 3, -5, 18, '#000000', 'selectEnemyFWRD'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
 		GenerateButton(this.buttonList, 20+x, 20+this.toolbarStartY, 15, 15, '#ebc117','<', 3, -5, 18, '#000000', 'selectEnemyBWRD'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
@@ -317,6 +337,7 @@ levelEditor = new function(){
 			path = this.pathList[0];
 		}
 		this.levelData.wave[this.currentWave][swid].spawnOnPath = path;
+		this.switchHighlightToPath(path);
 	}
 
 	//Inititalize things on first run, like buttons an such
@@ -358,7 +379,7 @@ levelEditor = new function(){
 
 	this.moveMapWithMouse = function()
 	{
-		
+		if (mouseY > this.toolbarStartY) return;
         if (draggingMouse) {
             offsetX = dragMouseDX;
 			offsetY = dragMouseDY;
@@ -380,6 +401,56 @@ levelEditor = new function(){
 
 	}
 
+	this.switchHighlightToGumAltar = function(){
+		this.highlightedGumAltar = this.currentGumAltar;
+		this.highlightedPath = false;
+	}
+
+	this.switchHighlightToPath = function(path){
+		this.highlightedPath = path;
+		this.highlightedGumAltar = false;
+	}
+
+	this.highlightPath = function(path){
+		if(path === false) return;
+
+		let drawTileX = 0;
+		let drawTileY = 0;
+		for(let indexX = 0; indexX < this.rows ; indexX++) {
+			for(let indexY = 0; indexY < this.cols; indexY++) {
+					switch (this.map[path][indexX][indexY]) {
+						case 0:
+							break;
+						case 1:
+							colorRectWithAlpha(offsetX + drawTileX, offsetY + drawTileY, TILE_SIZE, TILE_SIZE, '#32ff7e', 0.6)
+							break;
+						case 2:
+							colorRectWithAlpha(offsetX + drawTileX, offsetY + drawTileY, TILE_SIZE, TILE_SIZE, '#7d5fff', 0.6)
+							break;
+						case 3:
+							colorRectWithAlpha(offsetX + drawTileX, offsetY + drawTileY, TILE_SIZE, TILE_SIZE, '#ff4d4d', 0.6)
+							break;
+						case 5:
+							colorRectWithAlpha(offsetX + drawTileX, offsetY + drawTileY, TILE_SIZE, TILE_SIZE, '#757357', 0.6)
+							break;
+					}
+				
+				
+				//rectBorderOnly(offsetX + drawTileX, offsetY + drawTileY, TILE_SIZE, TILE_SIZE, 1, '#cccccc')
+				drawTileY += TILE_SIZE;
+			}
+			drawTileX += TILE_SIZE;
+			drawTileY = 0;
+		}
+	}
+
+	this.highlightGumAltar = function(){
+		if(this.highlightedGumAltar === false) return;
+		let x =  returnPixelPosFromIndexPos(this.mapGumAltarPos[this.highlightedGumAltar].indexX);
+		let y =  returnPixelPosFromIndexPos(this.mapGumAltarPos[this.highlightedGumAltar].indexY);
+		colorRectWithAlpha(offsetX + x, offsetY + y, TILE_SIZE, TILE_SIZE, 'purple', 0.6)
+	}
+
 	this.onMouseClicked = function(){
 		//var mouseIDX = pixeltoindex(mouseX);
 		//var mouseIDY = pixeltoindex(mouseY);
@@ -398,6 +469,7 @@ levelEditor = new function(){
 				if(mouseX > this.buttonList[i].x + msX && mouseX < this.buttonList[i].x + msX + this.buttonList[i].w &&
 					mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h)
 				{
+					this.switchHighlightToPath(this.levelData.wave[this.currentWave][swid].spawnOnPath);
 					switch (this.buttonList[i].name) 
 					{
 						case 'selectEnemyFWRD'+this.currentWave+"sw"+swid:

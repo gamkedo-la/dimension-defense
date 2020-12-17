@@ -134,3 +134,13 @@ function copyArray(arrayToCopy)
 {
     return JSON.parse(JSON.stringify(arrayToCopy));
 }
+
+function returnPixelPosFromIndexPos(tileIndexNumber)
+{
+    return tileIndexNumber * TILE_SIZE;
+}
+
+function copyArray(arrayToCopy)
+{
+    return JSON.parse(JSON.stringify(arrayToCopy));
+}
