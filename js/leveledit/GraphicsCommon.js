@@ -128,7 +128,6 @@ function copyToClipboard(theThing){
 			document.execCommand("copy");
 			document.body.removeChild(dummy);
 			return;
-	//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
 }
 
 function copyArray(arrayToCopy)

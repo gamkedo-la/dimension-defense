@@ -1,6 +1,7 @@
 
 var offsetX = 0;
 var offsetY = 0;
+var editLvlName = false;
 
 //mapEditor Main Loop
 levelEditor = new function(){
@@ -31,7 +32,6 @@ levelEditor = new function(){
 	//move things here
 	this.move = function (){
 		//this.moveMapWithMouse();	
-		
 	}
 
 	//draw things here
@@ -53,6 +53,8 @@ levelEditor = new function(){
 		colorText(this.currentGumAltar + 1, 155, 41+this.toolbarStartY, 20, '#ffffff');	
 		colorText('GumAmount', 130, 60+this.toolbarStartY, 16, '#ffffff');
 		colorText(this.levelData.gumAmounts[this.currentGumAltar], 155, 80+this.toolbarStartY, 20, '#ffffff');
+		colorText('Coins', 140, 110+this.toolbarStartY, 16, '#ffffff');
+		colorText(this.levelData.coins, 155, 130+this.toolbarStartY, 20, '#ffffff');
 
 		colorText('Wave', 244, 18+this.toolbarStartY, 18, '#ffffff');
 		colorText(this.currentWave+1, 255, 41+this.toolbarStartY, 20, '#ffffff');
@@ -66,7 +68,11 @@ levelEditor = new function(){
 		for(let i = 0; i < 6; i++)
 		{
 			let swid = (this.subWavePage * 6) + i;
-			let x = 310 + (75 * i);
+			if(swid >= this.levelData.wave[this.currentWave].length)
+			{
+				return;
+			}
+			let x = 315 + (75 * i);
 			let g = this.levelData.wave[this.currentWave][swid];
 			ctx.save();
 			ctx.translate(x, 0);
@@ -164,6 +170,14 @@ levelEditor = new function(){
 		}
 	}
 
+	this.changeCoinAmt = function(amount){
+		this.levelData.coins += amount;
+		if(this.levelData.coins < 0)
+		{
+			this.levelData.coins = 0;
+		}
+	}
+
 	this.selectWave = function(direction){
 		this.currentWave += direction;
 		if (this.currentWave < 0)
@@ -174,20 +188,20 @@ levelEditor = new function(){
 		{
 			this.currentWave = 0;
 		}
+
+		this.subWavePage = 0;
 	}
 
-	this.selectEnemy = function(position, direction){
-		position += direction;
-
-		if (position < 0)
+	this.selectPage = function(direction){
+		this.subWavePage += direction;
+		if (this.subWavePage < 0)
 		{
-			position = enemyList.length - 1;
+			this.subWavePage = Math.floor(this.levelData.wave[this.currentWave].length / 7);
 		}
-		if (position >= enemyList.length)
+		if (this.subWavePage > Math.floor(this.levelData.wave[this.currentWave].length / 7))
 		{
-			position = 0;
+			this.subWavePage = 0;
 		}
-		return position;
 	}
 
 	this.addNewWave = function(){
@@ -196,21 +210,33 @@ levelEditor = new function(){
 		this.currentWave = this.levelData.wave.length - 1;
 		this.levelData.wave[this.currentWave] = [];
 
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
-		this.addNewSubWave();
+		this.addNewEnemy();
 	}
 
-	this.addNewSubWave = function(){
+	this.removeWave = function(){
+		if(this.levelData.wave.length > 1)
+		{
+			this.levelData.wave.splice(this.currentWave, 1)
+		}
+		this.selectWave(-1);
+	}
+
+	this.changeWaveStartDelay = function(amount){
+		this.levelData.waveStartDelay[this.currentWave] += amount;
+		
+		if(this.levelData.waveStartDelay[this.currentWave] < 0)
+		{
+			this.levelData.waveStartDelay[this.currentWave] = 0;
+		}
+	}
+
+	this.saveMap = function(){
+		copyToClipboard(this.levelData);
+		console.log(this.levelData)
+		this.message = "Save data was copied to your clipboard, please insert into listLevels.js";
+	}
+
+	this.addNewEnemy = function(){
 		let swid = this.levelData.wave[this.currentWave].length;
 		let x = 0;
 		this.levelData.wave[this.currentWave][swid] = {
@@ -231,43 +257,66 @@ levelEditor = new function(){
 		GenerateButton(this.buttonList, 30+x, 138+this.toolbarStartY, 45, 20, '#ff4d4d','DEL', 3, -5, 20, '#000000', 'deleteEnemy'+this.currentWave+"sw"+swid, 'subWaveBTN'+this.currentWave);
 	}
 
-	this.removeWave = function(){
-		let tempWave = [];
-		let tempdelay = [];
-		if(this.levelData.wave.length > 1)
+	this.selectEnemy = function(swid, direction){
+		let position = this.levelData.wave[this.currentWave][swid].enemyType + direction;
+
+		if (position < 0)
 		{
-			for(i = 0; i < this.levelData.wave.length; i++)
+			position = enemyList.length - 1;
+		}
+		if (position >= enemyList.length)
+		{
+			position = 0;
+		}
+		this.levelData.wave[this.currentWave][swid].enemyType = position;
+	}
+
+	this.removeEnemy = function(swid){
+		if(this.levelData.wave[this.currentWave].length > 1)
+		{
+			this.levelData.wave[this.currentWave].splice(swid, 1)
+		}
+	}
+
+	this.changeEnemyAmt = function(swid, amt){
+		let enemyAmt = this.levelData.wave[this.currentWave][swid].amountToSpawn + amt;
+		if (enemyAmt < 1)
+		{
+			enemyAmt = 1;
+		}
+		this.levelData.wave[this.currentWave][swid].amountToSpawn = enemyAmt;
+	}
+
+	this.changeEnemySpawnDelay = function(swid, amt){
+		let delay = this.levelData.wave[this.currentWave][swid].delayBetweenSpawn + amt;
+		if (delay < 0)
+		{
+			delay = 0;
+		}
+		this.levelData.wave[this.currentWave][swid].delayBetweenSpawn = delay;
+	}
+
+	this.selectEnemyPath = function(swid, direction){
+		let path;
+		let p;
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			if(this.pathList[i] == this.levelData.wave[this.currentWave][swid].spawnOnPath)
 			{
-				if(i != this.currentWave)
-				{
-					tempWave.push(this.levelData.wave[i]);
-					tempdelay.push(this.levelData.waveStartDelay[i]);
-				}
+				p = i + direction;
+				path = this.pathList[p];	
+				break;
 			}
 		}
-
-		this.levelData.wave = copyArray(tempWave);
-		this.levelData.waveStartDelay = copyArray(tempdelay);
-		this.selectWave(1);
-	}
-
-	this.changeWaveStartDelay = function(amount){
-		this.levelData.waveStartDelay[this.currentWave] += amount;
-		
-		if(levelData.waveStartDelay[this.currentWave] < 0)
+		if (p < 0)
 		{
-			levelData.waveStartDelay[this.currentWave] = 0;
+			path = this.pathList[this.pathList.length -1];
 		}
-	}
-
-	this.saveMap = function(){
-		if(this.isMapValid == 1){
-			copyToClipboard(this.copyMap[0]);
-			console.log(this.copyMap[0])
-			this.message = "Save data was copied to your clipboard, please insert into mapList.js";
-		}else{
-			this.message = "Map is not Valid, cant save.";
+		if (p >= this.pathList.length)
+		{
+			path = this.pathList[0];
 		}
+		this.levelData.wave[this.currentWave][swid].spawnOnPath = path;
 	}
 
 	//Inititalize things on first run, like buttons an such
@@ -290,16 +339,19 @@ levelEditor = new function(){
 			mapName: this.mapImage,
 			waveStartDelay: [],
 			gumAmounts: [],
+			coins: 0,
 			startOffset: {x:0, y:0},
 			wave: []
 		}
 
 		for(i = 0; i < this.mapGumAltarPos.length; i++)
 		{
-			this.levelData.gumAmounts.push(0);
+			if(this.mapGumAltarPos[i] !== false)
+			{
+				this.levelData.gumAmounts.push(0);
+			}
 		}
 
-		this.addNewWave();
 		this.addNewWave();
 		this.generateMainButtons();
 	}
@@ -331,6 +383,54 @@ levelEditor = new function(){
 	this.onMouseClicked = function(){
 		//var mouseIDX = pixeltoindex(mouseX);
 		//var mouseIDY = pixeltoindex(mouseY);
+		let enemybtns = returnBtnsFromGroup(this.buttonList, 'subWaveBTN'+this.currentWave);
+		for(let j = 0; j < 6; j++)
+		{
+			let swid = (this.subWavePage * 6) + j;
+			if(swid >= this.levelData.wave[this.currentWave].length)
+			{
+				break;
+			}
+			for(let g = 0; g < enemybtns.length; g++)
+			{
+				let msX = 315 + (75 * j);
+				let i = enemybtns[g];
+				if(mouseX > this.buttonList[i].x + msX && mouseX < this.buttonList[i].x + msX + this.buttonList[i].w &&
+					mouseY > this.buttonList[i].y && mouseY < this.buttonList[i].y + this.buttonList[i].h)
+				{
+					switch (this.buttonList[i].name) 
+					{
+						case 'selectEnemyFWRD'+this.currentWave+"sw"+swid:
+							this.selectEnemy(swid, 1);
+							return;
+						case 'selectEnemyBWRD'+this.currentWave+"sw"+swid:
+							this.selectEnemy(swid, -1);
+							return;
+						case 'addEnemyAmount'+this.currentWave+"sw"+swid:
+							this.changeEnemyAmt(swid, 1);
+							return;
+						case 'subEnemyAmount'+this.currentWave+"sw"+swid:
+							this.changeEnemyAmt(swid, -1);
+							return;
+						case 'addSpawnDelay'+this.currentWave+"sw"+swid:
+							this.changeEnemySpawnDelay(swid, 1);
+							return;
+						case 'subSpawnDelay'+this.currentWave+"sw"+swid:
+							this.changeEnemySpawnDelay(swid, -1);
+							return;
+						case 'selectPathFWRD'+this.currentWave+"sw"+swid:
+							this.selectEnemyPath(swid, 1);
+							return;
+						case 'selectPathBWRD'+this.currentWave+"sw"+swid:
+							this.selectEnemyPath(swid, -1);
+							return;
+						case 'deleteEnemy'+this.currentWave+"sw"+swid:
+							this.removeEnemy(swid);
+							return;
+					}
+				}
+			}
+		}
 
 		let mainbtns = returnBtnsFromGroup(this.buttonList, "lvlEditorBTN")
 		for(let g = 0; g < mainbtns.length; g++)
@@ -395,8 +495,8 @@ levelEditor = new function(){
 						this.message = "New wave added!";
 						return;
 					case 'delWaveBTN':
-						this.message = "Wave " + (this.currentWave + 1)+ "has been deleted.";
-						this.removeWave();			
+						this.removeWave();	
+						this.message = "Wave " + (this.currentWave + 1)+ " has been deleted.";		
 						return;
 					case 'backWaveBTN':
 						this.selectWave(-1);
@@ -408,19 +508,46 @@ levelEditor = new function(){
 						return;
 					case 'subStartDelayBTN':
 						this.changeWaveStartDelay(-1)
-						this.message = "Start delay for wave " + (this.currentWave + 1) + "has been changed.";
+						this.message = "Start delay for Wave " + (this.currentWave + 1) + " has been changed.";
 						return;		
 					case 'addStartDelayBTN':
 						this.changeWaveStartDelay(1)
-						this.message = "Start delay for wave " +(this.currentWave + 1) + "has been changed.";
+						this.message = "Start delay for Wave " +(this.currentWave + 1) + " has been changed.";
+						return;
+					case 'pageForwBTN':
+						this.selectPage(1)
+						this.message = "You are now on Page: " + this.subWavePage;
+						return;
+					case 'pageBackBTN':
+						this.selectPage(-1)
+						this.message = "You are now on Page: " + this.subWavePage;
+						return;
+					case 'subCoinsBTN':
+						this.changeCoinAmt(-10)
+						this.message = "Changed coin amount on start of Level.";
+						return;
+					case 'addCoinsBTN':
+						this.changeCoinAmt(10)
+						this.message = "Changed coin amount on start of Level.";
+						return;
+					case 'addEnemyBTN':
+						this.addNewEnemy();
+						this.subWavePage = Math.floor(this.levelData.wave[this.currentWave].length / 7);
+						this.message = "New Enemy added.";
 						return;
 					case 'saveBTN':
 						this.saveMap();	
 						return;
+					case 'lvlNameBTN':
+						this.levelData.levelName = "";
+						ChangeButtonAttribute(this.buttonList,'lvlNameBTN',"txt", "");
+						ChangeButtonAttribute(this.buttonList,'lvlNameBTN',"bc", "#ff4d4d")
+						this.message = "Type the level Name and than click again somewhere to confirm."
+						editLvlName = true;
+						return;
 				}
 			}
 		}
-		
 	}
 
 	this.generateMapVarsFromEditorMapList = function(mapToProcess)
@@ -486,7 +613,8 @@ levelEditor = new function(){
 	this.generateMainButtons = function()
 	{
 
-		GenerateButton(this.buttonList, 5, 5+this.toolbarStartY, 115, 20, '#17c0eb',this.lvlName, 4, -2, 16, '#000000', 'lvlNameBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 5, 140+this.toolbarStartY, 140, 20, '#17c0eb',this.lvlName, 4, -2, 16, '#000000', 'lvlNameBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 10, 5+this.toolbarStartY, 100, 20, '#ffb8b8','Save Level', 2, 0, 16, '#000000', 'saveBTN', 'lvlEditorBTN');
 
 		GenerateButton(this.buttonList, 25, 55+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subOffXBTN', 'lvlEditorBTN');
 		GenerateButton(this.buttonList, 75, 55+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addOffXBTN', 'lvlEditorBTN');
@@ -501,15 +629,21 @@ levelEditor = new function(){
 		GenerateButton(this.buttonList, 185, 25+this.toolbarStartY, 15, 20, '#17c0eb','>', 3, -2, 18, '#000000', 'forwGumaltarBTN', 'lvlEditorBTN');
 		GenerateButton(this.buttonList, 135, 65+this.toolbarStartY, 15, 20, '#17c0eb','-', 3, -2, 18, '#000000', 'subGumAmtBTN', 'lvlEditorBTN');
 		GenerateButton(this.buttonList, 185, 65+this.toolbarStartY, 15, 20, '#17c0eb','+', 3, -2, 18, '#000000', 'addGumAmtBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 130, 90+this.toolbarStartY, 80, 20, '#ffb8b8','Save Lvl', 2, 0, 16, '#000000', 'saveBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 135, 115+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subCoinsBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 185, 115+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addCoinsBTN', 'lvlEditorBTN');
 
-		GenerateButton(this.buttonList, 230, 50+this.toolbarStartY, 35, 20, '#ff4d4d','DEL', 1, -2, 18, '#000000', 'addWaveBTN', 'lvlEditorBTN');
-		GenerateButton(this.buttonList, 270, 50+this.toolbarStartY, 35, 20, '#32ff7e','ADD', 2, -2, 18, '#000000', 'delWaveBTN', 'lvlEditorBTN');
+
+		GenerateButton(this.buttonList, 230, 50+this.toolbarStartY, 35, 20, '#ff4d4d','DEL', 1, -2, 18, '#000000', 'delWaveBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 270, 50+this.toolbarStartY, 35, 20, '#32ff7e','ADD', 2, -2, 18, '#000000', 'addWaveBTN', 'lvlEditorBTN');
 		GenerateButton(this.buttonList, 235, 25+this.toolbarStartY, 15, 20, '#17c0eb','<', 3, -2, 18, '#000000', 'backWaveBTN', 'lvlEditorBTN');
 		GenerateButton(this.buttonList, 285, 25+this.toolbarStartY, 15, 20, '#17c0eb','>', 3, -2, 18, '#000000', 'forwWaveBTN', 'lvlEditorBTN');
 
 		GenerateButton(this.buttonList, 230, 90+this.toolbarStartY, 15, 20, '#17c0eb','-', 2, -4, 20, '#000000', 'subStartDelayBTN', 'lvlEditorBTN');
 		GenerateButton(this.buttonList, 290, 90+this.toolbarStartY, 15, 20, '#17c0eb','+', 2, -1, 16, '#000000', 'addStartDelayBTN', 'lvlEditorBTN');
 
+		GenerateButton(this.buttonList, 215, 130+this.toolbarStartY, 90, 20, '#32ff7e','addEnemy', 2, -2, 18, '#000000', 'addEnemyBTN', 'lvlEditorBTN');
+
+		GenerateButton(this.buttonList, 315, 10+this.toolbarStartY, 15, 150, '#666060','<', 2, 60, 18, '#000000', 'pageBackBTN', 'lvlEditorBTN');
+		GenerateButton(this.buttonList, 780, 10+this.toolbarStartY, 15, 150, '#666060','>', 2, 60, 18, '#000000', 'pageForwBTN', 'lvlEditorBTN');
 	}
 }
