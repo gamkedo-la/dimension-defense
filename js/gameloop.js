@@ -97,7 +97,6 @@ gameLoop = new function(){
 		{
 			this.towerMenu.move();
 		}
-
 	}
 	//draw things here
 	this.draw = function(){
@@ -149,8 +148,11 @@ gameLoop = new function(){
 		colorText("pause", 0, 532, 20, "black");
 		colorRectWithAlpha(5,canvas.height/2-60, 60, 60, "black", 0.5);
 		colorText("Score", 8, canvas.height/2, 20, "yellow");
+		if (mouseX < 50 && mouseY > 520) {
+			colorCircle(25,528, 28, "#DD00DD");
+			colorText("pause", 0, 532, 20, "white");
+		}
 	}
-
 	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3)
 	{
         //pause menu fix
@@ -187,6 +189,10 @@ gameLoop = new function(){
 
 	this.onMouseClicked = function()
 	{
+		if (mouseX < 50 && mouseY > 520) {
+			StopGame();
+			}
+
 		if(this.isGameOver){
 			MainMenu.mouseClickedPlayMenu();
 			return;
