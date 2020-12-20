@@ -26,14 +26,20 @@ image = new function (){
 		{imgName: 'ElectricTowerL3P', fileName: "ElectricTower-5.png", type: 'tower'},
 		{imgName: 'ElectricTowerL3A', fileName: "ElectricTower-6.png", type: 'tower'},
 
-		{imgName: 'LaserTower', fileName: "LaserTower.png", type: 'tower'},
-		{imgName: 'LaserTowerBase', fileName: "LaserTowerBase.png", type: 'tower'},
-
-		{imgName: 'MissileTowerBase', fileName: "MissileTowerBase.png", type: 'tower'},
-		{imgName: 'MissileTowerTurret', fileName: "MissileTowerTurret.png", type: 'tower'},
-		{imgName: 'Missile', fileName: "Missile.png", type: 'tower'},
+		{imgName: 'MissileTowerBaseL1', fileName: "MissileTowerBase-1.png", type: 'tower'},
+		{imgName: 'MissileTowerBaseL2', fileName: "MissileTowerBase-2.png", type: 'tower'},
+		{imgName: 'MissileTowerBaseL3', fileName: "MissileTowerBase-3.png", type: 'tower'},
+		{imgName: 'MissileTowerTurretL1', fileName: "MissileTowerTurret-1.png", type: 'tower'},
+		{imgName: 'MissileTowerTurretL2', fileName: "MissileTowerTurret-2.png", type: 'tower'},
+		{imgName: 'MissileTowerTurretL3', fileName: "MissileTowerTurret-3.png", type: 'tower'},
+		{imgName: 'MissileL1', fileName: "Missile-1.png", type: 'tower'},
+		{imgName: 'MissileL2', fileName: "Missile-2.png", type: 'tower'},
+		{imgName: 'MissileL3', fileName: "Missile-3.png", type: 'tower'},
 		{imgName: 'MuzzleFlash', fileName: "MuzzleFlash.png", type: 'tower'},
 		{imgName: 'MissileTrail', fileName: "MissileTrail.png", type: 'tower'},
+
+		{imgName: 'LaserTower', fileName: "LaserTower.png", type: 'tower'},
+		{imgName: 'LaserTowerBase', fileName: "LaserTowerBase.png", type: 'tower'},
 
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 
@@ -52,7 +58,7 @@ image = new function (){
 		{imgName:'AntEnemy',fileName:"enemyAntSprite.png",type:'animation'},
 		{imgName:'CarEnemy',fileName:"enemyCarSprite.png",type:'animation'},
 		{imgName:'UI_Coin',fileName:"Coin.png",type:'animation'},
-		{imgName:'explsion1',fileName:"explosion1Sheet.png",type:'animation'},
+	//	{imgName:'explsion1',fileName:"explosion1Sheet.png",type:'animation'},
 	];
 
 	//creating different lists upfront

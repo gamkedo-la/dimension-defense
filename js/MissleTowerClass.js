@@ -9,10 +9,9 @@ function MissleTowerClass(){
 	this.indexY;
 	this.image;
 
-    // FIXME perhaps these should be set later, after all inits? seems ok
-	this.image = "MissileTowerTurret";
-	this.imageBase = "MissileTowerBase";
-	this.imageProjectile = "Missile";
+	this.image;
+	this.imageBase;
+	this.imageProjectile;
 	this.imageMuzzleFlash = "MuzzleFlash";
 	this.imageMissileTrail = "MissileTrail";
 	this.muzzleFlashAlpha = 0;
@@ -187,8 +186,10 @@ function MissleTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "MissileTowerTurret";//FIXME +"L" + this.level;
-		let random = Math.floor(Math.random() * Math.floor(50));
+		this.image = "MissileTowerTurretL" + this.level;
+		this.imageBase = "MissileTowerBaseL" + this.level;
+		this.imageProjectile = "MissileL" + this.level;
+		let random = Math.floor(Math.random() * Math.floor(30));
 
 		switch(this.level){
 			case 1:
@@ -216,7 +217,7 @@ function MissleTowerClass(){
 				this.shootColor = '#db2531';
 				this.shootR = 14;
 				this.shootDamage = 10;
-				this.reloadTime = 250 + random;
+				this.reloadTime = 200 + random;
 				break;
 		}
 	}

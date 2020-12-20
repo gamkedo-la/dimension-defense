@@ -117,14 +117,14 @@ const MainMenu = new (function () {
             }
         }
 
-        drawBitmapCenteredWithRotationAndScale("MissileTowerBase", tower.x, tower.y, 0, 1.5);
-        drawBitmapCenteredWithRotationAndScale("MissileTowerTurret", tower.x, tower.y, tower.angle, 1.5);
+        drawBitmapCenteredWithRotationAndScale("MissileTowerBaseL1", tower.x, tower.y, 0, 1.5);
+        drawBitmapCenteredWithRotationAndScale("MissileTowerTurretL1", tower.x, tower.y, tower.angle, 1.5);
      
 
         if(isShooting === true)
         {
             let angleWobble = degreesToRadian(Math.floor(Math.random() * Math.floor(10)));
-            drawBitmapCenteredWithRotationAndScale("Missile", tower.shoot.x, tower.shoot.y, tower.shoot.angle + angleWobble, 1.5);
+            drawBitmapCenteredWithRotationAndScale("MissileL1", tower.shoot.x, tower.shoot.y, tower.shoot.angle + angleWobble, 1.5);
 
             if (muzzleFlashAlpha > 0) {
                 ctx.globalAlpha = muzzleFlashAlpha;
