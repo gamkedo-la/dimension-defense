@@ -32,9 +32,7 @@ gameLoop = new function(){
 	this.gameOverScreen = new GameOverScreen();
 
 	this.coins;
-
-	//id for coin animation
-	this.id=null;
+	this.CoinSpriteID;
 
 	//move things here
 	this.move = function (){
@@ -130,7 +128,7 @@ gameLoop = new function(){
 		ctx.restore();
 
 		//call the draw_anim_loop function
-		animationSystem.draw_anim_loop(this.id, 2);
+		animationSystem.draw_anim_loop(	this.CoinSpriteID);
 		
 		this.drawTowerPlaceableIndicator();
 
@@ -413,7 +411,7 @@ gameLoop = new function(){
 		this.resetGame();
 
 		//Registers the id.
-		this.id=animationSystem.register("UI_Coin",4,{X:30,Y:30});
+		this.CoinSpriteID=animationSystem.register("UI_Coin",4,{X:30,Y:30});
 		for (let i = 0; i < levelList.length; i++)
 		{
 			if(levelName == levelList[i].levelName)
@@ -476,7 +474,8 @@ gameLoop = new function(){
 		this.waveList = [];
 		this.enemyList = [];
 		this.towerList = [];
-        this.coins = 2000;
+		this.coins;
+		this.CoinSpriteID;
 
 		this.towerMenu = new TowerMenuClass();
 		animationSystem.resetList()

@@ -56,6 +56,20 @@ animationInfo=
         flipY:false,        
         orient:"horizontal"
     },
+
+    'enemyExplosion':{
+        row:1,
+        col:6,
+        cell_W:80,
+        cell_H:80,
+        maxFrame:6,
+        startFrame:1,
+        endFrame:6,
+        currentFrame:1,
+        flipH:false,
+        flipY:false,        
+        orient:"horizontal"
+    },
 	
 	'UI_Coin':{
     row:1,
