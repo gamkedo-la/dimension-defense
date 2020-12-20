@@ -377,6 +377,64 @@ levelEditor = new function(){
 		this.generateMainButtons();
 	}
 
+	this.initEditLevel = function(levelName){	
+		let ld = [];
+		
+		for (let i = 0; i < levelList.length; i++)
+		{
+			if(levelName == levelList[i].levelName)
+			{
+				this.mapImage = levelList[i].mapName;
+				this.lvlName = levelList[i].levelName;
+				ld = levelList[i];
+				this.levelData = 
+				{
+					levelName: levelList[i].levelName,
+					mapName: this.mapImage,
+					waveStartDelay: [],
+					gumAmounts: levelList[i].gumAmounts,
+					coins: levelList[i].coins,
+					startOffset: levelList[i].startOffset,
+					wave: []
+				}
+				break;
+			}
+		}
+
+		for (let i = 0; i < mapList.length; i++)
+		{
+			if(this.mapImage == mapList[i].name)
+			{
+				this.generateMapVarsFromEditorMapList(mapList[i]);
+				break;
+			}
+		}
+		
+		//Turning enemy names to ID numbers
+		for(let w = 0; w < ld.wave.length; w++)
+		{
+			this.addNewWave();
+			for(let sw = 0; sw < ld.wave[w].length; sw++)
+			{
+				if(sw != 0){this.addNewEnemy();}
+				for(let e = 0; e < enemyList.length; e++)
+				{
+					if(ld.wave[w][sw].enemyType === enemyList[e].type)
+					{
+						ld.wave[w][sw].enemyType = e;
+					}				
+				}
+				
+			}
+		}
+
+		this.message = 'Start by renaming the level and changing the offset!';
+		this.levelData.wave = ld.wave;
+		console.log(ld.waveStartDelay)
+		this.levelData.waveStartDelay = copyArray(ld.waveStartDelay);
+		this.generateMainButtons();
+	}
+
 	this.moveMapWithMouse = function()
 	{
 		if (mouseY > this.toolbarStartY) return;
