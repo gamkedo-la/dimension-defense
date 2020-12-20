@@ -44,6 +44,9 @@ levelEditor = new function(){
 
 		//draw map
 		drawImageWithAngle(this.mapImage, offsetX, offsetY, 0);
+
+		this.highlightPath(this.highlightedPath);
+		this.highlightGumAltar();
 		
 		//draw toolbar background
 		colorRect(0, this.toolbarStartY, canvas.width, this.toolbarHeight, '#3d3d3d');
@@ -66,9 +69,6 @@ levelEditor = new function(){
 		colorText(this.levelData.waveStartDelay[this.currentWave], 250, 106+this.toolbarStartY, 20, '#ffffff');
 
 		colorText(this.message, 10, 173+this.toolbarStartY, 16, '#fcbe03');
-
-		this.highlightPath(this.highlightedPath);
-		this.highlightGumAltar();
 
 		drawButtons(this.buttonList, 'lvlEditorBTN');
 

@@ -10,6 +10,7 @@ image = new function (){
 		{imgName: 'toyCarMap', fileName: "toyCarMap.png", type: 'gameMap'},
 		{imgName: 'blocksMap', fileName: 'blocksMap.png', type: 'gameMap'},
 		{imgName: 'Demonic Map', fileName: 'BT_DD_OccultTown.png', type: 'gameMap'},
+		{imgName: 'retroTripMap', fileName: 'retroTripMap.png', type: 'gameMap'},
 
 		{imgName: 'gunTowerL1', fileName: "towerGun-1.png", type: 'tower'},
 		{imgName: 'gunTowerL2', fileName: "towerGun-2.png", type: 'tower'},
