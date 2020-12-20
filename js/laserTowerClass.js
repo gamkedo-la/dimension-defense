@@ -111,7 +111,7 @@ function LaserTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "LaseTower";
+		this.image = "LaserTower";
 
 		switch(this.level){
 			case 1:
