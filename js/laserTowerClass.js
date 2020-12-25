@@ -8,6 +8,7 @@ function LaserTowerClass(){
 	this.indexX;
 	this.indexY;
 	this.image;
+	this.imaheBase;
 
 	this.level = 0;
 	this.price = [100, 200]
@@ -55,10 +56,17 @@ function LaserTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
+		if (this.imageBase) { 
+		    drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
+		}	
+		if (this.image) { 
+			drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
+		}	
+
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			colorRect(this.shotList[i].x , this.shotList[i].y , this.shotList[i].r, this.shotList[i].color);
+			spinAng = this.shotList[i].angle;
+			angledLine(this.shotList[i].x, this.shotList[i].y, 20, spinAng, this.shotList[i].color);
 		}
 
 	}
@@ -111,7 +119,8 @@ function LaserTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "LaserTower";
+		this.imageBase = 'LaserTowerBase';
+		this.image = 'LaserTower';
 
 		switch(this.level){
 			case 1:

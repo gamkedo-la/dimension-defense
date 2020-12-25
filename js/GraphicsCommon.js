@@ -145,3 +145,13 @@ function drawSpriteAngle_Single(imgName,row,col,dimensionX,dimensionY,atX,atY,at
 	ctx.restore();
 }
 
+function angledLine(atX,atY,length,ang,color) {
+	var halfLineOffsetX = Math.cos(ang) * length;
+	var halfLineOffsetY = Math.sin(ang) * length;
+	ctx.strokeStyle = color;
+	ctx.beginPath();
+	ctx.moveTo(atX-halfLineOffsetX,atY-halfLineOffsetY);
+	ctx.lineTo(atX+halfLineOffsetX,atY+halfLineOffsetY);
+	ctx.stroke();
+}
+
