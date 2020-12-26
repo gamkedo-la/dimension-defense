@@ -46,8 +46,7 @@ let cheatList = [
 		code: 'w',
 		active: isDebugModeON,
 		action: function() {
-			gameLoop.isGameOver = true;
-			gameLoop.hasWon = true;
+			gameLoop.winGameInit();
 		}
 	},
 ];

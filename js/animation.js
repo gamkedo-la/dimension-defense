@@ -156,7 +156,6 @@ class animate{
             
             this.animatedlist[id-1]=null;
             this.entities-=1;
-            console.log(this.animatedlist);
             return true;
            
         }

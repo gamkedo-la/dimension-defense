@@ -32,8 +32,11 @@ gameLoop = new function(){
 	this.gameOverScreen = new GameOverScreen();
 	this.hasWon;
 
+	this.score;
 	this.coins;
 	this.CoinSpriteID;
+	this.towerPlaceableIndicatorRadius = 11;
+	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
 
 	//move things here
 	this.move = function (){
@@ -54,23 +57,17 @@ gameLoop = new function(){
 			}
 		}
 
+		//Lose Game detection happens here	
 		if(this.remainingGums == 0)
 		{
-			this.isGameOver = true;
-			this.hasWon = false;
-			console.log("Game Over, you lost all your gum!");
-			// Insert code for lose screen call here
-			this.towerMenu = false;
+			this.loseGameInit();
 			return;
 		}
 
+		//Win Game detection happens here
 		if(this.enemyList.length == 0 && this.noMoreWaves)
 		{
-			this.isGameOver = true;
-			this.hasWon = true;
-			console.log("You won");
-			//Insert code for win screen call here
-			this.towerMenu = false;
+			this.winGameInit();
 			return;
 		}
 
@@ -144,21 +141,47 @@ gameLoop = new function(){
 		this.drawUI();
 	}
 
-	this.towerPlaceableIndicatorRadius = 11;
-	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
-	
+	this.winGameInit = function()
+	{
+		console.log("You Won!");
+		LevelManager.checkForNewHighScoreAndUpdate(this.levelName, this.score + this.coins);
+		LevelManager.unlockNextLevel(this.levelName);
+		this.isGameOver = true;
+		this.hasWon = true;
+		this.towerMenu = false;
+	}
+
+	this.loseGameInit = function()
+	{
+		console.log("Game Over, you lost all your gum!");
+		LevelManager.checkForNewHighScoreAndUpdate(this.levelName, this.score);
+		this.isGameOver = true;
+		this.hasWon = false;
+		this.towerMenu = false;
+	}
+
+	this.addScore = function(scoreToAdd)
+	{
+		this.score += scoreToAdd;
+	}
+
 	this.drawUI = function(){
+
 		colorRectWithAlpha(10,540, 150, 60, "white", 0.1);
 		colorText(this.coins, 55, 45, 50, "black");
-		colorTextBold("gums:" + this.remainingGums, 44, 563, 30, "blue");
-		colorTextBold("Wave:" + this.currentWave + "/" + this.waveList.length, 15, 598, 30, "green");
-		colorCircle(25,528, 28, "magenta");
-		colorText("pause", 0, 532, 20, "black");
-		colorRectWithAlpha(5,canvas.height/2-60, 60, 60, "black", 0.5);
-		colorText("Score", 8, canvas.height/2, 20, "yellow");
-		if (mouseX < 50 && mouseY > 520) {
-			colorCircle(25,528, 28, "#DD00DD");
-			colorText("pause", 0, 532, 20, "white");
+		
+		colorRectWithAlpha(5, 60, 150, 50, "black", 0.5);
+		colorText("Score: " + this.score, 10, 80, 22, "white");
+		colorText("Gums: " + this.remainingGums, 10, 105, 22, "white");
+
+		colorRectWithAlpha(285, 5, 160, 35, "black", 0.5);
+		colorText("Wave:" + this.currentWave + "/" + this.waveList.length, 300, 30, 30, "#e6a312");
+
+		colorCircle(20,580, 40, "#0bb372");
+		colorText("Pause", 2, 580, 20, "black");
+		if (mouseX < 60 && mouseY > 540) {
+			colorCircle(25,580, 40, "#0bb372");
+			colorText("Pause", 2, 580, 20, "white");
 		}
 	}
 	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3)
@@ -200,10 +223,6 @@ gameLoop = new function(){
 			}
 
 		if(this.isGameOver){
-			if(this.hasWon)
-			{
-				LevelManager.unlockNextLevel(this.levelName);
-			}
 			scene = "mainMenu";
 			MainMenu.mainMenuSelect("Play Game");
 			return;
@@ -490,6 +509,7 @@ gameLoop = new function(){
 		this.coins;
 		this.CoinSpriteID;
 		this.hasWon;
+		this.score = 0;
 
 		this.towerMenu = new TowerMenuClass();
 		animationSystem.resetList()

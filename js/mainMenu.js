@@ -181,7 +181,7 @@ const MainMenu = new (function () {
                 30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol, si, 
                 (si / image.get(levelList[i].mapName).width) * image.get(levelList[i].mapName).height , "#111111", "0.6");
             }
-            colorText(levelList[i].levelName, mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
+            colorText("HighScore: " + LevelManager.highScores[i], mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
                         30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol - 5, 20, 'white');
             mapListRow++;
         }

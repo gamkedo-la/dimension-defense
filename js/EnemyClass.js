@@ -30,6 +30,7 @@ function EnemyClass(){
 	this.canBeRemoved = false;
 	this.explosionTimer = 60;
 	this.explosionSpriteID;
+	this.score;
 
 	//Abilities
 	this.immuneToSlowdown = false;
@@ -93,13 +94,15 @@ function EnemyClass(){
 
 	//draw things here
 	this.draw = function(){
-	
 		let healthBarW = 30;
 		let healthBarH = 6;
 		colorRect(this.x  - healthBarW/2,this.y - 30, healthBarW, healthBarH, "red");
 		colorRect(this.x  - 15,this.y - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
 		animationSystem.draw_anim_loop(this.spriteID, 5);
-		animationSystem.draw_anim_loop(this.explosionSpriteID);
+		if(this.isDead)
+		{
+			animationSystem.draw_anim_loop(this.explosionSpriteID);
+		}
 	}
 
 	//Inititalize
@@ -117,6 +120,7 @@ function EnemyClass(){
 				this.coins = enemyList[i].coins;
 				this.r = enemyList[i].r;
 				this.isImgSideview = enemyList[i].isImgSideview;
+				this.score = enemyList[i].score;
 				sprite = enemyList[i].sprite;
 				for (let a = 0; a < enemyList[i].ability.length; a++)
 				{
@@ -189,10 +193,9 @@ function EnemyClass(){
 			gameLoop.addCoins(this.coins);
 		}
 		
+		gameLoop.addScore(this.score);
 		this.isDead = true;
 		this.explosionSpriteID = animationSystem.register("enemyExplosion",15,{X:this.x, Y:this.y});
-
-		animationSystem.destroyEntity(this.spriteID)
 	}
 
 	this.isDeadMove = function(){
@@ -201,9 +204,9 @@ function EnemyClass(){
 		{
 			animationSystem.draw_anim_loop(this.explosionSpriteID);
 		}else{
-			
+			animationSystem.destroyEntity(this.explosionSpriteID);
 			this.canBeRemoved = true;
-			animationSystem.destroyEntity(this.explosionSpriteID)
+			animationSystem.destroyEntity(this.spriteID)
 			return;
 		}
 		this.explosionTimer--;

@@ -19,6 +19,7 @@ window.onload = function() {
 		animationSystem=new animate();
 		animationSystem.init();
 		gameLoop.init('lvlPencil');
+		LevelManager.init();
 		StartGame();
 	}
 }
