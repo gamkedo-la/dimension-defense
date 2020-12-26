@@ -466,18 +466,20 @@ gameLoop = new function(){
 					}
 				}
 
+				let gumArt = image.getAllTypesOf("gum");
+				gumArt = gumArt[Math.floor(Math.random() * Math.floor(gumArt.length))]
 				for(let i = 0; i < this.pathList.length; i++)
 				{
 					for(let gi = 0; gi < levelList[i].gumAmounts[i]; gi++)
 					{
 							let newGum = new GumClass();
-							newGum.init(this.pathList[i]);
+							newGum.init(this.pathList[i], gumArt);
 							this.gums.push(newGum);
 					}
 				}
-
 				break;
 			}
+			
 		}
 
 	

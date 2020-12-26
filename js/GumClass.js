@@ -7,6 +7,7 @@ function GumClass(){
 	this.indexY;
 	this.moveToX;
 	this.moveToY;
+	this.image;
 
 	this.r = 20;
 	this.defaultSpeed = 1;
@@ -40,7 +41,7 @@ function GumClass(){
 			return;
 		}
 		
-		drawImageWithAngle("gum1", this.x , this.y, 0);
+		drawBitmapCenteredWithRotation(this.image, this.x , this.y, 0);
 
 	}
 
@@ -192,13 +193,14 @@ function GumClass(){
 	}
 
 	//Inititalize
-	this.init = function(pathNumber)
+	this.init = function(pathNumber, gumImage)
 	{
 		this.x = returnPixelPosFromIndexPos(gameLoop.returnGumAltarPos(pathNumber).indexX) + TILE_SIZE / 2;
 		this.y = returnPixelPosFromIndexPos(gameLoop.returnGumAltarPos(pathNumber).indexY) + TILE_SIZE / 2;
 		this.indexX = gameLoop.returnGumAltarPos(pathNumber).indexX;
 		this.indexY = gameLoop.returnGumAltarPos(pathNumber).indexY;
 		this.altar = pathNumber;
+		this.image = gumImage;
 	}
 
 }

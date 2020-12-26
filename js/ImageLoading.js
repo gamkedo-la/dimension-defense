@@ -43,6 +43,7 @@ image = new function (){
 		{imgName: 'LaserTowerBase', fileName: "LaserTowerBase.png", type: 'tower'},
 
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
+		{imgName: 'gum2', fileName: "gum-2.png", type: 'gum'},
 
 		// enemies
 		{imgName: 'turtleSingle', fileName: "enemyTurtleSingle.png", type: 'enemy'},
