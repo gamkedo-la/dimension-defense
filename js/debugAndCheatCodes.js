@@ -32,7 +32,24 @@ let cheatList = [
 		action: function() {
 			gameLoop.addCoins(1000)
 		}
-	},	
+	},
+	cheat = 
+	{
+		code: 'l',
+		active: isDebugModeON,
+		action: function() {
+			LevelManager.unlockedLevels = 200;
+		}
+	},
+	cheat = 
+	{
+		code: 'w',
+		active: isDebugModeON,
+		action: function() {
+			gameLoop.isGameOver = true;
+			gameLoop.hasWon = true;
+		}
+	},
 ];
 
 

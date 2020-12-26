@@ -30,6 +30,7 @@ gameLoop = new function(){
 	this.towerMenu;
     this.levelName;
 	this.gameOverScreen = new GameOverScreen();
+	this.hasWon;
 
 	this.coins;
 	this.CoinSpriteID;
@@ -56,6 +57,7 @@ gameLoop = new function(){
 		if(this.remainingGums == 0)
 		{
 			this.isGameOver = true;
+			this.hasWon = false;
 			console.log("Game Over, you lost all your gum!");
 			// Insert code for lose screen call here
 			this.towerMenu = false;
@@ -65,6 +67,7 @@ gameLoop = new function(){
 		if(this.enemyList.length == 0 && this.noMoreWaves)
 		{
 			this.isGameOver = true;
+			this.hasWon = true;
 			console.log("You won");
 			//Insert code for win screen call here
 			this.towerMenu = false;
@@ -95,6 +98,8 @@ gameLoop = new function(){
 		{
 			this.towerMenu.move();
 		}
+
+		this.drawTowerPlaceableIndicator();
 	}
 
 	//draw things here
@@ -129,11 +134,11 @@ gameLoop = new function(){
 
 		//call the draw_anim_loop function
 		animationSystem.draw_anim_loop(	this.CoinSpriteID);
-		
-		this.drawTowerPlaceableIndicator();
 
-		let hasWon = this.remainingGums != 0 && this.enemyList.length == 0 && this.noMoreWaves;
-		this.gameOverScreen.draw(this.isGameOver, hasWon);
+		if(this.isGameOver)
+		{
+			this.gameOverScreen.draw(this.isGameOver, this.hasWon);
+		}
 		
 		
 		this.drawUI();
@@ -158,8 +163,6 @@ gameLoop = new function(){
 	}
 	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3)
 	{
-        //pause menu fix
-        if(scene !== "game"){return};
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 
@@ -197,7 +200,12 @@ gameLoop = new function(){
 			}
 
 		if(this.isGameOver){
-			MainMenu.mouseClickedPlayMenu();
+			if(this.hasWon)
+			{
+				LevelManager.unlockNextLevel(this.levelName);
+			}
+			scene = "mainMenu";
+			MainMenu.mainMenuSelect("Play Game");
 			return;
 		}
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
@@ -481,6 +489,7 @@ gameLoop = new function(){
 		this.towerList = [];
 		this.coins;
 		this.CoinSpriteID;
+		this.hasWon;
 
 		this.towerMenu = new TowerMenuClass();
 		animationSystem.resetList()

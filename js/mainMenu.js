@@ -158,9 +158,6 @@ const MainMenu = new (function () {
         }
 
         isHoveringMapItem = false;
-
-        
-
     }
 
     this.drawPlayGame = function()
@@ -169,7 +166,7 @@ const MainMenu = new (function () {
         let mapListCol = 0;
 
         this.BackButtonToMainMenu();
-        
+        colorText("Debug:press L to unlock all levels", 200, 18, 18, "red")
         for(let i = 0; i < levelList.length; i++){
             let drawbig = false;
             if(isHoveringMapItem && i === mapPreviewHoverItem){drawbig = true;}
@@ -177,6 +174,13 @@ const MainMenu = new (function () {
             drawImageScaledToWidthSize(levelList[i].mapName, mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
                                 30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol, mapPrevievthumbWidth + (drawbig * 20));
             
+            if(i > LevelManager.unlockedLevels)
+            {
+                let si = mapPrevievthumbWidth + (drawbig * 20);
+                colorRectWithAlpha(mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
+                30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol, si, 
+                (si / image.get(levelList[i].mapName).width) * image.get(levelList[i].mapName).height , "#111111", "0.6");
+            }
             colorText(levelList[i].levelName, mapPrevievRowDist + (mapPrevievthumbWidth + mapPrevievRowDist) * mapListRow,
                         30 + mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol - 5, 20, 'white');
             mapListRow++;
@@ -226,7 +230,7 @@ const MainMenu = new (function () {
         {
             currentMenu = "main"
         }
-        if(isHoveringMapItem === true)
+        if(isHoveringMapItem === true && mapPreviewHoverItem <= LevelManager.unlockedLevels)
         {    
             gameLoop.init(levelList[mapPreviewHoverItem].levelName);
             currentMenu = "main";
