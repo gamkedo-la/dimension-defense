@@ -49,6 +49,7 @@ image = new function (){
 		{imgName: 'turtleSingle', fileName: "enemyTurtleSingle.png", type: 'enemy'},
 		{imgName: 'antSingle', fileName: "enemyAntSingle.png", type: 'enemy'},
 		{imgName: 'carSingle', fileName: "enemyCarSingle.png", type: 'enemy'},
+		{imgName: 'blobSingle', fileName: "enemyBlobSingle.png", type: 'enemy'},
 
 		// atlas for now, maybe animation strip will be better ,cas.
 		{imgName:'strip16',fileName:"strip16.png",type:'animation',animationInfo:{Row:1,Col:10,orient:"horizontal"}},
@@ -59,6 +60,7 @@ image = new function (){
 		{imgName:'turtleEnemy',fileName:"enemyTurtleSprite.png",type:'animation'},
 		{imgName:'AntEnemy',fileName:"enemyAntSprite.png",type:'animation'},
 		{imgName:'CarEnemy',fileName:"enemyCarSprite.png",type:'animation'},
+		{imgName:'BlobEnemy',fileName:"enemyBlobSprite.png",type:'animation'},
 		{imgName:'UI_Coin',fileName:"Coin.png",type:'animation'},
 		{imgName:'enemyExplosion',fileName:"explosion1Sprite.png",type:'animation'},
 	];
