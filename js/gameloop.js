@@ -135,9 +135,9 @@ gameLoop = new function(){
 		{
 			this.gameOverScreen.draw(this.isGameOver, this.hasWon);
 		}
-		if(scene == "game")
+		if(scene == "game" && !this.towerMenu.isActive )
 		{
-			this.drawTowerPlaceableIndicator();
+			this.onMouseHover();
 		}
 		this.drawUI();
 	}
@@ -185,18 +185,26 @@ gameLoop = new function(){
 			colorText("Pause", 2, 580, 20, "white");
 		}
 	}
-	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3)
+
+	this.onMouseHover = function()
 	{
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
 		// when world is scrolled around it is possible to 
-		// click outside the map and get negative numbers or out of bounds
-		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
-		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
+		// hover outside the map and get negative numbers or out of bounds
+		if(this.map[this.pathList[0]][mouseIDX]==undefined || this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) 
+		{
+			for (let i = 0; i < this.towerList.length; i++)
+			{
+				this.towerList[i].isMouseHovering = false;
+			}
+			return;
+		}
 
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4) 
 		{
-			var minRadius = 9, maxRadius = 17;
+			let minRadius = 9, maxRadius = 17;
+			let color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3
 
 			this.isTowerPlaceableIndicatorRadiusIncreasing = this.towerPlaceableIndicatorRadius < maxRadius ? true : false;
 			if (this.towerPlaceableIndicatorRadius > maxRadius) this.towerPlaceableIndicatorRadius = minRadius;
@@ -213,6 +221,32 @@ gameLoop = new function(){
 						   color2);
 			colorCircle(mouseX, mouseY, this.towerPlaceableIndicatorRadius, color1);
 			colorCircle(mouseX, mouseY, this.towerPlaceableIndicatorRadius * 0.3, color2);
+		}else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
+		{
+			for (let i = 0; i < this.towerList.length; i++)
+			{
+				if(mouseIDX == this.towerList[i].indexX && mouseIDY == this.towerList[i].indexY)
+				{
+					if(this.towerList[i].isMouseHovering === true)
+					{
+						this.towerList[i].hoverAlpha -= 0.005;
+						if(this.towerList[i].hoverAlpha < 0.4)
+						{
+							this.towerList[i].hoverAlpha = 0.8;
+						}
+					}else{
+						this.towerList[i].isMouseHovering = true;
+						this.towerList[i].hoverAlpha = 0.8;
+					}
+				}else{
+					this.towerList[i].isMouseHovering = false;
+				}
+			}
+		}else{
+			for (let i = 0; i < this.towerList.length; i++)
+			{
+				this.towerList[i].isMouseHovering = false;
+			}
 		}
 	}
 

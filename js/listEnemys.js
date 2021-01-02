@@ -44,7 +44,7 @@ var enemyList =
         type: 'blob',//never change this or levels may break
         LvlEditorImgName: 'blobSingle',//A single image of the enemy in a 48x48px image
         sprite: 'BlobEnemy',
-        isImgSideview: false,
+        isImgSideview: true,
         health: 10,
         speed: 1.5,
         coins: 80,

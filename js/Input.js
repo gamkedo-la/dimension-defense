@@ -74,19 +74,21 @@ function updateMousePos(evt) {
 
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
-
-	if(gameLoop.towerMenu.isActive)
+	if(scene == "game")
 	{
-		gameLoop.towerMenu.checkMouseHover();
-	}
+		if(gameLoop.towerMenu.isActive)
+		{
+			gameLoop.towerMenu.checkMouseHover();
+		}
 
-    if (draggingMouse) {
-        dragMouseDX += mouseX - dragMouseX;
-    	dragMouseDY += mouseY - dragMouseY;
-    	dragMouseX = mouseX;
-    	dragMouseY = mouseY;
-    	//console.log("dragging mouse: "+mouseX+","+mouseY);
-    }
+		if (draggingMouse) {
+			dragMouseDX += mouseX - dragMouseX;
+			dragMouseDY += mouseY - dragMouseY;
+			dragMouseX = mouseX;
+			dragMouseY = mouseY;
+			//console.log("dragging mouse: "+mouseX+","+mouseY);
+		}
+	}
 
 }
 

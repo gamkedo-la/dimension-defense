@@ -32,6 +32,10 @@ function MissleTowerClass(){
 	this.angle = 45;
 	this.shotList = [];
 
+	this.isMouseHovering = false;
+	this.hoverColor = "#8730d9"
+	this.hoverAlpha = 1;
+
 	//move things here
 	this.move = function (){
 
@@ -111,6 +115,10 @@ function MissleTowerClass(){
 
 	//draw things here
 	this.draw = function(){
+		if(this.isMouseHovering)
+		{
+			colorCircleBorderOnlyWithAlpha(this.x , this.y , this.minR , this.maxR , this.hoverColor,this.hoverAlpha);	
+		}
 
 		// draw the base of the tower that does not rotate
 		if (this.imageBase) { // optional
@@ -211,7 +219,7 @@ function MissleTowerClass(){
 				this.reloadTime = 250 + random;
 				break;
 			case 3:
-				this.minR = 150;
+				this.minR = 200;
 				this.maxR = 500;
 				this.shootSpeed = 5;
 				this.shootColor = '#db2531';

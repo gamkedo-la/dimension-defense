@@ -14,6 +14,11 @@ function SlowTowerClass(){
 	this.r;
 	this.slowdownAmount;
 
+	//Hover function not in use
+	this.isMouseHovering = false;
+	this.hoverColor = "#8730d9"
+	this.hoverAlpha = 1;
+
 	//move things here
 	this.move = function (){
 

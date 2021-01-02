@@ -23,6 +23,10 @@ function LaserTowerClass(){
 	this.angle = 45;
 	this.shotList = [];
 
+	this.isMouseHovering = false;
+	this.hoverColor = "#8730d9"
+	this.hoverAlpha = 1;
+
 	//move things here
 	this.move = function (){
 
@@ -56,6 +60,12 @@ function LaserTowerClass(){
 
 	//draw things here
 	this.draw = function(){
+
+		if(this.isMouseHovering)
+		{
+			colorCircleWithAlpha(this.x , this.y , this.r, this.hoverColor,this.hoverAlpha);
+		}
+
 		if (this.imageBase) { 
 		    drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
 		}	

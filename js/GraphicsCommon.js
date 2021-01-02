@@ -93,6 +93,29 @@ function colorCircle(centerX,centerY, radius, fillColor) {
 	ctx.fill();
 }
 
+function colorCircleWithAlpha(centerX,centerY, radius, fillColor, alpha) {
+	ctx.save();
+	ctx.globalAlpha = alpha;
+	ctx.fillStyle = fillColor;
+	ctx.beginPath();
+	ctx.arc(centerX,centerY, radius, 0,Math.PI*2, true);
+	ctx.fill();
+	ctx.restore();
+}
+
+function colorCircleBorderOnlyWithAlpha(centerX,centerY, radiusCircle, borderRadius, borderColor, alpha) {
+	ctx.save();
+
+	ctx.globalAlpha = alpha;
+	
+	ctx.beginPath();
+	ctx.arc(centerX, centerY, borderRadius, 0,Math.PI*2, false);
+	ctx.fillStyle = borderColor;
+	ctx.arc(centerX, centerY, radiusCircle, 0,Math.PI*2, true);
+	ctx.fill();
+	ctx.restore();
+}
+
 function rectBorderOnly(posX, posY, Width, Height, borderLineWidth, borderColor){
 	ctx.beginPath();
 	ctx.lineWidth = borderLineWidth;
