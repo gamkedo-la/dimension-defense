@@ -38,7 +38,6 @@ const LevelManager = new (function () {
         {
             this.highScores.push(0);
         }
-        console.log(this.highScores)
     }
 
 });

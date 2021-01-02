@@ -96,7 +96,6 @@ gameLoop = new function(){
 			this.towerMenu.move();
 		}
 
-		this.drawTowerPlaceableIndicator();
 	}
 
 	//draw things here
@@ -136,8 +135,10 @@ gameLoop = new function(){
 		{
 			this.gameOverScreen.draw(this.isGameOver, this.hasWon);
 		}
-		
-		
+		if(scene == "game")
+		{
+			this.drawTowerPlaceableIndicator();
+		}
 		this.drawUI();
 	}
 
@@ -188,7 +189,6 @@ gameLoop = new function(){
 	{
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
-
 		// when world is scrolled around it is possible to 
 		// click outside the map and get negative numbers or out of bounds
 		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
