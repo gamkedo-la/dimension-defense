@@ -122,7 +122,7 @@ function FlameTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "gunTowerL" + this.level;
+		this.image = "flameTowerL" + this.level;
 
 		switch(this.level){
 			case 1:

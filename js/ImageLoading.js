@@ -15,6 +15,10 @@ image = new function (){
 		{imgName: 'gunTowerL1', fileName: "towerGun-1.png", type: 'tower'},
 		{imgName: 'gunTowerL2', fileName: "towerGun-2.png", type: 'tower'},
 		{imgName: 'gunTowerL3', fileName: "towerGun-3.png", type: 'tower'},
+
+		{imgName: 'flameTowerL1', fileName: "flametower-1.png", type: 'tower'},
+		{imgName: 'flameTowerL2', fileName: "flametower-2.png", type: 'tower'},
+		{imgName: 'flameTowerL3', fileName: "flametower-3.png", type: 'tower'},
 		
 		{imgName: 'slowTowerL1', fileName: "TowerSlow-1.png", type: 'tower'},
 		{imgName: 'slowTowerL2', fileName: "TowerSlow-2.png", type: 'tower'},
