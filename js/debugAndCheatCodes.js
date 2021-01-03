@@ -49,6 +49,22 @@ let cheatList = [
 			gameLoop.winGameInit();
 		}
 	},
+	cheat = 
+	{
+		code: '1',
+		active: isDebugModeON,
+		action: function() {
+			backgroundSong.play();
+		}
+	},
+	cheat = 
+	{
+		code: '2',
+		active: isDebugModeON,
+		action: function() {
+			backgroundSong.stop();
+		}
+	},
 ];
 
 

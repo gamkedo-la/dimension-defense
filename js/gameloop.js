@@ -480,7 +480,7 @@ gameLoop = new function(){
 	{
 		
 		this.resetGame();
-
+		backgroundSong.play()
 		//Registers the id.
 		this.CoinSpriteID=animationSystem.register("UI_Coin",4,{X:30,Y:30});
 		for (let i = 0; i < levelList.length; i++)

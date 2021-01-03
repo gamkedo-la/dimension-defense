@@ -8,7 +8,7 @@ const VOLUME_INCREMENT = 0.25;
 
 
 //define sounds
-//var backgroundSong = new soundLoopsClass("audio/gameplayMusic.mp3");
+var backgroundSong = new soundLoopsClass("audio/childrenTrackV1.mp3");
 //var invalidSelectSFX = new soundSingleBufferClass("audio/invalid_select_sfx.wav");
 
 
@@ -142,7 +142,6 @@ function soundLoopsClass(fullFilenameWithPath) {
 	var fileName = fullFilenameWithPath;
 	var sound = new Audio(fileName);
 	sound.loop = true;
-
 	this.play = function() {
 		if (sound.paused) {
 			sound.currentTime = 0;
@@ -153,6 +152,18 @@ function soundLoopsClass(fullFilenameWithPath) {
 
 	this.stop = function() {
 		sound.pause();
+	}
+
+	this.setVolume = function(value) {
+		if (sound == null) {return;}
+
+		sound.volume = Math.pow(value * !isMuted, 2);
+
+		if(sound.volume == 0) {
+			sound.pause();
+		} else if (sound.paused) {
+			sound.play();
+		}
 	}
 }
 
@@ -282,7 +293,7 @@ function setMusicVolume(amount) {
 	} else if (musicVolume < 0.0) {
 		musicVolume = 0.0;
 	}
-	//backgroundMusic.setVolume(musicVolume);
+	backgroundSong.setVolume(musicVolume);
 }
 
 function turnMusicVolumeUp() {
@@ -313,6 +324,7 @@ function turnEffectsVolumeDown() {
 function setVolume(amount) {
 	setMusicVolume(amount);
 	setEffectsVolume(amount);
+	backgroundSong.setVolume(amount);
 }
 
 function turnVolumeUp() {

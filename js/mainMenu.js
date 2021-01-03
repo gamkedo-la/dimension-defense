@@ -35,6 +35,7 @@ const MainMenu = new (function () {
     let currentMenu = "main";
 
     this.move = function () {
+        backgroundSong.stop()
         switch (currentMenu) {
             case "main":
                 this.moveMainMenu();
