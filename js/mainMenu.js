@@ -49,12 +49,11 @@ const MainMenu = new (function () {
     
     this.showHighScore = function () {
         let maxScoresToShow = 5;
-	    let scoreToShow = maxScoresToShow;
-	    if (highScores.length < scoreToShow) {
-        scoreToShow = highScores.length;
+	    if (LevelManager.highScores.length < maxScoresToShow) {
+            maxScoresToShow = LevelManager.highScores.length;
         }
-        for (let i=scoreToShow; i<maxScoreToShow; i++){
-            colorText("HighScore" +  (i+1) + LevelManager.highScores[i], 10, 80, 22, "white");
+        for (let i=0; i<maxScoresToShow; i++){
+            colorText("HighScore" +  (i+1) + LevelManager.highScores[i], 10, 80+i*30, 22, "white");
         }
     }
 
@@ -65,6 +64,7 @@ const MainMenu = new (function () {
         switch (currentMenu) {
             case "main":
                 this.drawMainMenu();
+                this.showHighScore();
                 break;
             case "playGame":
                 this.drawPlayGame();
