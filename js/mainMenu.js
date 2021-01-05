@@ -46,6 +46,17 @@ const MainMenu = new (function () {
         }
 
     }
+    
+    this.showHighScore = function () {
+        let maxScoresToShow = 5;
+	    let scoreToShow = maxScoresToShow;
+	    if (highScores.length < scoreToShow) {
+        scoreToShow = highScores.length;
+        }
+        for (let i=scoreToShow; i<maxScoreToShow; i++){
+            colorText("HighScore" +  (i+1) + LevelManager.highScores[i], 10, 80, 22, "white");
+        }
+    }
 
     this.draw = function () 
     {
@@ -85,7 +96,6 @@ const MainMenu = new (function () {
     }
 
     this.drawMainMenu = function () {
- 
         for (let i = 0; i < mainMenuList.length; i++) {
             if (selectedItemOnPage === mainMenuList[i].toString()) {
                 colorRectWithAlpha(itemsX, topItemY + (rowHeight * i), itemsWidth, itemsHeight, '#7158e2', 0.85);
