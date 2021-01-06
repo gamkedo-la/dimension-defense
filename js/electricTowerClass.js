@@ -37,9 +37,14 @@ function ElectricTowerClass(){
 					if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
 					{
 						this.electrecudeEnemy(collidedEnemy[i]);
+						if(sfxElectroTowerShoot.isPaused())
+						{
+							sfxElectroTowerShoot.play();
+						}					
 					}
 				}
 		}
+				
 		
 	}
 

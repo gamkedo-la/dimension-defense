@@ -1,7 +1,7 @@
 
 
 var musicVolume = 0.75;
-var effectsVolume = 0.75;
+var effectsVolume = 0.50;
 var isMuted = false;
 var firstGesture = false;
 const VOLUME_INCREMENT = 0.25;
@@ -9,6 +9,15 @@ const VOLUME_INCREMENT = 0.25;
 
 //define sounds
 var backgroundSong = new soundLoopsClass("audio/childrenTrackV1.mp3");
+var sfxGunTowerShoot = new soundSingleBufferClass("audio/gunTower.mp3");
+var sfxElectroTowerShoot = new soundSingleBufferClass("audio/electroTower.mp3");
+var sfxLaserTowerShoot = new soundSingleBufferClass("audio/laser.mp3");
+var sfxMissleTowerShoot = new soundSingleBufferClass("audio/missileTower.mp3");
+var sfxSlowdownTowerShoot = new soundSingleBufferClass("audio/slowdownTower.mp3");
+
+var sfxEnemyDead = new soundSingleBufferClass("audio/explosion.mp3");
+var sfxGumStolen = new soundSingleBufferClass("audio/gumStolen.mp3");
+var sfxHover = new soundSingleBufferClass("audio/hover.mp3");
 //var invalidSelectSFX = new soundSingleBufferClass("audio/invalid_select_sfx.wav");
 
 
@@ -171,7 +180,7 @@ function soundSingleBufferClass(fullFilenameWithPath) {
 
 	var fileName = fullFilenameWithPath;
 	var sound = new Audio(fileName);
-
+	
 	this.play = function() {
 
 		sound.currentTime = 0;
@@ -179,6 +188,9 @@ function soundSingleBufferClass(fullFilenameWithPath) {
 		sound.play();
 	}
 
+	this.isPaused = function(){
+		return sound.paused
+	}
 
 	this.stop = function() {
 		sound.pause();

@@ -12,7 +12,6 @@ const PauseMenu = new (function () {
     "resume",
     "volume",
     "restart",
-    "help",
     "exit"
   ];
 
@@ -55,8 +54,6 @@ const PauseMenu = new (function () {
       this.cursor = 0;
     }
   }
-
-  
 
   this.checkState = function() {
     const selectedItemOnPage = menuText[current][this.cursor];

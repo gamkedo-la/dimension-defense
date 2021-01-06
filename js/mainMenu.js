@@ -161,6 +161,10 @@ const MainMenu = new (function () {
                 mouseY > mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol &&
                 mouseY < mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol + mapPrevievthumbWidth){
                 
+                if(!isHoveringMapItem)
+                {
+                    sfxHover.play();
+                }
                 isHoveringMapItem = true;
                 mapPreviewHoverItem = i;
                 return;				
@@ -230,6 +234,7 @@ const MainMenu = new (function () {
             if(selectedItemOnPage !== "nothing")
             {
                 this.shoot(mouseX, mouseY);
+                sfxMissleTowerShoot.play();
                 isShooting = true;
             }
         }
@@ -311,6 +316,10 @@ const MainMenu = new (function () {
             mouseY > topItemY + (i * rowHeight) &&
             mouseY < topItemY + (i* rowHeight) + itemsHeight)
             {
+                if(selectedItemOnPage != mainMenuList[i])
+                {
+                    sfxHover.play();
+                }
                 selectedItemOnPage = mainMenuList[i];
                 return;
             }

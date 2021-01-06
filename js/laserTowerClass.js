@@ -39,7 +39,11 @@ function LaserTowerClass(){
 				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
 				{
 					this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
-					if(gameTimer % this.reloadTime == 0)	this.shoot();
+					if(gameTimer % this.reloadTime == 0)	
+					{
+						this.shoot();
+						sfxLaserTowerShoot.play();
+					}
 					break;
 				}
 			}
