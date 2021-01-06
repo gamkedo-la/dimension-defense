@@ -45,9 +45,18 @@ function MissleTowerClass(){
 
 			if(collidedEnemy !== false)
 			{
-				this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
-				this.shoot(collidedEnemy[0]);		
+				for(let i = 0; i < collidedEnemy.length; i++)
+				{
+					if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+					{
+						this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
+						this.shoot(collidedEnemy[i]);
+						sfxMissleTowerShoot.play();
+						break;
+					}
+				}
 			}
+
 		}
 
 		for (let i = this.shotList.length - 1; i >= 0; i--)

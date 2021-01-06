@@ -34,8 +34,19 @@ function LaserTowerClass(){
 
 		if(collidedEnemy !== false)
 		{
-			this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
-			if(gameTimer % this.reloadTime == 0)	this.shoot();
+			for(let i = 0; i < collidedEnemy.length; i++)
+			{
+				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+				{
+					this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
+					if(gameTimer % this.reloadTime == 0)	
+					{
+						this.shoot();
+						sfxLaserTowerShoot.play();
+					}
+					break;
+				}
+			}
 		}
 		
 		for (let i = this.shotList.length - 1; i >= 0; i--)
@@ -139,7 +150,7 @@ function LaserTowerClass(){
 				this.shootColor = '#FF0000';
 				this.shootR = 5;
 				this.shootDamage = 1;
-				this.reloadTime = 40;
+				this.reloadTime = 140;
 				break;
 			case 2:
 				this.r = 80;
@@ -147,15 +158,15 @@ function LaserTowerClass(){
 				this.shootColor = '#FF8888';
 				this.shootR = 6;
 				this.shootDamage = 2;
-				this.reloadTime = 30;
+				this.reloadTime = 90;
 				break;
 			case 3:
 				this.r = 90;
-				this.shootSpeed = 4;
+				this.shootSpeed = 40;
 				this.shootColor = '#FFAAAA';
 				this.shootR = 7;
 				this.shootDamage = 3;
-				this.reloadTime = 20;
+				this.reloadTime = 50;
 				break;
 		}
 	}

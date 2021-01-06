@@ -34,9 +34,17 @@ function ElectricTowerClass(){
 			this.isActive = true;
 			for(let i = 0; i < collidedEnemy.length; i++)
 				{
-					this.electrecudeEnemy(collidedEnemy[i]);
+					if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+					{
+						this.electrecudeEnemy(collidedEnemy[i]);
+						if(sfxElectroTowerShoot.isPaused())
+						{
+							sfxElectroTowerShoot.play();
+						}					
+					}
 				}
 		}
+				
 		
 	}
 

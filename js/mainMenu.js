@@ -46,6 +46,16 @@ const MainMenu = new (function () {
         }
 
     }
+    
+    this.showHighScore = function () {
+        let maxScoresToShow = 5;
+	    if (LevelManager.highScores.length < maxScoresToShow) {
+            maxScoresToShow = LevelManager.highScores.length;
+        }
+        for (let i=0; i<maxScoresToShow; i++){
+            colorText("HighScore" +  (i+1) + LevelManager.highScores[i], 10, 80+i*30, 22, "white");
+        }
+    }
 
     this.draw = function () 
     {
@@ -54,6 +64,7 @@ const MainMenu = new (function () {
         switch (currentMenu) {
             case "main":
                 this.drawMainMenu();
+                this.showHighScore();
                 break;
             case "playGame":
                 this.drawPlayGame();
@@ -85,7 +96,6 @@ const MainMenu = new (function () {
     }
 
     this.drawMainMenu = function () {
- 
         for (let i = 0; i < mainMenuList.length; i++) {
             if (selectedItemOnPage === mainMenuList[i].toString()) {
                 colorRectWithAlpha(itemsX, topItemY + (rowHeight * i), itemsWidth, itemsHeight, '#7158e2', 0.85);
@@ -151,6 +161,10 @@ const MainMenu = new (function () {
                 mouseY > mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol &&
                 mouseY < mapPrevievColDist + (mapPrevievthumbWidth + mapPrevievColDist) * mapListCol + mapPrevievthumbWidth){
                 
+                if(!isHoveringMapItem)
+                {
+                    sfxHover.play();
+                }
                 isHoveringMapItem = true;
                 mapPreviewHoverItem = i;
                 return;				
@@ -220,6 +234,7 @@ const MainMenu = new (function () {
             if(selectedItemOnPage !== "nothing")
             {
                 this.shoot(mouseX, mouseY);
+                sfxMissleTowerShoot.play();
                 isShooting = true;
             }
         }
@@ -301,6 +316,10 @@ const MainMenu = new (function () {
             mouseY > topItemY + (i * rowHeight) &&
             mouseY < topItemY + (i* rowHeight) + itemsHeight)
             {
+                if(selectedItemOnPage != mainMenuList[i])
+                {
+                    sfxHover.play();
+                }
                 selectedItemOnPage = mainMenuList[i];
                 return;
             }

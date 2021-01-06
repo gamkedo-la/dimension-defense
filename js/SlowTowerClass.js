@@ -13,6 +13,7 @@ function SlowTowerClass(){
 
 	this.r;
 	this.slowdownAmount;
+	this.isActive;
 
 	//Hover function not in use
 	this.isMouseHovering = false;
@@ -21,14 +22,23 @@ function SlowTowerClass(){
 
 	//move things here
 	this.move = function (){
+		this.isActive = false;
 
 		let collidedEnemy = collisionCheckWithAllEnemy(this.x, this.y, this.r);
-
+		
 		if(collidedEnemy !== false)
 		{
+			this.isActive = true;
 			for(let i = 0; i < collidedEnemy.length; i++)
 			{
-				this.slowdownEnemy(collidedEnemy[i]);
+				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+				{
+					this.slowdownEnemy(collidedEnemy[i]);
+					if(sfxSlowdownTowerShoot.isPaused())
+					{
+						sfxSlowdownTowerShoot.play();
+					}
+				}
 			}
 		}	
 	}

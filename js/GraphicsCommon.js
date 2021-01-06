@@ -172,6 +172,7 @@ function angledLine(atX,atY,length,ang,color) {
 	var halfLineOffsetX = Math.cos(ang) * length;
 	var halfLineOffsetY = Math.sin(ang) * length;
 	ctx.strokeStyle = color;
+	ctx.lineWidth = 5;//was being reset by other calls 
 	ctx.beginPath();
 	ctx.moveTo(atX-halfLineOffsetX,atY-halfLineOffsetY);
 	ctx.lineTo(atX+halfLineOffsetX,atY+halfLineOffsetY);

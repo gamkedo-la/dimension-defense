@@ -187,10 +187,12 @@ function EnemyClass(){
 			if(this.myGum !== false)
 			{
 				gameLoop.gums[this.myGum].getKilled();
+				sfxGumStolen.play();
 			}
 			this.explosionTimer = 0;
 		}else{
-			gameLoop.addCoins(this.coins);
+			gameLoop.addCoins(this.coins);	
+			sfxEnemyDead.play();
 		}
 		
 		gameLoop.addScore(this.score);
