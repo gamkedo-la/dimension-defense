@@ -7,8 +7,9 @@ function LaserTowerClass(){
 	this.y;
 	this.indexX;
 	this.indexY;
-	this.image;
-	this.imaheBase;
+    this.imageBase = 'LaserTowerBase1';
+	this.image = 'LaserTower1';
+
 
 	this.level = 0;
 	this.price = [100, 200]
@@ -140,8 +141,6 @@ function LaserTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.imageBase = 'LaserTowerBase';
-		this.image = 'LaserTower';
 
 		switch(this.level){
 			case 1:
@@ -151,6 +150,8 @@ function LaserTowerClass(){
 				this.shootR = 5;
 				this.shootDamage = 1;
 				this.reloadTime = 140;
+        		this.imageBase = 'LaserTowerBase1';
+        		this.image = 'LaserTower1';
 				break;
 			case 2:
 				this.r = 80;
@@ -159,6 +160,8 @@ function LaserTowerClass(){
 				this.shootR = 6;
 				this.shootDamage = 2;
 				this.reloadTime = 90;
+        		this.imageBase = 'LaserTowerBase2';
+        		this.image = 'LaserTower2';
 				break;
 			case 3:
 				this.r = 90;
@@ -167,6 +170,8 @@ function LaserTowerClass(){
 				this.shootR = 7;
 				this.shootDamage = 3;
 				this.reloadTime = 50;
+        		this.imageBase = 'LaserTowerBase3';
+        		this.image = 'LaserTower3';
 				break;
 		}
 	}

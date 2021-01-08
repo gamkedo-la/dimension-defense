@@ -43,8 +43,12 @@ image = new function (){
 		{imgName: 'MuzzleFlash', fileName: "MuzzleFlash.png", type: 'tower'},
 		{imgName: 'MissileTrail', fileName: "MissileTrail.png", type: 'tower'},
 
-		{imgName: 'LaserTower', fileName: "LaserTower.png", type: 'tower'},
-		{imgName: 'LaserTowerBase', fileName: "LaserTowerBase.png", type: 'tower'},
+		{imgName: 'LaserTower1', fileName: "LaserTowerTurret-1.png", type: 'tower'},
+		{imgName: 'LaserTowerBase1', fileName: "LaserTowerBase-1.png", type: 'tower'},
+		{imgName: 'LaserTower2', fileName: "LaserTowerTurret-2.png", type: 'tower'},
+		{imgName: 'LaserTowerBase2', fileName: "LaserTowerBase-2.png", type: 'tower'},
+		{imgName: 'LaserTower3', fileName: "LaserTowerTurret-3.png", type: 'tower'},
+		{imgName: 'LaserTowerBase3', fileName: "LaserTowerBase-3.png", type: 'tower'},
 
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 		{imgName: 'gum2', fileName: "gum-2.png", type: 'gum'},
