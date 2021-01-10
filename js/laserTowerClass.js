@@ -43,7 +43,10 @@ function LaserTowerClass(){
 					if(gameTimer % this.reloadTime == 0)	
 					{
 						this.shoot();
-						sfxLaserTowerShoot.play();
+						if(sfxLaserTowerShoot.isPaused())
+						{
+							sfxLaserTowerShoot.play();
+						}
 					}
 					break;
 				}

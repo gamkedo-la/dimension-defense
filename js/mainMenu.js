@@ -64,7 +64,7 @@ const MainMenu = new (function () {
         switch (currentMenu) {
             case "main":
                 this.drawMainMenu();
-                this.showHighScore();
+                //this.showHighScore();
                 break;
             case "playGame":
                 this.drawPlayGame();
