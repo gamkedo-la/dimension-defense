@@ -58,6 +58,10 @@ function updateAll() {
 			PauseMenu.draw();
 			PauseMenu.update();
 			break;
+		case 'gameStory':
+			gameLoop.draw();
+			LevelManager.gameStoryPopupDraw();
+			break;
 
 	}
 }

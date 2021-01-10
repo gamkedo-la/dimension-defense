@@ -35,6 +35,12 @@ function mouseUp(evt) {
             //console.log("mouse is up!");
             draggingMouse = false; // this is a mouseDown event
 			break;
+		case 'mainMenu':
+			MainMenu.mouseClicked();
+			break;
+		case 'gameStory':
+			scene= 'game'
+			break;
 	}
     
 }
@@ -50,9 +56,6 @@ function mouseclicked(evt) {
 			break;
 		case 'pauseMenu':
 			PauseMenu.mouseClicked();
-			break;
-		case 'mainMenu':
-			MainMenu.mouseClicked();
 			break;
 	}
 	

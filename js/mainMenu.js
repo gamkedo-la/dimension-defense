@@ -247,10 +247,11 @@ const MainMenu = new (function () {
             currentMenu = "main"
         }
         if(isHoveringMapItem === true && mapPreviewHoverItem <= LevelManager.unlockedLevels)
-        {    
+        {   
             gameLoop.init(levelList[mapPreviewHoverItem].levelName);
-            currentMenu = "main";
-            scene = "game";
+            LevelManager.checkForGameStoryAndLoadGame(levelList[mapPreviewHoverItem].levelName)   
+            currentMenu = "main";         
+
         }
     }
 
