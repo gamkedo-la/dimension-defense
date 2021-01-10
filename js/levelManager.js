@@ -52,9 +52,10 @@ const LevelManager = new (function () {
 
     this.gameStoryPopupDraw = function(){
         let story =[
-            "Hello",
-            "hello2",
-            "hello3",
+            ["Ohno, the Dimensions", "got scrambeld up...","Creatures are trying to steal","your gum now!" ,"","Protect the gum from enemies", "by  placing down towers!!"],
+            ["You can shape the path of ", "the creatures by placing down", "the towers strategically.", "", "Give it a try!"],
+            ["This dimension looks bigger", "than the other ones...", "", "Drag the map around by", "holding down somewhere", "on the map!"],
+            ["The path is splitting in", "this Dimension...", "", "Choose your tower placement", "very carefully!"],
         ]
         let popupBoxWidth = 500; 
         let popupBoxHeight = 350;
@@ -63,11 +64,15 @@ const LevelManager = new (function () {
             100, 
             popupBoxWidth, 
             popupBoxHeight, 
-            "grey", 
-            0.7
+            "#139c9e", 
+            0.8
         );
-        colorText(story[this.unlockedLevels], canvas.width/2, canvas.height/2, 50, "black");
-        colorText("Click anywhere to Play!", 200, 450, 30, "red");
+
+        for(let i = 0; i < story[this.unlockedLevels].length; i++)
+        {
+            colorText(story[this.unlockedLevels][i], 300, 160 + i * 30, 25, "#fafafa");
+        }
+        colorText("Click anywhere to Play!", 230, 430, 30, "#a8fa11");
     }
 
     this.init = function()
