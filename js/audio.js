@@ -14,6 +14,7 @@ var sfxElectroTowerShoot = new soundSingleBufferClass("audio/electroTower.mp3");
 var sfxLaserTowerShoot = new soundSingleBufferClass("audio/laser.mp3");
 var sfxMissleTowerShoot = new soundSingleBufferClass("audio/missileTower.mp3");
 var sfxSlowdownTowerShoot = new soundSingleBufferClass("audio/slowdownTower.mp3");
+var sfxFlameTowerShoot = new soundSingleBufferClass("audio/flameTower.mp3");
 
 var sfxEnemyDead = new soundSingleBufferClass("audio/explosion.mp3");
 var sfxGumStolen = new soundSingleBufferClass("audio/gumStolen.mp3");
