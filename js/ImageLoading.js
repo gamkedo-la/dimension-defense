@@ -15,10 +15,6 @@ image = new function (){
 		{imgName: 'gunTowerL1', fileName: "towerGun-1.png", type: 'tower'},
 		{imgName: 'gunTowerL2', fileName: "towerGun-2.png", type: 'tower'},
 		{imgName: 'gunTowerL3', fileName: "towerGun-3.png", type: 'tower'},
-
-		{imgName: 'flameTowerL1', fileName: "flametower-1.png", type: 'tower'},
-		{imgName: 'flameTowerL2', fileName: "flametower-2.png", type: 'tower'},
-		{imgName: 'flameTowerL3', fileName: "flametower-3.png", type: 'tower'},
 		
 		{imgName: 'slowTowerL1', fileName: "TowerSlow-1.png", type: 'tower'},
 		{imgName: 'slowTowerL2', fileName: "TowerSlow-2.png", type: 'tower'},
@@ -30,6 +26,16 @@ image = new function (){
 		{imgName: 'ElectricTowerL2A', fileName: "ElectricTowerL2A.png", type: 'tower'},
 		{imgName: 'ElectricTowerL3P', fileName: "ElectricTowerL3P.png", type: 'tower'},
 		{imgName: 'ElectricTowerL3A', fileName: "ElectricTowerL3A.png", type: 'tower'},
+
+		{imgName: 'FlameTowerBaseL1', fileName: "flametower-base-1.png", type: 'tower'},
+		{imgName: 'FlameTowerBaseL2', fileName: "flametower-base-2.png", type: 'tower'},
+		{imgName: 'FlameTowerBaseL3', fileName: "flametower-base-3.png", type: 'tower'},
+		{imgName: 'FlameTowerPassiveL1', fileName: "flametower-passive-1.png", type: 'tower'},
+		{imgName: 'FlameTowerPassiveL2', fileName: "flametower-passive-2.png", type: 'tower'},
+		{imgName: 'FlameTowerPassiveL3', fileName: "flametower-passive-3.png", type: 'tower'},
+		{imgName: 'FlameTowerActiveL1', fileName: "flametower-active-1.png", type: 'tower'},
+		{imgName: 'FlameTowerActiveL2', fileName: "flametower-active-2.png", type: 'tower'},
+		{imgName: 'FlameTowerActiveL3', fileName: "flametower-active-3.png", type: 'tower'},
 
 		{imgName: 'MissileTowerBaseL1', fileName: "MissileTowerBase-1.png", type: 'tower'},
 		{imgName: 'MissileTowerBaseL2', fileName: "MissileTowerBase-2.png", type: 'tower'},

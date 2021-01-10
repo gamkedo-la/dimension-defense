@@ -1,25 +1,24 @@
-
 function FlameTowerClass(){
 
-	
 	this.tower = "flameTower"
 	this.x;
 	this.y;
 	this.indexX;
 	this.indexY;
 	this.image;
+	this.imageBase
+	this.imagePassive;
+	this.imageActive;
 
 	this.level = 0;
 	this.price = [100, 200]
 
-	this.shootSpeed;
-	this.reloadTime;
-	this.shootColor;
-	this.shootR;
-	this.shootDamage;
+	this.damage;
+	this.dotRate;
+	this.isActive;
 
 	this.r;
-	this.angle = 45;
+	this.angle = 0;
 	this.shotList = [];
 	this.isMouseHovering = false;
 	this.hoverColor = "#8730d9"
@@ -31,24 +30,17 @@ function FlameTowerClass(){
 
 		if(collidedEnemy !== false)
 		{
-			this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
-			if(gameTimer % this.reloadTime == 0)	this.shoot();
-		}
-		
-		for (let i = this.shotList.length - 1; i >= 0; i--)
-		{
-			if (this.shotList[i].isDead){
-				this.shotList.splice(i, 1);
-			} else {
-				this.shotList[i].x += Math.cos(this.shotList[i].angle) * this.shotList[i].speed;
-				this.shotList[i].y += Math.sin(this.shotList[i].angle) * this.shotList[i].speed;
-				let hasHit = collisionCheckWithAllEnemy(this.shotList[i].x, this.shotList[i].y, this.shotList[i].r)
-				
-				if(hasHit !== false){
-					gameLoop.enemyList[hasHit[0]].takeHit(this.shotList[i].damage);
-					this.shotList[i].isDead = true;
-				} else if (this.shotList[i].x > canvas.width || this.shotList[i].x < 0 || this.shotList[i].y > canvas.height || this.shotList[i].y < 0){
-					this.shotList[i].isDead = true;
+			this.isActive = true;
+			for(let i = 0; i < collidedEnemy.length; i++)
+			{
+				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+				{
+					this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
+					this.roastEnemy(collidedEnemy[i]);
+					if(sfxFlameTowerShoot.isPaused())
+					{
+						sfxFlameTowerShoot.play();
+					}	
 				}
 			}
 		}
@@ -57,21 +49,22 @@ function FlameTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-	
 		if(this.isMouseHovering)
 		{
 			colorCircleWithAlpha(this.x , this.y , this.r, this.hoverColor,this.hoverAlpha);
 		}
-
-		drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
-		for(let i = 0; i < this.shotList.length; i++)
-		{
-			colorCircle(this.shotList[i].x , this.shotList[i].y , this.shotList[i].r, this.shotList[i].color);
+		if (this.imageBase) { 
+		    drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
 		}
-	}
-
-	this.mouseHover = function(){
-
+		if(this.isActive)
+		{
+			drawBitmapCenteredWithRotation(this.imageActive, this.x + 10, this.y, this.angle);
+		}
+		else
+		{
+			// draw the part that rotates
+			drawBitmapCenteredWithRotation(this.imagePassive, this.x + 10, this.y, this.angle);
+		}
 	}
 
 	//Inititalize
@@ -86,23 +79,10 @@ function FlameTowerClass(){
 		this.upgrade();
 	}
 
-	this.shoot = function()
+	this.roastEnemy = function(enemy)
 	{
-		let dX = Math.cos(this.angle);
-		let dY = Math.sin(this.angle);
-		let newShot = {
-			x: this.x + dX * 24,
-			y: this.y + dY * 24,
-			dX: dX,
-			dY: dY,
-			r: this.shootR,
-			angle: this.angle,
-			color: this.shootColor,
-			speed: this.shootSpeed,
-			damage: this.shootDamage,
-			isDead: false
-		};
-		this.shotList.push(newShot);
+		gameLoop.enemyList[enemy].getElectrecuted(this.damage,this.dotRate);
+
 	}
 
 	this.isUpgradeable = function()
@@ -122,35 +102,26 @@ function FlameTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "flameTowerL" + this.level;
+		this.imageBase = 'FlameTowerBaseL' + this.level;
+		this.imagePassive = 'FlameTowerPassiveL' + this.level;
+		this.imageActive = "FlameTowerActiveL" + this.level;
 
 		switch(this.level){
 			case 1:
 				this.r = 70;
-				this.shootSpeed = 1.5;
-				this.shootColor = '#1abdd6';
-				this.shootR = 5;
-				this.shootDamage = 1;
-				this.reloadTime = 40;
+				this.damage = 1;
+				this.dotRate = 90;
 				break;
 			case 2:
 				this.r = 80;
-				this.shootSpeed = 2;
-				this.shootColor = '#d323d9';
-				this.shootR = 6;
-				this.shootDamage = 2;
-				this.reloadTime = 30;
+				this.damage = 2;
+				this.dotRate = 80;
 				break;
 			case 3:
 				this.r = 90;
-				this.shootSpeed = 3;
-				this.shootColor = '#db2531';
-				this.shootR = 7;
-				this.shootDamage = 3;
-				this.reloadTime = 20;
+				this.damage = 3;
+				this.dotRate = 70;
 				break;
 		}
 	}
-
-
 }
