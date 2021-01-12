@@ -141,7 +141,7 @@ function MissleTowerClass(){
 		
         this.drawMissiles();
 
-		// we may have just fired a shot! draw some fx
+		// we may be have just fired a shot! draw some fx
 		if (this.muzzleFlashAlpha>0) {
             ctx.globalAlpha = this.muzzleFlashAlpha;
             this.muzzleFlashAlpha -= 0.025; // fade out

@@ -36,6 +36,7 @@ image = new function (){
 		{imgName: 'FlameTowerActiveL1', fileName: "flametower-active-1.png", type: 'tower'},
 		{imgName: 'FlameTowerActiveL2', fileName: "flametower-active-2.png", type: 'tower'},
 		{imgName: 'FlameTowerActiveL3', fileName: "flametower-active-3.png", type: 'tower'},
+		{imgName: 'flameMuzzleFlash', fileName: "flameMuzzleFlash.png", type: 'tower'},
 
 		{imgName: 'MissileTowerBaseL1', fileName: "MissileTowerBase-1.png", type: 'tower'},
 		{imgName: 'MissileTowerBaseL2', fileName: "MissileTowerBase-2.png", type: 'tower'},

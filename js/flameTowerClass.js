@@ -9,6 +9,8 @@ function FlameTowerClass(){
 	this.imageBase
 	this.imagePassive;
 	this.imageActive;
+	this.imageMuzzleFlash = "flameMuzzleFlash";
+    this.muzzleFlashAlpha = 0;
 
 	this.level = 0;
 	this.price = [100, 200]
@@ -65,13 +67,21 @@ function FlameTowerClass(){
 		
 		if(this.isActive)
 		{
-			drawBitmapCenteredWithRotation(this.imageActive, this.x , this.y, this.angle);
+			if (this.muzzleFlashAlpha<0.1) this.muzzleFlashAlpha = 1; // reset while active
 		}
-		else
-		{
-			// draw the part that rotates
-			drawBitmapCenteredWithRotation(this.imagePassive, this.x , this.y, this.angle);
+
+        // always draw inactive version
+		drawBitmapCenteredWithRotation(this.imagePassive, this.x , this.y, this.angle);
+
+		// flickering fire and active sprite
+		if (this.muzzleFlashAlpha>0) {
+            ctx.globalAlpha = this.muzzleFlashAlpha;
+            this.muzzleFlashAlpha -= 0.025; // fade out
+            drawBitmapCenteredWithRotation(this.imageMuzzleFlash, this.x+Math.random()*10-5, this.y+Math.random()*10-5, this.angle);//+Math.random()*0.5-0.25);		
+            drawBitmapCenteredWithRotation(this.imageActive, this.x, this.y, this.angle);			
+            ctx.globalAlpha = 1;
 		}
+
 	}
 
 	//Inititalize
