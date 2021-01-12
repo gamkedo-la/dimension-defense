@@ -40,8 +40,15 @@ function FlameTowerClass(){
 					if(sfxFlameTowerShoot.isPaused())
 					{
 						sfxFlameTowerShoot.play();
-					}	
+					}
+					break;
 				}
+			}
+		}else{
+			this.isActive = false;
+			if(!sfxFlameTowerShoot.isPaused())
+			{
+				sfxFlameTowerShoot.stop();
 			}
 		}
 	}
