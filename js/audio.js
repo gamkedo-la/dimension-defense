@@ -21,6 +21,17 @@ var sfxGumStolen = new soundSingleBufferClass("audio/gumStolen.mp3");
 var sfxHover = new soundSingleBufferClass("audio/hover.mp3");
 //var invalidSelectSFX = new soundSingleBufferClass("audio/invalid_select_sfx.wav");
 
+function muteAllSfx(){
+	sfxGunTowerShoot.stop();
+	sfxElectroTowerShoot.stop();
+	sfxLaserTowerShoot.stop();
+	sfxMissleTowerShoot.stop();
+	sfxSlowdownTowerShoot.stop();
+	sfxFlameTowerShoot.stop();
+	sfxEnemyDead.stop();
+	sfxGumStolen.stop();
+	sfxHover.stop();
+}
 
 //audio UI -----------------------------------------------------------
 function playBackgroundMusic(){

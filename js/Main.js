@@ -32,6 +32,7 @@ function StartGame() {
 
 function StopGame() {
 	if (!gameIsPaused) {
+			muteAllSfx();
 			gameIsPaused = true;
 			this.scene = 'pauseMenu';
 	} else if (gameIsPaused) {
