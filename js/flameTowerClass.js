@@ -53,17 +53,17 @@ function FlameTowerClass(){
 		{
 			colorCircleWithAlpha(this.x , this.y , this.r, this.hoverColor,this.hoverAlpha);
 		}
-		if (this.imageBase) { 
-		    drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
-		}
+		
+		drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
+		
 		if(this.isActive)
 		{
-			drawBitmapCenteredWithRotation(this.imageActive, this.x + 10, this.y, this.angle);
+			drawBitmapCenteredWithRotation(this.imageActive, this.x , this.y, this.angle);
 		}
 		else
 		{
 			// draw the part that rotates
-			drawBitmapCenteredWithRotation(this.imagePassive, this.x + 10, this.y, this.angle);
+			drawBitmapCenteredWithRotation(this.imagePassive, this.x , this.y, this.angle);
 		}
 	}
 
@@ -113,12 +113,12 @@ function FlameTowerClass(){
 				this.dotRate = 90;
 				break;
 			case 2:
-				this.r = 80;
+				this.r = 75;
 				this.damage = 2;
 				this.dotRate = 80;
 				break;
 			case 3:
-				this.r = 90;
+				this.r = 80;
 				this.damage = 3;
 				this.dotRate = 70;
 				break;
