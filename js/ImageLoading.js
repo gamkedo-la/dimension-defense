@@ -60,6 +60,8 @@ image = new function (){
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 		{imgName: 'gum2', fileName: "gum-2.png", type: 'gum'},
 
+		{imgName: 'logo', fileName: "DDlogo.png", type: 'gum'},
+
 		// enemies
 		{imgName: 'turtleSingle', fileName: "enemyTurtleSingle.png", type: 'enemy'},
 		{imgName: 'antSingle', fileName: "enemyAntSingle.png", type: 'enemy'},

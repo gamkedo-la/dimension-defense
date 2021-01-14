@@ -127,7 +127,7 @@ const MainMenu = new (function () {
                 );
             }
         }
-
+        drawBitmapCenteredWithRotation("logo", canvas.width/2, 100, 0);
         drawBitmapCenteredWithRotationAndScale("MissileTowerBaseL1", tower.x, tower.y, 0, 1.5);
         drawBitmapCenteredWithRotationAndScale("MissileTowerTurretL1", tower.x, tower.y, tower.angle, 1.5);
      
