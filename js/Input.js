@@ -35,6 +35,12 @@ function mouseUp(evt) {
             //console.log("mouse is up!");
             draggingMouse = false; // this is a mouseDown event
 			break;
+		case 'mainMenu':
+			MainMenu.mouseClicked();
+			break;
+		case 'gameStory':
+			scene= 'game'
+			break;
 	}
     
 }
@@ -48,12 +54,8 @@ function mouseclicked(evt) {
             dragMouseX = mouseX;
 			dragMouseY = mouseY;
 			break;
-
 		case 'pauseMenu':
 			PauseMenu.mouseClicked();
-			break;
-		case 'mainMenu':
-			MainMenu.mouseClicked();
 			break;
 	}
 	
@@ -75,19 +77,21 @@ function updateMousePos(evt) {
 
 	mouseX = evt.clientX - rect.left - root.scrollLeft;
 	mouseY = evt.clientY - rect.top - root.scrollTop;
-
-	if(gameLoop.towerMenu.isActive)
+	if(scene == "game")
 	{
-		gameLoop.towerMenu.checkMouseHover();
-	}
+		if(gameLoop.towerMenu.isActive)
+		{
+			gameLoop.towerMenu.checkMouseHover();
+		}
 
-    if (draggingMouse) {
-        dragMouseDX += mouseX - dragMouseX;
-    	dragMouseDY += mouseY - dragMouseY;
-    	dragMouseX = mouseX;
-    	dragMouseY = mouseY;
-    	//console.log("dragging mouse: "+mouseX+","+mouseY);
-    }
+		if (draggingMouse) {
+			dragMouseDX += mouseX - dragMouseX;
+			dragMouseDY += mouseY - dragMouseY;
+			dragMouseX = mouseX;
+			dragMouseY = mouseY;
+			//console.log("dragging mouse: "+mouseX+","+mouseY);
+		}
+	}
 
 }
 
@@ -100,11 +104,8 @@ function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
 	keySet(evt, true);
 
-	if (evt.keyCode == KEY_P) {
+	if (evt.keyCode == KEY_P || evt.keyCode == KEY_ESC && scene !== 'mainMenu') {
 		StopGame();
-	}
-	if(evt.keyCode == KEY_ESC) {
-		showMenu();
 	}
 	evt.preventDefault();
 }

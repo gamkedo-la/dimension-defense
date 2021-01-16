@@ -7,8 +7,11 @@ function GumClass(){
 	this.indexY;
 	this.moveToX;
 	this.moveToY;
+	this.image;
 
 	this.r = 20;
+	this.defaultSpeed = 1;
+	this.speed = 1;
 	this.altar;
 	this.isDead = false;
 	this.hasOwner = false;
@@ -16,7 +19,6 @@ function GumClass(){
 
 	this.rot = 0;
 	this.isImgSideview;
-	this.flipImg = false;
 	this.status;
 	this.pathNumber;
 	this.pathQueue;
@@ -24,9 +26,11 @@ function GumClass(){
 	//move things here
 	this.move = function (){
 		// TODO: Did not finish yet. Will uncomment when i finish it  --bariskoklu
-		// if (this.isFreeToGrab() && !this.isOnAltar) {
-		// 	this.moveBackToSpawn();
-		// }
+		if (this.isFreeToGrab() && !this.isOnAltar) {
+			this.indexX = returnIndexPosFromPixelPos(this.x);
+			this.indexY = returnIndexPosFromPixelPos(this.y);
+			this.moveBackToSpawn();
+		}
 	}
 
 
@@ -37,7 +41,7 @@ function GumClass(){
 			return;
 		}
 		
-		drawImageWithAngle("gum1", this.x + offsetX, this.y + offsetY, 0);
+		drawBitmapCenteredWithRotation(this.image, this.x , this.y, 0);
 
 	}
 
@@ -65,7 +69,7 @@ function GumClass(){
 		}
 
 	  this.pathQueue = this.runPathsearchAlgorithm(gameLoop.returnGumAltarPos(this.pathNumber))
-		this.status = undefined;
+	  this.status = undefined;
 	}
 
 	this.runPathsearchAlgorithm = function(goalIndexPos)
@@ -102,7 +106,6 @@ function GumClass(){
 					this.moveToY = this.y - TILE_SIZE;
 					this.status = 'WALKING_NORTH';
 					this.rot = degreesToRadian(270);
-					this.flipImg = false;
 					this.y -= this.speed;
 				}else if(this.y <= this.moveToY){
 					this.y = this.moveToY;
@@ -116,7 +119,6 @@ function GumClass(){
 					this.moveToY = this.y + TILE_SIZE;
 					this.status = 'WALKING_SOUTH';
 					this.rot = degreesToRadian(90);
-					this.flipImg = false;
 					this.y += this.speed;
 				}else if(this.y >= this.moveToY){
 					this.y = this.moveToY;
@@ -130,7 +132,6 @@ function GumClass(){
 					this.moveToX = this.x + TILE_SIZE;
 					this.status = 'WALKING_EAST';
 					this.rot = degreesToRadian(0);
-					this.flipImg = false;
 					this.x += this.speed;
 				}else if(this.x >= this.moveToX){
 					this.x = this.moveToX;
@@ -147,7 +148,6 @@ function GumClass(){
 					if(this.isImgSideview)
 					{
 						this.rot = degreesToRadian(0);
-						this.flipImg = true;
 					}
 					this.x -= this.speed;
 				}else if(this.x <= this.moveToX){
@@ -193,13 +193,14 @@ function GumClass(){
 	}
 
 	//Inititalize
-	this.init = function(pathNumber)
+	this.init = function(pathNumber, gumImage)
 	{
 		this.x = returnPixelPosFromIndexPos(gameLoop.returnGumAltarPos(pathNumber).indexX) + TILE_SIZE / 2;
 		this.y = returnPixelPosFromIndexPos(gameLoop.returnGumAltarPos(pathNumber).indexY) + TILE_SIZE / 2;
 		this.indexX = gameLoop.returnGumAltarPos(pathNumber).indexX;
 		this.indexY = gameLoop.returnGumAltarPos(pathNumber).indexY;
 		this.altar = pathNumber;
+		this.image = gumImage;
 	}
 
 }
