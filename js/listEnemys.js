@@ -6,10 +6,9 @@ var enemyList =
         LvlEditorImgName: 'turtleSingle',//A single image of the enemy in a 48x48px image
         sprite: 'turtleEnemy',
         isImgSideview: false,
-        health: 15,
-        speed: 1.2,
+        health: 18,
+        speed: 1.5,
         coins: 40,
-        score: 100,
         r: 15, //collisionbox
         ability: ['immuneToSlowdown']     
     },
@@ -19,10 +18,9 @@ var enemyList =
         LvlEditorImgName: 'antSingle',//A single image of the enemy in a 48x48px image
         sprite: 'AntEnemy',
         isImgSideview: true,
-        health: 8,
-        speed: 2,
-        coins: 50,
-        score: 250,  
+        health: 10,
+        speed: 2.5,
+        coins: 50,  
         r: 15, //collisionbox
         ability: []     
     },
@@ -32,25 +30,11 @@ var enemyList =
         LvlEditorImgName: 'carSingle',//A single image of the enemy in a 48x48px image
         sprite: 'CarEnemy',
         isImgSideview: false,
-        health: 6,
-        speed: 2.5,
+        health: 18,
+        speed: 4,
         coins: 30,
-        score: 500,
         r: 15, //collisionbox
         ability: ['speedUpWhenElectrecuted']     
-    },
-
-    {
-        type: 'blob',//never change this or levels may break
-        LvlEditorImgName: 'blobSingle',//A single image of the enemy in a 48x48px image
-        sprite: 'BlobEnemy',
-        isImgSideview: true,
-        health: 10,
-        speed: 1.5,
-        coins: 80,
-        score: 300,
-        r: 15, //collisionbox
-        ability: []     
     },
 
 ];

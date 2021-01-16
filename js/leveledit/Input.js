@@ -32,15 +32,11 @@ function mouseUp(evt) {
 			draggingMouse = false; // this is a mouseDown event
 			break;
 	}
+    
 }
 
 
 function mouseclicked(evt) {
-	if(editLvlName){
-		editLvlName = false;
-		ChangeButtonAttribute(levelEditor.buttonList,'lvlNameBTN',"bc", "#17c0eb");
-		levelEditor.message = "Level Name changed to: " + levelEditor.levelData.levelName;
-	}
 	switch (scene) {
 		case 'mainMenu':
 			mainMenu.onMouseClicked();
@@ -52,7 +48,6 @@ function mouseclicked(evt) {
 			dragMouseY = mouseY;
 			break;
 	}
-
 	
   }
 
@@ -89,11 +84,7 @@ function keySet(keyEvent, setTo) {
 function keyPressed(evt) {
 	// console.log("Key pressed: "+evt.keyCode);
 	keySet(evt, true);
-	if(editLvlName && evt.key.length === 1)
-	{
-		levelEditor.levelData.levelName += evt.key;
-		ChangeButtonAttribute(levelEditor.buttonList,'lvlNameBTN',"txt", levelEditor.levelData.levelName)
-	}
+
 	evt.preventDefault();
 }
 

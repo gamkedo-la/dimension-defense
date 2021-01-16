@@ -13,32 +13,17 @@ function SlowTowerClass(){
 
 	this.r;
 	this.slowdownAmount;
-	this.isActive;
-
-	//Hover function not in use
-	this.isMouseHovering = false;
-	this.hoverColor = "#8730d9"
-	this.hoverAlpha = 1;
 
 	//move things here
 	this.move = function (){
-		this.isActive = false;
 
 		let collidedEnemy = collisionCheckWithAllEnemy(this.x, this.y, this.r);
-		
+
 		if(collidedEnemy !== false)
 		{
-			this.isActive = true;
 			for(let i = 0; i < collidedEnemy.length; i++)
 			{
-				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
-				{
-					this.slowdownEnemy(collidedEnemy[i]);
-					if(sfxSlowdownTowerShoot.isPaused())
-					{
-						sfxSlowdownTowerShoot.play();
-					}
-				}
+				this.slowdownEnemy(collidedEnemy[i]);
 			}
 		}	
 	}
@@ -46,7 +31,7 @@ function SlowTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation(this.image, this.x, this.y, 0)
+		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, 0)
 
 	}
 

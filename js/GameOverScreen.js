@@ -2,7 +2,7 @@ function GameOverScreen () {
     this.draw = function(isGameOver, hasWon) {
         this.gameOverBoxColor = hasWon ? "green" : "red";
         this.gameOverText = hasWon ? "YOU WON" : "YOU LOST";
-        this.gameOverNextText = "CLICK TO GO BACK TO LEVEL SELECT SCREEN";
+        this.gameOverNextText = hasWon ? "CLICK TO RESTART" : "CLICK TO TRY AGAIN"
 
         if (isGameOver){
             let gameOverBoxWidth = 400; 
@@ -18,7 +18,7 @@ function GameOverScreen () {
             let textAlignWas = ctx.textAlign;
             ctx.textAlign = "center";
             colorText(this.gameOverText, canvas.width/2, canvas.height/2, 50, "black");
-            colorText(this.gameOverNextText, canvas.width/2, canvas.height/2 + 80, 18, "black");
+            colorText(this.gameOverNextText, canvas.width/2, canvas.height/2 + 80, 20, "black");
             ctx.textAlign = textAlignWas;
         }
     }

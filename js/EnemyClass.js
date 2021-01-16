@@ -28,9 +28,6 @@ function EnemyClass(){
 	this.hasReachedGoal = false;
 	this.isDead = false;
 	this.canBeRemoved = false;
-	this.explosionTimer = 60;
-	this.explosionSpriteID;
-	this.score;
 
 	//Abilities
 	this.immuneToSlowdown = false;
@@ -50,7 +47,8 @@ function EnemyClass(){
 
 		if(this.hasReachedGoal)
 		{
-			this.initDeath();
+			this.canBeRemoved = true;
+			gameLoop.gums[this.myGum].getKilled();
 			return;
 		}
 
@@ -94,22 +92,38 @@ function EnemyClass(){
 
 	//draw things here
 	this.draw = function(){
+
+		animationSystem.draw_anim_loop(this.spriteID, 5)
+	
 		let healthBarW = 30;
 		let healthBarH = 6;
-		colorRect(this.x  - healthBarW/2,this.y - 30, healthBarW, healthBarH, "red");
-		colorRect(this.x  - 15,this.y - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
-		animationSystem.draw_anim_loop(this.spriteID, 5);
-		if(this.isDead)
+		colorRect(this.x + offsetX - healthBarW/2,this.y + offsetY - 30, healthBarW, healthBarH, "red");
+		colorRect(this.x + offsetX - 15,this.y + offsetY - 30, this.health/this.maxHealth * healthBarW, healthBarH, "green");
+
+		animationSystem.draw_anim_loop(this.spriteID, 5)
+	}
+
+	this.isDeadMove = function(){
+
+		if(this.myGum !== false)
 		{
-			animationSystem.draw_anim_loop(this.explosionSpriteID);
+			gameLoop.gums[this.myGum].pathNumber = this.pathNumber;
+			gameLoop.gums[this.myGum].isOnAltar = false;
+			gameLoop.gums[this.myGum].indexX = this.indexX;
+			gameLoop.gums[this.myGum].indexY = this.indexY;
+			gameLoop.gums[this.myGum].searchPath();
+			gameLoop.gums[this.myGum].removeOwner();
 		}
+		this.canBeRemoved = true;
+
+
 	}
 
 	//Inititalize
 	this.init = function(pathNumber, enemyType)
 	{
 		let sprite;
-	
+
 		for (let i = 0; i < enemyList.length; i++)
 		{
 			if(enemyType == enemyList[i].type)
@@ -120,7 +134,6 @@ function EnemyClass(){
 				this.coins = enemyList[i].coins;
 				this.r = enemyList[i].r;
 				this.isImgSideview = enemyList[i].isImgSideview;
-				this.score = enemyList[i].score;
 				sprite = enemyList[i].sprite;
 				for (let a = 0; a < enemyList[i].ability.length; a++)
 				{
@@ -149,8 +162,9 @@ function EnemyClass(){
 		this.searchPath();
 
 		//2.creates a graphical representation of itself in through the animation system
-		this.spriteID = animationSystem.register(sprite,5,{X:this.x,Y:this.y});
+		this.spriteID=animationSystem.register(sprite,5,{X:this.x,Y:this.y});
 		//console.log(this.id);
+
 	}
 
 	this.collisionCheckWithGum = function(gumListIndex)
@@ -165,53 +179,11 @@ function EnemyClass(){
 	{
 		this.health -= damageAmount;
 		if(this.health <= 0){
-			this.health = 0;
-			this.initDeath();
+			this.isDead = true;
+			gameLoop.addCoins(this.coins);
+			animationSystem.destroyEntity(this.id)
+
 		}
-	}
-
-	this.initDeath = function(){
-
-		if(this.myGum !== false)
-		{
-			gameLoop.gums[this.myGum].pathNumber = this.pathNumber;
-			gameLoop.gums[this.myGum].isOnAltar = false;
-			gameLoop.gums[this.myGum].indexX = this.indexX;
-			gameLoop.gums[this.myGum].indexY = this.indexY;
-			gameLoop.gums[this.myGum].searchPath();
-			gameLoop.gums[this.myGum].removeOwner();
-		}
-
-		if(this.hasReachedGoal)
-		{
-			if(this.myGum !== false)
-			{
-				gameLoop.gums[this.myGum].getKilled();
-				sfxGumStolen.play();
-			}
-			this.explosionTimer = 0;
-		}else{
-			gameLoop.addCoins(this.coins);	
-			sfxEnemyDead.play();
-		}
-		
-		gameLoop.addScore(this.score);
-		this.isDead = true;
-		this.explosionSpriteID = animationSystem.register("enemyExplosion",15,{X:this.x, Y:this.y});
-	}
-
-	this.isDeadMove = function(){
-
-		if(this.explosionTimer > 0)
-		{
-			animationSystem.draw_anim_loop(this.explosionSpriteID);
-		}else{
-			animationSystem.destroyEntity(this.explosionSpriteID);
-			this.canBeRemoved = true;
-			animationSystem.destroyEntity(this.spriteID)
-			return;
-		}
-		this.explosionTimer--;
 	}
 
 	this.getElectrecuted = function(damageAmount, hitRate)
@@ -254,8 +226,10 @@ function EnemyClass(){
 
 	}
 
+
 	this.searchPath = function()
 	{
+
 		this.checkForEvents();
 
 		if(this.hasReachedGoal)

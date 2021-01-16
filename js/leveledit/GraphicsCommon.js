@@ -37,7 +37,7 @@ function drawButtonSingle(fromArray, buttonName){
 			return;
 		}
 	}
-}		
+}
 
 function ChangeButtonAttribute(fromArray, buttonName, attribute, newData){
 	for(let i = 0; i < fromArray.length; i++){
@@ -48,15 +48,7 @@ function ChangeButtonAttribute(fromArray, buttonName, attribute, newData){
 	}
 }
 
-function returnBtnsFromGroup(fromArray, groupName){
-	let btn = [];
-	for(let i = 0; i < fromArray.length; i++){
-		if(fromArray[i].group == groupName){
-			btn.push(i);
-		}
-	}
-	return btn;
-}
+
 
 function drawBitmapCenteredWithRotation(imgName, atX,atY, withAng) {
 	ctx.save();
@@ -128,16 +120,7 @@ function copyToClipboard(theThing){
 			document.execCommand("copy");
 			document.body.removeChild(dummy);
 			return;
-}
-
-function copyArray(arrayToCopy)
-{
-    return JSON.parse(JSON.stringify(arrayToCopy));
-}
-
-function returnPixelPosFromIndexPos(tileIndexNumber)
-{
-    return tileIndexNumber * TILE_SIZE;
+	//https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
 }
 
 function copyArray(arrayToCopy)

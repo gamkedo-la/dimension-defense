@@ -19,7 +19,6 @@ window.onload = function() {
 		animationSystem=new animate();
 		animationSystem.init();
 		gameLoop.init('lvlPencil');
-		LevelManager.init();
 		StartGame();
 	}
 }
@@ -32,13 +31,21 @@ function StartGame() {
 
 function StopGame() {
 	if (!gameIsPaused) {
-			muteAllSfx();
 			gameIsPaused = true;
-			this.scene = 'pauseMenu';
+			this.scene = 'pause';
 	} else if (gameIsPaused) {
 			gameIsPaused = false;
 			this.scene = 'game';
 	}
+}
+
+function showMenu() {
+	if (!pauseMenu) {
+		pauseMenu = true;
+		this.scene = 'pauseMenu';
+	} else if (pauseMenu) {
+		pauseMenu = false;
+		this.scene = 'game';}
 }
 
 function updateAll() {
@@ -54,14 +61,17 @@ function updateAll() {
             MainMenu.move();
 			MainMenu.draw();
 			break;
+
+		case 'pause':
+			gameLoop.draw();
+			animationSystem.update();
+			colorText("PAUSE", canvas.width/3, canvas.height/2, 70, 'red');
+			break;
+
 		case 'pauseMenu':
 			gameLoop.draw();
-			PauseMenu.draw();
-			PauseMenu.update();
-			break;
-		case 'gameStory':
-			gameLoop.draw();
-			LevelManager.gameStoryPopupDraw();
+            PauseMenu.move();
+			PauseMenu.draw();			
 			break;
 
 	}

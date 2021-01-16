@@ -40,12 +40,12 @@ mainMenu = new function(){
 				break;
 			case 'editLevel':
 				//draw the map preview images on the editMap scene
-				for(let i = 0; i < levelList.length; i++){
+				for(let i = 0; i < mapList.length; i++){
 					if(i != 0 && i % this.mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
-					drawImageAtWidthSize(levelList[i].mapName, this.mapPrevievRowDist + (this.mapPrevievthumbWidth + this.mapPrevievRowDist) * mapListRow,
+					drawImageAtWidthSize(mapList[i].name, this.mapPrevievRowDist + (this.mapPrevievthumbWidth + this.mapPrevievRowDist) * mapListRow,
 										30 + this.mapPrevievColDist + (this.mapPrevievthumbWidth + this.mapPrevievColDist) * mapListCol, this.mapPrevievthumbWidth);
 					
-					colorText(levelList[i].levelName, this.mapPrevievRowDist + (this.mapPrevievthumbWidth + this.mapPrevievRowDist) * mapListRow,
+					colorText(mapList[i].name, this.mapPrevievRowDist + (this.mapPrevievthumbWidth + this.mapPrevievRowDist) * mapListRow,
 								30 + this.mapPrevievColDist + (this.mapPrevievthumbWidth + this.mapPrevievColDist) * mapListCol - 5, 20, '#ffffff');
 					mapListRow++;
 				}
@@ -106,7 +106,7 @@ mainMenu = new function(){
 		}else if(this.menuScene == 'editLevel'){
 			let mapListRow = 0;
 			let mapListCol = 0;
-			for(let i = 0; i < levelList.length; i++){
+			for(let i = 0; i < mapList.length; i++){
 
 				if(i != 0 && i % this.mapPreviewMaXRows == 0){ mapListCol++; mapListRow = 0;}
 
@@ -115,8 +115,8 @@ mainMenu = new function(){
 					mouseY > 30 + this.mapPrevievColDist + (this.mapPrevievthumbWidth + this.mapPrevievColDist) * mapListCol &&
 					mouseY < 30 + this.mapPrevievColDist + (this.mapPrevievthumbWidth + this.mapPrevievColDist) * mapListCol + this.mapPrevievthumbWidth - 20){
 					
-					levelEditor.initEditLevel(levelList[i].levelName);
-					scene = 'levelEditor';
+					mapGrid.generateEditMap(i)
+					mapEditor.init(mapList[i].name);
 					scene = 'levelEditor';
 					return;				
 				}

@@ -28,15 +28,12 @@ gameLoop = new function(){
 	this.enemyList = [];
 	this.towerList = [];
 	this.towerMenu;
-    this.levelName;
 	this.gameOverScreen = new GameOverScreen();
-	this.hasWon;
 
-	this.score;
-	this.coins;
-	this.CoinSpriteID;
-	this.towerPlaceableIndicatorRadius = 11;
-	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
+	this.coins = 2000;
+
+	//id for coin animation
+	this.id=null;
 
 	//move things here
 	this.move = function (){
@@ -57,17 +54,21 @@ gameLoop = new function(){
 			}
 		}
 
-		//Lose Game detection happens here	
 		if(this.remainingGums == 0)
 		{
-			this.loseGameInit();
+			this.isGameOver = true;
+			console.log("Game Over, you lost all your gum!");
+			// Insert code for lose screen call here
+			this.towerMenu = false;
 			return;
 		}
 
-		//Win Game detection happens here
 		if(this.enemyList.length == 0 && this.noMoreWaves)
 		{
-			this.winGameInit();
+			this.isGameOver = true;
+			console.log("You won");
+			//Insert code for win screen call here
+			this.towerMenu = false;
 			return;
 		}
 
@@ -98,13 +99,12 @@ gameLoop = new function(){
 
 	}
 
+
 	//draw things here
 	this.draw = function(){
-		ctx.save();
-		ctx.translate(offsetX, offsetY);
 		
 		//draw map
-		drawImageWithAngle(this.mapName, 0, 0, 0);
+		drawImageWithAngle(this.mapName, offsetX, offsetY, 0);
 
 		for(let i = 0; i < this.enemyList.length; i++)
 		{
@@ -121,90 +121,39 @@ gameLoop = new function(){
 			this.towerList[i].draw();
 		}
 
+		//colorRect(20,10, 130, 30, "white");
+
+		//call the draw_anim_loop function
+		animationSystem.draw_anim_loop(this.id, 2);
+		
+		colorText(this.coins, 55, 45, 50, "black");
+		
+		this.drawTowerPlaceableIndicator();
+
+		let hasWon = this.remainingGums != 0 && this.enemyList.length == 0 && this.noMoreWaves;
+		this.gameOverScreen.draw(this.isGameOver, hasWon);
+		
 		if(this.towerMenu.isActive)
 		{
 			this.towerMenu.draw();
 		}
-		
-		ctx.restore();
-
-		//call the draw_anim_loop function
-		animationSystem.draw_anim_loop(	this.CoinSpriteID);
-
-		if(this.isGameOver)
-		{
-			this.gameOverScreen.draw(this.isGameOver, this.hasWon);
-		}
-		if(scene == "game" && !this.towerMenu.isActive )
-		{
-			this.onMouseHover();
-		}
-		this.drawUI();
 	}
 
-	this.winGameInit = function()
-	{
-		console.log("You Won!");
-		LevelManager.checkForNewHighScoreAndUpdate(this.levelName, this.score + this.coins);
-		LevelManager.unlockNextLevel(this.levelName);
-		this.isGameOver = true;
-		this.hasWon = true;
-		this.towerMenu = false;
-	}
-
-	this.loseGameInit = function()
-	{
-		console.log("Game Over, you lost all your gum!");
-		LevelManager.checkForNewHighScoreAndUpdate(this.levelName, this.score);
-		this.isGameOver = true;
-		this.hasWon = false;
-		this.towerMenu = false;
-	}
-
-	this.addScore = function(scoreToAdd)
-	{
-		this.score += scoreToAdd;
-	}
-
-	this.drawUI = function(){
-
-		colorRectWithAlpha(10,540, 150, 60, "white", 0.1);
-		colorText(this.coins, 55, 45, 50, "black");
-		
-		colorRectWithAlpha(5, 60, 150, 50, "black", 0.5);
-		colorText("Score: " + this.score, 10, 80, 22, "white");
-		colorText("Gums: " + this.remainingGums, 10, 105, 22, "white");
-
-		colorRectWithAlpha(285, 5, 160, 35, "black", 0.5);
-		colorText("Wave:" + this.currentWave + "/" + this.waveList.length, 300, 30, 30, "#e6a312");
-
-		colorCircle(20,580, 40, "#0bb372");
-		colorText("Pause", 2, 580, 20, "black");
-		if (mouseX < 60 && mouseY > 540) {
-			colorCircle(25,580, 40, "#0bb372");
-			colorText("Pause", 2, 580, 20, "white");
-		}
-	}
-
-	this.onMouseHover = function()
+	this.towerPlaceableIndicatorRadius = 11;
+	this.isTowerPlaceableIndicatorRadiusIncreasing = false;
+	this.drawTowerPlaceableIndicator = function(color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.49)
 	{
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
 		let mouseIDY = returnIndexPosFromPixelPos(mouseY - offsetY);
+
 		// when world is scrolled around it is possible to 
-		// hover outside the map and get negative numbers or out of bounds
-		if(this.map[this.pathList[0]][mouseIDX]==undefined || this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) 
-		{
-			for (let i = 0; i < this.towerList.length; i++)
-			{
-				this.towerList[i].isMouseHovering = false;
-			}
-			return;
-		}
+		// click outside the map and get negative numbers or out of bounds
+		if(this.map[this.pathList[0]][mouseIDX]==undefined) return;
+		if(this.map[this.pathList[0]][mouseIDX][mouseIDY]==undefined) return;
 
 		if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 4) 
 		{
-			let minRadius = 9, maxRadius = 17;
-			let color1 = '#00ff00', color2 = '#ff0000', animationFactor = 0.3
+			var minRadius = 9, maxRadius = 17;
 
 			this.isTowerPlaceableIndicatorRadiusIncreasing = this.towerPlaceableIndicatorRadius < maxRadius ? true : false;
 			if (this.towerPlaceableIndicatorRadius > maxRadius) this.towerPlaceableIndicatorRadius = minRadius;
@@ -221,44 +170,13 @@ gameLoop = new function(){
 						   color2);
 			colorCircle(mouseX, mouseY, this.towerPlaceableIndicatorRadius, color1);
 			colorCircle(mouseX, mouseY, this.towerPlaceableIndicatorRadius * 0.3, color2);
-		}else if(this.map[this.pathList[0]][mouseIDX][mouseIDY] == 6)
-		{
-			for (let i = 0; i < this.towerList.length; i++)
-			{
-				if(mouseIDX == this.towerList[i].indexX && mouseIDY == this.towerList[i].indexY)
-				{
-					if(this.towerList[i].isMouseHovering === true)
-					{
-						this.towerList[i].hoverAlpha -= 0.005;
-						if(this.towerList[i].hoverAlpha < 0.4)
-						{
-							this.towerList[i].hoverAlpha = 0.8;
-						}
-					}else{
-						this.towerList[i].isMouseHovering = true;
-						this.towerList[i].hoverAlpha = 0.8;
-					}
-				}else{
-					this.towerList[i].isMouseHovering = false;
-				}
-			}
-		}else{
-			for (let i = 0; i < this.towerList.length; i++)
-			{
-				this.towerList[i].isMouseHovering = false;
-			}
 		}
 	}
 
 	this.onMouseClicked = function()
 	{
-		if (mouseX < 50 && mouseY > 520) {
-			StopGame();
-			}
-
 		if(this.isGameOver){
-			scene = "mainMenu";
-			MainMenu.mainMenuSelect("Play Game");
+			location.reload();
 			return;
 		}
 		let mouseIDX = returnIndexPosFromPixelPos(mouseX - offsetX);
@@ -334,12 +252,6 @@ gameLoop = new function(){
 			case "electroTower":
 				newTower = new ElectricTowerClass();
 				break;
-			case "laserTower":
-				newTower = new LaserTowerClass();
-				break;
-			case "flameTower":
-				newTower = new FlameTowerClass();
-				break;
 		}
 		newTower.init(atIndexX, atIndexY);
 		this.towerList.push(newTower);
@@ -373,10 +285,6 @@ gameLoop = new function(){
 				return 250;
 			case "electroTower":
 				return 150;
-			case "laserTower":
-				return 150;
-			case "flameTower":
-				return 200;
 		}			
 	}
 
@@ -480,48 +388,41 @@ gameLoop = new function(){
 	{
 		
 		this.resetGame();
-		backgroundSong.play()
+
 		//Registers the id.
-		this.CoinSpriteID=animationSystem.register("UI_Coin",4,{X:30,Y:30});
+		this.id=animationSystem.register("UI_Coin",4,{X:30,Y:30});
 		for (let i = 0; i < levelList.length; i++)
 		{
 			if(levelName == levelList[i].levelName)
 			{
+				
+				
+				
 				this.generateWaveVarsFromlevelList(levelList[i]);
 				this.mapName = levelList[i].mapName;
-				this.levelName = levelList[i].levelName;
-				this.coins = levelList[i].coins;
-				offsetX = levelList[i].startOffset.x;
-				offsetY = levelList[i].startOffset.y;
-				dragMouseDX = offsetX;
-				dragMouseDY = offsetY;
-
-				for (let i = 0; i < mapList.length; i++)
-				{
-					if(this.mapName == mapList[i].name)
-					{
-						this.generateMapVarsFromEditorMapList(mapList[i]);
-						break;
-					}
-				}
-
-				let gumArt = image.getAllTypesOf("gum");
-				gumArt = gumArt[Math.floor(Math.random() * Math.floor(gumArt.length))]
-				for(let i = 0; i < this.pathList.length; i++)
-				{
-					for(let gi = 0; gi < levelList[i].gumAmounts[i]; gi++)
-					{
-							let newGum = new GumClass();
-							newGum.init(this.pathList[i], gumArt);
-							this.gums.push(newGum);
-					}
-				}
 				break;
 			}
-			
 		}
 
-	
+		for (let i = 0; i < mapList.length; i++)
+		{
+			if(this.mapName == mapList[i].name)
+			{
+				this.generateMapVarsFromEditorMapList(mapList[i]);
+				break;
+			}
+		}
+
+		let gumAmount = 5
+		for(let i = 0; i < this.pathList.length; i++)
+		{
+			for(let gi = 0; gi < gumAmount; gi++)
+			{
+					let newGum = new GumClass();
+					newGum.init(this.pathList[i]);
+					this.gums.push(newGum);
+			}
+		}
 
 	}
 
@@ -547,10 +448,6 @@ gameLoop = new function(){
 		this.waveList = [];
 		this.enemyList = [];
 		this.towerList = [];
-		this.coins;
-		this.CoinSpriteID;
-		this.hasWon;
-		this.score = 0;
 
 		this.towerMenu = new TowerMenuClass();
 		animationSystem.resetList()

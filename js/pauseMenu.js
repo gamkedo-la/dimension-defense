@@ -3,16 +3,14 @@ const PauseMenu = new (function () {
   let cursor = 0;
 
   let itemsX = 240;
-  let topItemY = 200;
+  let topItemY = 240;
   let itemsWidth = 300;
-  let itemsHeight = 50;
-  let rowHeight = 55;
+  let rowHeight = 40;
 
   let pausMenuList = [
-    "resume",
     "volume",
     "restart",
-    "exit"
+    "help",
   ];
 
   let menuText = [
@@ -21,21 +19,20 @@ const PauseMenu = new (function () {
  
   this.draw = function () {
       for (let i = 0; i < menuText[current].length; i++) {
-        rectBorderOnly(itemsX,topItemY + rowHeight *i, itemsWidth, itemsHeight, 3, '#ffff00');
-        colorRectWithAlpha(itemsX,topItemY + rowHeight *i, itemsWidth, itemsHeight, '#00ff0f', 0.85);
+        colorRectWithAlpha(topItemY, itemsX - 30 + rowHeight *i, itemsWidth, 39, '#00ff0f', 0.85);
         colorTextBold(
           menuText[current][i],
-          itemsX + 10,
-          topItemY + rowHeight * i + itemsHeight/1.5,
-          40,
+          itemsX,
+          topItemY + rowHeight * i,
+          60,
           "white"
         );
         if (menuText[current][i] == 'volume' ) {
           colorTextBold(
             Math.floor(effectsVolume * 100) +  "%" ,
             itemsX + itemsWidth + 10,
-            topItemY + rowHeight * i+ itemsHeight/1.5,
-            40,
+            topItemY + rowHeight * i,
+            60,
             "white"
           );
         }
@@ -55,16 +52,18 @@ const PauseMenu = new (function () {
     }
   }
 
+  
+
   this.checkState = function() {
     const selectedItemOnPage = menuText[current][this.cursor];
     for (let i = 0; i < menuText[current].length; i++){
       if (selectedItemOnPage === menuText[current][i].toString()) {
-          colorRect(itemsX,topItemY + rowHeight *i, itemsWidth, itemsHeight, 'red');
+          colorRect(topItemY, itemsX - 30 + rowHeight * i, itemsWidth, 40, 'red');
           colorTextBold(
             menuText[current][i].toString(),
-            itemsX + 10,
-            topItemY + rowHeight * i + itemsHeight/1.5,
-            45,
+            itemsX,
+            topItemY + rowHeight * i,
+            60,
             "#00ffAA"
           );
       }
@@ -75,22 +74,15 @@ const PauseMenu = new (function () {
         switch(selectedItemOnPage)
 				{
 					case "restart":
-                gameLoop.init(gameLoop.levelName);
-                scene = 'game';
+            location.reload();
             break;
-          case 'resume':
-          StopGame();
-            break;
-            case 'help':
+          case 'help':
 
-              break;
+            break;
           case 'volume':
             if (turnVolumeUp() == false) {
               setVolume(0);
             }
-            break;
-            case 'exit':
-                scene = "mainMenu";
             break;
           default:
             console.log("unhandeled menu item");
@@ -100,7 +92,7 @@ const PauseMenu = new (function () {
     }
   }
 }
-      drawImageWithAngle("gum1", itemsX , topItemY + this.cursor * rowHeight + itemsHeight/1.5 , 90);
+      drawImageWithAngle("gum1", itemsX , topItemY + this.cursor * rowHeight - 30 , 90);
     }
     this.cursor = 0;
   }
@@ -110,8 +102,8 @@ const PauseMenu = new (function () {
     for (let i = 0; i < menuText[current].length; i++) {
       if (
         //mouseX > itemsX - 350 && mousePosX + itemsWidth &&
-        mouseY > topItemY + i * rowHeight &&
-        mouseY < topItemY + i * rowHeight + itemsHeight
+        mouseY + rowHeight / 2 > topItemY + i * rowHeight &&
+        mouseY + rowHeight / 2 < topItemY + (i + 1) * rowHeight
       ) {
         this.setCursorAndCurrentPage(i);
       }

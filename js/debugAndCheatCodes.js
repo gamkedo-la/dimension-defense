@@ -17,44 +17,12 @@ let isDebugModeON = true;
 
 //The CheatList array
 let cheatList = [
-    cheat = 
-	{
-		code: 'k',
-		active: isDebugModeON,
-		action: function() {
-			gameLoop.enemyList[0].takeHit(200);
-		}
-	},
 	cheat = 
 	{
-		code: 'm',
+		code: '^_<>',
 		active: isDebugModeON,
 		action: function() {
-			gameLoop.addCoins(1000)
-		}
-	},
-	cheat = 
-	{
-		code: 'l',
-		active: isDebugModeON,
-		action: function() {
-			LevelManager.unlockedLevels = 200;
-		}
-	},
-	cheat = 
-	{
-		code: 'w',
-		active: isDebugModeON,
-		action: function() {
-			gameLoop.winGameInit();
-		}
-	},
-	cheat = 
-	{
-		code: '1',
-		active: isDebugModeON,
-		action: function() {
-			backgroundSong.play();
+			gameLoop.init('lvlPencil');
 		}
 	},
 	cheat = 
@@ -62,9 +30,25 @@ let cheatList = [
 		code: '2',
 		active: isDebugModeON,
 		action: function() {
-			backgroundSong.stop();
+			gameLoop.init('lvlGreenLand');
 		}
 	},
+	cheat = 
+	{
+		code: '22',
+		active: isDebugModeON,
+		action: function() {
+			gameLoop.init('lvlBlocks');
+		}
+	},
+	cheat = 
+	{
+		code: '4',
+		active: isDebugModeON,
+		action: function() {
+			gameLoop.init('toyCarMap');
+		}
+	},	
 ];
 
 
