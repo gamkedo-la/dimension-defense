@@ -17,6 +17,11 @@ function ElectricTowerClass(){
 	this.damge;
 	this.dotRate;
 	this.isActive;
+	
+	//Hover function not in use
+	this.isMouseHovering = false;
+	this.hoverColor = "#8730d9"
+	this.hoverAlpha = 1;
 
 	//move things here
 	this.move = function (){
@@ -29,9 +34,17 @@ function ElectricTowerClass(){
 			this.isActive = true;
 			for(let i = 0; i < collidedEnemy.length; i++)
 				{
-					this.electrecudeEnemy(collidedEnemy[i]);
+					if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+					{
+						this.electrecudeEnemy(collidedEnemy[i]);
+						if(sfxElectroTowerShoot.isPaused())
+						{
+							sfxElectroTowerShoot.play();
+						}					
+					}
 				}
 		}
+				
 		
 	}
 
@@ -46,11 +59,11 @@ function ElectricTowerClass(){
 
 		if(this.isActive)
 		{
-			drawBitmapCenteredWithRotation(this.imageActive, this.x + offsetX, this.y + offsetY, this.angle)
+			drawBitmapCenteredWithRotation(this.imageActive, this.x, this.y, this.angle)
 		}
 		else
 		{
-			drawBitmapCenteredWithRotation(this.imagePassiv, this.x + offsetX, this.y + offsetY, 0)
+			drawBitmapCenteredWithRotation(this.imagePassiv, this.x , this.y , 0)
 		}
 		
 	}

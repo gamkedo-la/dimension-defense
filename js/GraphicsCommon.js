@@ -93,6 +93,29 @@ function colorCircle(centerX,centerY, radius, fillColor) {
 	ctx.fill();
 }
 
+function colorCircleWithAlpha(centerX,centerY, radius, fillColor, alpha) {
+	ctx.save();
+	ctx.globalAlpha = alpha;
+	ctx.fillStyle = fillColor;
+	ctx.beginPath();
+	ctx.arc(centerX,centerY, radius, 0,Math.PI*2, true);
+	ctx.fill();
+	ctx.restore();
+}
+
+function colorCircleBorderOnlyWithAlpha(centerX,centerY, radiusCircle, borderRadius, borderColor, alpha) {
+	ctx.save();
+
+	ctx.globalAlpha = alpha;
+	
+	ctx.beginPath();
+	ctx.arc(centerX, centerY, borderRadius, 0,Math.PI*2, false);
+	ctx.fillStyle = borderColor;
+	ctx.arc(centerX, centerY, radiusCircle, 0,Math.PI*2, true);
+	ctx.fill();
+	ctx.restore();
+}
+
 function rectBorderOnly(posX, posY, Width, Height, borderLineWidth, borderColor){
 	ctx.beginPath();
 	ctx.lineWidth = borderLineWidth;
@@ -143,5 +166,16 @@ function drawSpriteAngle_Single(imgName,row,col,dimensionX,dimensionY,atX,atY,at
 	ctx.rotate(atAngle);
 	ctx.drawImage(image.get(imgName),(col-1)*dimensionX,(row-1)*dimensionY,dimensionX,dimensionY,-(image.get(imgName).width/maxRows)/2,-image.get(imgName).height/2,dimensionX,dimensionY);
 	ctx.restore();
+}
+
+function angledLine(atX,atY,length,ang,color) {
+	var halfLineOffsetX = Math.cos(ang) * length;
+	var halfLineOffsetY = Math.sin(ang) * length;
+	ctx.strokeStyle = color;
+	ctx.lineWidth = 5;//was being reset by other calls 
+	ctx.beginPath();
+	ctx.moveTo(atX-halfLineOffsetX,atY-halfLineOffsetY);
+	ctx.lineTo(atX+halfLineOffsetX,atY+halfLineOffsetY);
+	ctx.stroke();
 }
 

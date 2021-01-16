@@ -1,16 +1,37 @@
 
 
 var musicVolume = 0.75;
-var effectsVolume = 0.75;
+var effectsVolume = 0.50;
 var isMuted = false;
 var firstGesture = false;
 const VOLUME_INCREMENT = 0.25;
 
 
 //define sounds
-//var backgroundSong = new soundLoopsClass("audio/gameplayMusic.mp3");
+var backgroundSong = new soundLoopsClass("audio/childrenTrackV1.mp3");
+var sfxGunTowerShoot = new soundSingleBufferClass("audio/gunTower.mp3");
+var sfxElectroTowerShoot = new soundSingleBufferClass("audio/electroTower.mp3");
+var sfxLaserTowerShoot = new soundSingleBufferClass("audio/laser.mp3");
+var sfxMissleTowerShoot = new soundSingleBufferClass("audio/missileTower.mp3");
+var sfxSlowdownTowerShoot = new soundSingleBufferClass("audio/slowdownTower.mp3");
+var sfxFlameTowerShoot = new soundSingleBufferClass("audio/flameTower.mp3");
+
+var sfxEnemyDead = new soundSingleBufferClass("audio/explosion.mp3");
+var sfxGumStolen = new soundSingleBufferClass("audio/gumStolen.mp3");
+var sfxHover = new soundSingleBufferClass("audio/hover.mp3");
 //var invalidSelectSFX = new soundSingleBufferClass("audio/invalid_select_sfx.wav");
 
+function muteAllSfx(){
+	sfxGunTowerShoot.stop();
+	sfxElectroTowerShoot.stop();
+	sfxLaserTowerShoot.stop();
+	sfxMissleTowerShoot.stop();
+	sfxSlowdownTowerShoot.stop();
+	sfxFlameTowerShoot.stop();
+	sfxEnemyDead.stop();
+	sfxGumStolen.stop();
+	sfxHover.stop();
+}
 
 //audio UI -----------------------------------------------------------
 function playBackgroundMusic(){
@@ -142,7 +163,6 @@ function soundLoopsClass(fullFilenameWithPath) {
 	var fileName = fullFilenameWithPath;
 	var sound = new Audio(fileName);
 	sound.loop = true;
-
 	this.play = function() {
 		if (sound.paused) {
 			sound.currentTime = 0;
@@ -154,13 +174,25 @@ function soundLoopsClass(fullFilenameWithPath) {
 	this.stop = function() {
 		sound.pause();
 	}
+
+	this.setVolume = function(value) {
+		if (sound == null) {return;}
+
+		sound.volume = Math.pow(value * !isMuted, 2);
+
+		if(sound.volume == 0) {
+			sound.pause();
+		} else if (sound.paused) {
+			sound.play();
+		}
+	}
 }
 
 function soundSingleBufferClass(fullFilenameWithPath) {
 
 	var fileName = fullFilenameWithPath;
 	var sound = new Audio(fileName);
-
+	
 	this.play = function() {
 
 		sound.currentTime = 0;
@@ -168,6 +200,9 @@ function soundSingleBufferClass(fullFilenameWithPath) {
 		sound.play();
 	}
 
+	this.isPaused = function(){
+		return sound.paused
+	}
 
 	this.stop = function() {
 		sound.pause();
@@ -282,7 +317,7 @@ function setMusicVolume(amount) {
 	} else if (musicVolume < 0.0) {
 		musicVolume = 0.0;
 	}
-	//backgroundMusic.setVolume(musicVolume);
+	backgroundSong.setVolume(musicVolume);
 }
 
 function turnMusicVolumeUp() {
@@ -313,6 +348,7 @@ function turnEffectsVolumeDown() {
 function setVolume(amount) {
 	setMusicVolume(amount);
 	setEffectsVolume(amount);
+	backgroundSong.setVolume(amount);
 }
 
 function turnVolumeUp() {

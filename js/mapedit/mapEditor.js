@@ -177,6 +177,9 @@ mapEditor = new function(){
 			}else if((pathExists || startPositions.length > 0 || goalPositions.length > 0) && gumPositions.length == 0){
 				this.message = "Validation error: Path " + i + " has a no gum spawn Point.";
 				return;
+			}else if((pathExists || startPositions.length > 0 || goalPositions.length > 0) && gumPositions.length > 1){
+				this.message = "Validation error: Path " + i + " has more than 1 gum spawn Point.";
+				return;
 			}
 
 			if(!pathExists && turretPositions.length == 0)

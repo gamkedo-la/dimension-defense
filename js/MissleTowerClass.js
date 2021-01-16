@@ -9,10 +9,9 @@ function MissleTowerClass(){
 	this.indexY;
 	this.image;
 
-    // FIXME perhaps these should be set later, after all inits? seems ok
-	this.image = "MissileTowerTurret";
-	this.imageBase = "MissileTowerBase";
-	this.imageProjectile = "Missile";
+	this.image;
+	this.imageBase;
+	this.imageProjectile;
 	this.imageMuzzleFlash = "MuzzleFlash";
 	this.imageMissileTrail = "MissileTrail";
 	this.muzzleFlashAlpha = 0;
@@ -33,6 +32,10 @@ function MissleTowerClass(){
 	this.angle = 45;
 	this.shotList = [];
 
+	this.isMouseHovering = false;
+	this.hoverColor = "#8730d9"
+	this.hoverAlpha = 1;
+
 	//move things here
 	this.move = function (){
 
@@ -42,9 +45,18 @@ function MissleTowerClass(){
 
 			if(collidedEnemy !== false)
 			{
-				this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
-				this.shoot(collidedEnemy[0]);		
+				for(let i = 0; i < collidedEnemy.length; i++)
+				{
+					if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+					{
+						this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
+						this.shoot(collidedEnemy[i]);
+						sfxMissleTowerShoot.play();
+						break;
+					}
+				}
 			}
+
 		}
 
 		for (let i = this.shotList.length - 1; i >= 0; i--)
@@ -100,8 +112,8 @@ function MissleTowerClass(){
 		// now draw the missiles themselves
 		for(i = 0; i < this.shotList.length; i++)
 		{
-			x = this.shotList[i].x + offsetX;
-			y = this.shotList[i].y + offsetY;
+			x = this.shotList[i].x ;
+			y = this.shotList[i].y ;
 			a = this.shotList[i].angle;
             // render the missile
 			drawBitmapCenteredWithRotation(this.imageProjectile,x,y,a);
@@ -112,24 +124,28 @@ function MissleTowerClass(){
 
 	//draw things here
 	this.draw = function(){
+		if(this.isMouseHovering)
+		{
+			colorCircleBorderOnlyWithAlpha(this.x , this.y , this.minR , this.maxR , this.hoverColor,this.hoverAlpha);	
+		}
 
 		// draw the base of the tower that does not rotate
 		if (this.imageBase) { // optional
-		    drawBitmapCenteredWithRotation(this.imageBase, this.x + offsetX, this.y + offsetY, 0);
+		    drawBitmapCenteredWithRotation(this.imageBase, this.x, this.y, 0);
 		}
 
 		// draw the part that rotates
 		// with a little fake AI (a wobble! =)
 		let angleWobble = degreesToRadian(Math.cos(performance.now()/555)*4);
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);
+		drawBitmapCenteredWithRotation(this.image, this.x, this.y, this.angle+angleWobble);
 		
         this.drawMissiles();
 
-		// we may have just fired a shot! draw some fx
+		// we may be have just fired a shot! draw some fx
 		if (this.muzzleFlashAlpha>0) {
             ctx.globalAlpha = this.muzzleFlashAlpha;
             this.muzzleFlashAlpha -= 0.025; // fade out
-            drawBitmapCenteredWithRotation(this.imageMuzzleFlash, this.x + offsetX, this.y + offsetY, this.angle+angleWobble);			
+            drawBitmapCenteredWithRotation(this.imageMuzzleFlash, this.x, this.y, this.angle+angleWobble);			
             ctx.globalAlpha = 1;
 		}
 
@@ -187,12 +203,14 @@ function MissleTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "MissileTowerTurret";//FIXME +"L" + this.level;
-		let random = Math.floor(Math.random() * Math.floor(50));
+		this.image = "MissileTowerTurretL" + this.level;
+		this.imageBase = "MissileTowerBaseL" + this.level;
+		this.imageProjectile = "MissileL" + this.level;
+		let random = Math.floor(Math.random() * Math.floor(30));
 
 		switch(this.level){
 			case 1:
-				this.minR = 200;
+				this.minR = 100;
 				this.maxR = 400;
 				this.shootSpeed = 3;
 				this.shootColor = '#1abdd6';
@@ -201,7 +219,7 @@ function MissleTowerClass(){
 				this.reloadTime = 300 + random;
 				break;
 			case 2:
-				this.minR = 200;
+				this.minR = 150;
 				this.maxR = 500;
 				this.shootSpeed = 4;
 				this.shootColor = '#d323d9';
@@ -210,13 +228,13 @@ function MissleTowerClass(){
 				this.reloadTime = 250 + random;
 				break;
 			case 3:
-				this.minR = 100;
+				this.minR = 200;
 				this.maxR = 500;
 				this.shootSpeed = 5;
 				this.shootColor = '#db2531';
 				this.shootR = 14;
 				this.shootDamage = 10;
-				this.reloadTime = 250 + random;
+				this.reloadTime = 200 + random;
 				break;
 		}
 	}

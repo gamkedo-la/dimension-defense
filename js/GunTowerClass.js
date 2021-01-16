@@ -21,18 +21,30 @@ function GunTowerClass(){
 	this.r;
 	this.angle = 45;
 	this.shotList = [];
+	this.isMouseHovering = false;
+	this.hoverColor = "#8730d9"
+	this.hoverAlpha = 1;
 
 	//move things here
 	this.move = function (){
-
 		let collidedEnemy = collisionCheckWithAllEnemy(this.x, this.y, this.r);
 
 		if(collidedEnemy !== false)
 		{
-			this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[0]].x, gameLoop.enemyList[collidedEnemy[0]].y);
-			if(gameTimer % this.reloadTime == 0)	this.shoot();
+			for(let i = 0; i < collidedEnemy.length; i++)
+			{
+				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
+				{
+					this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
+					if(gameTimer % this.reloadTime == 0)
+					{
+						this.shoot();
+						sfxGunTowerShoot.play();
+					}
+					break;
+				}
+			}
 		}
-		
 		for (let i = this.shotList.length - 1; i >= 0; i--)
 		{
 			if (this.shotList[i].isDead){
@@ -55,11 +67,20 @@ function GunTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-		drawBitmapCenteredWithRotation(this.image, this.x + offsetX, this.y + offsetY, this.angle)
+	
+		if(this.isMouseHovering)
+		{
+			colorCircleWithAlpha(this.x , this.y , this.r, this.hoverColor,this.hoverAlpha);
+		}
+
+		drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			colorCircle(this.shotList[i].x + offsetX, this.shotList[i].y + offsetY, this.shotList[i].r, this.shotList[i].color);
+			colorCircle(this.shotList[i].x , this.shotList[i].y , this.shotList[i].r, this.shotList[i].color);
 		}
+	}
+
+	this.mouseHover = function(){
 
 	}
 
