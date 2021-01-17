@@ -8,7 +8,7 @@ function GunTowerClass(){
 	this.indexX;
 	this.indexY;
 	this.image;
-
+	this.imageBase;
 	this.level = 0;
 	this.price = [100, 200]
 
@@ -72,7 +72,7 @@ function GunTowerClass(){
 		{
 			colorCircleWithAlpha(this.x , this.y , this.r, this.hoverColor,this.hoverAlpha);
 		}
-
+		drawBitmapCenteredWithRotation(this.imageBase, this.x , this.y , 0)
 		drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
 		for(let i = 0; i < this.shotList.length; i++)
 		{
@@ -133,6 +133,7 @@ function GunTowerClass(){
 	{
 		this.level++;
 		this.image = "gunTowerL" + this.level;
+		this.imageBase = "gunTowerBaseL" + this.level;
 
 		switch(this.level){
 			case 1:
