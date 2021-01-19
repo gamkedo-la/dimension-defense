@@ -24,6 +24,7 @@ const LevelManager = new (function () {
                 if(score > this.highScores[i])
                 {
                     this.highScores[i] = score;
+                    setHighscore(i,score); // save to localstorage
                     return true;
                 }else{
                     return false;
@@ -79,7 +80,12 @@ const LevelManager = new (function () {
     {
         for(let i = 0; i < levelList.length; i++)
         {
-            this.highScores.push(0);
+
+            //setHighscore(i,Math.round(Math.random()*1000)); // bogus data for testing!
+
+            this.highScores.push(getHighscore(i)); // localstorage
+
+
         }
     }
 
