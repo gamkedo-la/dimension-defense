@@ -496,24 +496,25 @@ gameLoop = new function(){
 				dragMouseDX = offsetX;
 				dragMouseDY = offsetY;
 
-				for (let i = 0; i < mapList.length; i++)
+				for (let mi = 0; mi < mapList.length; mi++)
 				{
-					if(this.mapName == mapList[i].name)
+					if(this.mapName == mapList[mi].name)
 					{
-						this.generateMapVarsFromEditorMapList(mapList[i]);
+						this.generateMapVarsFromEditorMapList(mapList[mi]);
 						break;
 					}
 				}
+				
 
 				let gumArt = image.getAllTypesOf("gum");
 				gumArt = gumArt[Math.floor(Math.random() * Math.floor(gumArt.length))]
-				for(let i = 0; i < this.pathList.length; i++)
+				for(let fi = 0; fi < this.pathList.length; fi++)
 				{
-					for(let gi = 0; gi < levelList[i].gumAmounts[i]; gi++)
+					for(let gi = 0; gi < levelList[i].gumAmounts[fi]; gi++)
 					{
-							let newGum = new GumClass();
-							newGum.init(this.pathList[i], gumArt);
-							this.gums.push(newGum);
+						let newGum = new GumClass();
+						newGum.init(this.pathList[fi], gumArt);
+						this.gums.push(newGum);
 					}
 				}
 				break;
