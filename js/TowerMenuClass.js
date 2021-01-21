@@ -28,11 +28,11 @@ function TowerMenuClass(){
 
 	this.towerList = [
 		"gunTower",
-		"missleTower",
-		"laserTower",
-		"flameTower",
 		"slowdownTower",
-		"electroTower",	
+		"flameTower",
+		"electroTower",
+		"laserTower",
+		"missleTower",
 	]
 	
 	this.move = function (){
@@ -133,6 +133,10 @@ function TowerMenuClass(){
 					break;
 				case "flameTower":
 					this.btnList[i].txt = "Flame Tower";
+					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
+					break;
+				case "testTower":
+					this.btnList[i].txt = "Chris Tower";
 					this.btnList[i].price =  gameLoop.getPriceNewTower(this.towerList[i]);
 					break;
 			}

@@ -340,6 +340,9 @@ gameLoop = new function(){
 			case "flameTower":
 				newTower = new FlameTowerClass();
 				break;
+			case "testTower":
+				newTower = new TestTowerClass();
+				break;
 		}
 		newTower.init(atIndexX, atIndexY);
 		this.towerList.push(newTower);
@@ -370,12 +373,14 @@ gameLoop = new function(){
 			case "slowdownTower":
 				return 100;
 			case "missleTower":
-				return 250;
+				return 550;
 			case "electroTower":
-				return 150;
+				return 300;
 			case "laserTower":
-				return 150;
+				return 400;
 			case "flameTower":
+				return 200;
+			case "testTower":
 				return 200;
 		}			
 	}

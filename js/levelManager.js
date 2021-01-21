@@ -10,6 +10,7 @@ const LevelManager = new (function () {
             if(levelList[i].levelName == currentLevelName && i == this.unlockedLevels)
             {
                 this.unlockedLevels++;
+                setUnlockedLevels(this.unlockedLevels);
                 return;
             }
         }
@@ -78,14 +79,12 @@ const LevelManager = new (function () {
 
     this.init = function()
     {
+        this.unlockedLevels = getUnlockedLevels();
+
         for(let i = 0; i < levelList.length; i++)
         {
-
             //setHighscore(i,Math.round(Math.random()*1000)); // bogus data for testing!
-
             this.highScores.push(getHighscore(i)); // localstorage
-
-
         }
     }
 

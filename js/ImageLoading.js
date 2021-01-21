@@ -7,7 +7,6 @@ image = new function (){
 		{imgName: 'mapPencil', fileName: "mapPencil.png", type: 'gameMap'},
 		{imgName: 'mapDrawnLand', fileName: "mapDrawnGreenLand.png", type: 'gameMap'},
 		{imgName: 'toyCarMap', fileName: "toyCarMap.png", type: 'gameMap'},
-		{imgName: 'blocksMap', fileName: 'blocksMap.png', type: 'gameMap'},
 		{imgName: 'Demonic Map', fileName: 'BT_DD_OccultTown.png', type: 'gameMap'},
 		{imgName: 'retroTripMap', fileName: 'retroTripMap.png', type: 'gameMap'},
 		{imgName: 'boardgame', fileName: 'boardGameMap.png', type: 'gameMap'},
@@ -22,6 +21,7 @@ image = new function (){
 		{imgName: 'slowTowerL1', fileName: "TowerSlow-1.png", type: 'tower'},
 		{imgName: 'slowTowerL2', fileName: "TowerSlow-2.png", type: 'tower'},
 		{imgName: 'slowTowerL3', fileName: "TowerSlow-3.png", type: 'tower'},
+		{imgName: 'slowTowerL4', fileName: "testower.png", type: 'tower'},
 
 		{imgName: 'ElectricTowerL1P', fileName: "ElectricTowerL1P.png", type: 'tower'},
 		{imgName: 'ElectricTowerL1A', fileName: "ElectricTowerL1A.png", type: 'tower'},
@@ -63,7 +63,7 @@ image = new function (){
 		{imgName: 'gum1', fileName: "gum-1.png", type: 'gum'},
 		{imgName: 'gum2', fileName: "gum-2.png", type: 'gum'},
 
-		{imgName: 'logo', fileName: "DDlogo.png", type: 'gum'},
+		{imgName: 'logo', fileName: "DDlogo.png", type: 'logo'},
 
 		// enemies
 		{imgName: 'turtleSingle', fileName: "enemyTurtleSingle.png", type: 'enemy'},

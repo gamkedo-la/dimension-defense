@@ -18,7 +18,7 @@ function MissleTowerClass(){
 	this.projectileTrails = []; // many [x,y,alpha]
 
 	this.level = 0;
-	this.price = [200, 300]
+	this.price = [300, 350]
 
 	this.shootSpeed;
 	this.reloadTime;
@@ -215,8 +215,8 @@ function MissleTowerClass(){
 				this.shootSpeed = 3;
 				this.shootColor = '#1abdd6';
 				this.shootR = 8;
-				this.shootDamage = 5;
-				this.reloadTime = 300 + random;
+				this.shootDamage = 30;
+				this.reloadTime = 200 + random;
 				break;
 			case 2:
 				this.minR = 150;
@@ -224,8 +224,8 @@ function MissleTowerClass(){
 				this.shootSpeed = 4;
 				this.shootColor = '#d323d9';
 				this.shootR = 10;
-				this.shootDamage = 7;
-				this.reloadTime = 250 + random;
+				this.shootDamage = 40;
+				this.reloadTime = 150 + random;
 				break;
 			case 3:
 				this.minR = 200;
@@ -233,8 +233,8 @@ function MissleTowerClass(){
 				this.shootSpeed = 5;
 				this.shootColor = '#db2531';
 				this.shootR = 14;
-				this.shootDamage = 10;
-				this.reloadTime = 200 + random;
+				this.shootDamage = 55;
+				this.reloadTime = 100 + random;
 				break;
 		}
 	}

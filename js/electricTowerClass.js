@@ -103,17 +103,17 @@ function ElectricTowerClass(){
 		switch(this.level){
 			case 1:
 				this.r = 70;
-				this.damge = 1;
-				this.dotRate = 90;
+				this.damge = 10;
+				this.dotRate = 80;
 				break;
 			case 2:
 				this.r = 70;
-				this.damge = 2;
-				this.dotRate = 80;
+				this.damge = 15;
+				this.dotRate = 75;
 				break;
 			case 3:
 				this.r = 120;
-				this.damge = 3;
+				this.damge = 20;
 				this.dotRate = 70;
 				break;
 		}

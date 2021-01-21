@@ -51,18 +51,13 @@ let cheatList = [
 	},
 	cheat = 
 	{
-		code: '1',
-		active: isDebugModeON,
+		code: 'chris',
+		active: true,
 		action: function() {
-			backgroundSong.play();
-		}
-	},
-	cheat = 
-	{
-		code: '2',
-		active: isDebugModeON,
-		action: function() {
-			backgroundSong.stop();
+			if(!gameLoop.towerMenu.towerList.includes("testTower")){
+				gameLoop.towerMenu.towerList.push("testTower");
+			}
+			
 		}
 	},
 ];
@@ -110,7 +105,7 @@ let cheatList = [
 					if(cheatBuffer == val.code && val.active == true) {
 						console.log("cheat activated: " + val.code);
 						val.action();	
-						//break;		
+						break;		
 					}
 				} else {
 					//remove point if string doesnt matched

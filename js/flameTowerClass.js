@@ -126,18 +126,18 @@ function FlameTowerClass(){
 		switch(this.level){
 			case 1:
 				this.r = 70;
-				this.damage = 1;
-				this.dotRate = 90;
+				this.damage = 10;
+				this.dotRate = 65;
 				break;
 			case 2:
 				this.r = 75;
-				this.damage = 2;
-				this.dotRate = 80;
+				this.damage = 15;
+				this.dotRate = 60;
 				break;
 			case 3:
 				this.r = 80;
-				this.damage = 3;
-				this.dotRate = 70;
+				this.damage = 20;
+				this.dotRate = 60;
 				break;
 		}
 	}

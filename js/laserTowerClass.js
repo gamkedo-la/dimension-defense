@@ -151,8 +151,8 @@ function LaserTowerClass(){
 				this.shootSpeed = 2.5;
 				this.shootColor = '#FF0000';
 				this.shootR = 5;
-				this.shootDamage = 1;
-				this.reloadTime = 140;
+				this.shootDamage = 16;
+				this.reloadTime = 60;
         		this.imageBase = 'LaserTowerBase1';
         		this.image = 'LaserTower1';
 				break;
@@ -161,18 +161,18 @@ function LaserTowerClass(){
 				this.shootSpeed = 3;
 				this.shootColor = '#FF8888';
 				this.shootR = 6;
-				this.shootDamage = 2;
-				this.reloadTime = 90;
+				this.shootDamage = 19;
+				this.reloadTime = 45;
         		this.imageBase = 'LaserTowerBase2';
         		this.image = 'LaserTower2';
 				break;
 			case 3:
 				this.r = 90;
-				this.shootSpeed = 40;
+				this.shootSpeed = 4;
 				this.shootColor = '#FFAAAA';
 				this.shootR = 7;
-				this.shootDamage = 3;
-				this.reloadTime = 50;
+				this.shootDamage = 25;
+				this.reloadTime = 30;
         		this.imageBase = 'LaserTowerBase3';
         		this.image = 'LaserTower3';
 				break;

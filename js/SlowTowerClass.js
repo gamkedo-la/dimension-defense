@@ -84,15 +84,15 @@ function SlowTowerClass(){
 		switch(this.level){
 			case 1:
 				this.r = 70;
-				this.slowdownAmount = 1;
+				this.slowdownAmount = 0.5;
 				break;
 			case 2:
 				this.r = 70;
-				this.slowdownAmount = 1.5;
+				this.slowdownAmount = 0.7;
 				break;
 			case 3:
 				this.r = 140;
-				this.slowdownAmount = 2;
+				this.slowdownAmount = 1;
 				break;
 		}
 	}

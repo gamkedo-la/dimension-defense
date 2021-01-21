@@ -1,14 +1,14 @@
 
-function GunTowerClass(){
+function TestTowerClass(){
 
 	
-	this.tower = "gunTower"
+	this.tower = "testTower"
 	this.x;
 	this.y;
 	this.indexX;
 	this.indexY;
 	this.image;
-	this.imageBase;
+
 	this.level = 0;
 	this.price = [100, 200]
 
@@ -17,16 +17,19 @@ function GunTowerClass(){
 	this.shootColor;
 	this.shootR;
 	this.shootDamage;
+	this.shotActive = false;
 
 	this.r;
 	this.angle = 45;
 	this.shotList = [];
+
 	this.isMouseHovering = false;
 	this.hoverColor = "#8730d9"
 	this.hoverAlpha = 1;
 
 	//move things here
 	this.move = function (){
+
 		let collidedEnemy = collisionCheckWithAllEnemy(this.x, this.y, this.r);
 
 		if(collidedEnemy !== false)
@@ -36,15 +39,19 @@ function GunTowerClass(){
 				if(!gameLoop.enemyList[collidedEnemy[i]].isDead)
 				{
 					this.angle = getAngleBetween2PointsInRadian(this.x, this.y, gameLoop.enemyList[collidedEnemy[i]].x, gameLoop.enemyList[collidedEnemy[i]].y);
-					if(gameTimer % this.reloadTime == 0)
+					if(gameTimer % this.reloadTime == 0)	
 					{
 						this.shoot();
-						sfxGunTowerShoot.play();
+						if(sfxSlowdownTowerShoot.isPaused())
+						{
+							sfxSlowdownTowerShoot.play();
+						}
 					}
 					break;
 				}
 			}
 		}
+		
 		for (let i = this.shotList.length - 1; i >= 0; i--)
 		{
 			if (this.shotList[i].isDead){
@@ -67,20 +74,21 @@ function GunTowerClass(){
 
 	//draw things here
 	this.draw = function(){
-	
+
 		if(this.isMouseHovering)
 		{
 			colorCircleWithAlpha(this.x , this.y , this.r, this.hoverColor,this.hoverAlpha);
 		}
-		drawBitmapCenteredWithRotation(this.imageBase, this.x , this.y , 0)
-		drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
+	
+		if (this.image) { 
+			drawBitmapCenteredWithRotation(this.image, this.x , this.y , this.angle)
+		}	
+
 		for(let i = 0; i < this.shotList.length; i++)
 		{
-			colorCircle(this.shotList[i].x , this.shotList[i].y , this.shotList[i].r, this.shotList[i].color);
+			spinAng = this.shotList[i].angle;
+			angledLineThicker(this.shotList[i].x, this.shotList[i].y, 20, spinAng, this.shotList[i].color);
 		}
-	}
-
-	this.mouseHover = function(){
 
 	}
 
@@ -89,6 +97,7 @@ function GunTowerClass(){
 	{
 		this.indexX = indexX;
 		this.indexY = indexY;
+		this.image = 'slowTowerL4';
 
 		this.x = returnPixelPosFromIndexPos(indexX) + TILE_SIZE / 2;
 		this.y = returnPixelPosFromIndexPos(indexY) + TILE_SIZE / 2;
@@ -102,7 +111,7 @@ function GunTowerClass(){
 		let dY = Math.sin(this.angle);
 		let newShot = {
 			x: this.x + dX * 24,
-			y: this.y + dY * 24,
+			y: (this.y + 10) + dY * 24,
 			dX: dX,
 			dY: dY,
 			r: this.shootR,
@@ -132,33 +141,31 @@ function GunTowerClass(){
 	this.upgrade = function()
 	{
 		this.level++;
-		this.image = "gunTowerL" + this.level;
-		this.imageBase = "gunTowerBaseL" + this.level;
 
 		switch(this.level){
 			case 1:
-				this.r = 70;
-				this.shootSpeed = 5;
-				this.shootColor = '#1abdd6';
-				this.shootR = 5;
-				this.shootDamage = 5;
-				this.reloadTime = 40;
+				this.r = 100;
+				this.shootSpeed = 3;
+				this.shootColor = '#FF0000';
+				this.shootR = 10;
+				this.shootDamage = 4;
+				this.reloadTime = 90;
 				break;
 			case 2:
-				this.r = 80;
-				this.shootSpeed = 10;
-				this.shootColor = '#d323d9';
-				this.shootR = 6;
-				this.shootDamage = 9;
-				this.reloadTime = 30;
+				this.r = 200;
+				this.shootSpeed = 4;
+				this.shootColor = '#FF8888';
+				this.shootR = 12;
+				this.shootDamage = 6;
+				this.reloadTime = 50;
 				break;
 			case 3:
-				this.r = 90;
-				this.shootSpeed = 15;
-				this.shootColor = '#db2531';
-				this.shootR = 7;
-				this.shootDamage = 12;
-				this.reloadTime = 20;
+				this.r = 300;
+				this.shootSpeed = 5;
+				this.shootColor = '#FFAAAA';
+				this.shootR = 12;
+				this.shootDamage = 9;
+				this.reloadTime = 30;
 				break;
 		}
 	}
