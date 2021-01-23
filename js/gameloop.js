@@ -169,7 +169,7 @@ gameLoop = new function(){
 	this.drawUI = function(){
 
 		colorRectWithAlpha(10,540, 150, 60, "white", 0.1);
-		colorText(this.coins, 55, 45, 50, "black");
+		colorText(this.coins, 55, 45, 50, "white");
 		
 		colorRectWithAlpha(5, 60, 150, 50, "black", 0.5);
 		colorText("Score: " + this.score, 10, 80, 22, "white");
@@ -460,11 +460,10 @@ gameLoop = new function(){
 					{
 						this.currentWave++;
 						this.waveSubCounter = 0;
-
 						if(this.currentWave == this.waveList.length)
 						{
 							this.noMoreWaves = true;
-							this.currentWave--; //avoiding undefined error
+							//this.currentWave--; //avoiding undefined error
 							console.log("Last enemy!");
 							return;
 						}
@@ -565,6 +564,7 @@ gameLoop = new function(){
 	this.generateWaveVarsFromlevelList = function(level)
 	{
 		let waveList = copyArray(level);
+		
 
 		for (let i = 0; i < waveList.wave.length; i++)
 		{
