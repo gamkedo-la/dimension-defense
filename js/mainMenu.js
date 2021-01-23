@@ -206,9 +206,11 @@ const MainMenu = new (function () {
     this.drawCredits = function()
     {
         this.BackButtonToMainMenu();
-        colorText("Your name here", 150 , 100, 50, 'white');
-        colorText("for the low low price", 150 , 200, 50, 'white');
-        colorText("of just 1 commit!", 150 , 300, 50, 'white');
+        for (var count = 0; count < this.creditNameList.length; count++){
+            var drawAt = 10+count*12;
+            var snappedY = Math.floor(drawAt);
+            colorText(this.creditNameList[count], 30 , snappedY, 10, 'white');
+        }
     }
 
     this.mouseClicked = function () {
@@ -344,5 +346,49 @@ const MainMenu = new (function () {
 		};
         muzzleFlashAlpha = 1;
 	}
+
+    this.creditsMaxCharWidthToWrap = 160;
+    this.creditNameList = [
+        " "," "," ",
+    "Muhammed \"EyeForcz\" Durmusoglu - Project lead, core gameplay, example maps, enemy wave functionality, custom level editor, slowdown timer, enemy health bars, map fixes, turtle enemy art, mirror image support, gum stealing, tower selection UI, tower upgrade support, missile tower, additional cheat codes, main menu and level selection code, credits screen support, retro trip map, happy green level, car track  level, collision radius display on hover, game story, tutorial text, logo, enemy stats tuning, additional content integration and assorted bug fixes"," ",
+    "Vaan Hope Khani - Pause, pause menu, lose screen, volume setting, restart functionality, gun tower sprite, lasers art, sound effects (electro tower, enemy death, explosion, flame tower, gun tower, hover, laser, missile tower, slowdown tower), high scores display, alternative logo"," ",
+    "Christer \"McFunkypants\" Kaitila - Camera pan, toy car level, bold font support, missile tower and turret sprites, missile trails, laser tower (including upgrades), flicker effect for flame tower fire, highs score save and load"," ",
+    "Bjorn The Fire - Demon level art and design, enemy spawn fix"," ",
+    "Charlene A. - Any enemy type code and art, enemy explosion effect, board game level"," ",
+    "Alan Zaring - Children's music"," ",
+    "Tyler Funk - Blocks map and related level blocks"," ",
+    "I-wei Chen - Animation system, support for rotated animations, ant animation integration"," ",
+    "Ryan Gaillard - Flametower art, sound, and related integration"," ",
+    "Barış Köklü - Gum altar return functionality"," ",
+    "Randy Tan Shaoxian - Animated tower hover indicator, game over screen refactor"," ",
+    "Vince McKeown - Player coins, coin drop, coin counter, audio code, off screen shot culling"," ",
+    "H Trayford - Tower placement, electric tower images and related animation"," ",
+        " ",
+        "Made by members of HomeTeam GameDev (Apollo!)"," ","Find out more and join us at HomeTeamGameDev.com to make games with us!",
+        " ",
+        " ",
+        ];
+
+    this.wrapCredits = function(){ // note: gets calling immediately after definition
+        var newCut = [];
+        var findEnd;
+        for(var i=0;i<this.creditNameList.length;i++) {
+            while(this.creditNameList[i].length > 0) {
+                findEnd = this.creditsMaxCharWidthToWrap;
+                if(this.creditNameList[i].length > this.creditsMaxCharWidthToWrap) {
+                    for(var ii=findEnd;ii>0;ii--) {
+                        if(this.creditNameList[i].charAt(ii) == " ") {
+                            findEnd=ii;
+                            break;
+                        }
+                    }
+                }
+                newCut.push(this.creditNameList[i].substring(0, findEnd));
+                this.creditNameList[i] = this.creditNameList[i].substring(findEnd, this.creditNameList[i].length);
+            }
+        }
+        this.creditNameList = newCut;
+    }
+    this.wrapCredits(); // calling immediately, only should happen one time ever to prepare wrap
 
 });
