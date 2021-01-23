@@ -207,9 +207,9 @@ const MainMenu = new (function () {
     {
         this.BackButtonToMainMenu();
         for (var count = 0; count < this.creditNameList.length; count++){
-            var drawAt = 10+count*12;
+            var drawAt = count*14-16;
             var snappedY = Math.floor(drawAt);
-            colorText(this.creditNameList[count], 30 , snappedY, 10, 'white');
+            colorText(this.creditNameList[count], 25 , snappedY, 14, 'white');
         }
     }
 
@@ -347,10 +347,10 @@ const MainMenu = new (function () {
         muzzleFlashAlpha = 1;
 	}
 
-    this.creditsMaxCharWidthToWrap = 160;
+    this.creditsMaxCharWidthToWrap = 115;
     this.creditNameList = [
         " "," "," ",
-    "Muhammed \"EyeForcz\" Durmusoglu - Project lead, core gameplay, example maps, enemy wave functionality, custom level editor, slowdown timer, enemy health bars, map fixes, turtle enemy art, mirror image support, gum stealing, tower selection UI, tower upgrade support, missile tower, additional cheat codes, main menu and level selection code, credits screen support, retro trip map, happy green level, car track  level, collision radius display on hover, game story, tutorial text, logo, enemy stats tuning, additional content integration and assorted bug fixes"," ",
+    "Muhammed \"EyeForcz\" Durmusoglu - Project lead, core gameplay, example maps, enemy wave functionality, custom level and map editor, slowdown tower / gun tower and flame tower code, enemy health bars, map fixes, turtle / car / blob enemy art, mirror image support, gum stealing, tower selection UI, tower upgrade menu, sound implementation, cheat code function, main menu and level selection code, credits screen support, pencil / retro trip / happy green map and level, car track level, collision radius display on hover, game story and tutorial text, logo, enemy stats tuning, additional content integration and assorted bug fixes"," ",
     "Vaan Hope Khani - Pause, pause menu, lose screen, volume setting, restart functionality, gun tower sprite, lasers art, sound effects (electro tower, enemy death, explosion, flame tower, gun tower, hover, laser, missile tower, slowdown tower), high scores display, alternative logo"," ",
     "Christer \"McFunkypants\" Kaitila - Camera pan, toy car level, bold font support, missile tower and turret sprites, missile trails, laser tower (including upgrades), flicker effect for flame tower fire, highs score save and load"," ",
     "Bjorn The Fire - Demon level art and design, enemy spawn fix"," ",
@@ -363,10 +363,7 @@ const MainMenu = new (function () {
     "Randy Tan Shaoxian - Animated tower hover indicator, game over screen refactor"," ",
     "Vince McKeown - Player coins, coin drop, coin counter, audio code, off screen shot culling"," ",
     "H Trayford - Tower placement, electric tower images and related animation"," ",
-        " ",
-        "Made by members of HomeTeam GameDev (Apollo!)"," ","Find out more and join us at HomeTeamGameDev.com to make games with us!",
-        " ",
-        " ",
+        "Made by members of HomeTeam GameDev (Apollo!)","Find out more and join us at HomeTeamGameDev.com to make games with us!",
         ];
 
     this.wrapCredits = function(){ // note: gets calling immediately after definition
