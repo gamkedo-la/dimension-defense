@@ -19,7 +19,7 @@ function getUnlockedLevels() {
 	var level = 0;
 	if (window.localStorage) { // might be disabled
 		level = localStorage.getItem('level');
-		if (!level) level = 0; // might be undefined
+		if (!level) level = 200; // might be undefined; maxed to unlock everything by default for initial/untuned release
 	}
 	//console.log("Current high score for level " + level + " is " + score);
 	return level;

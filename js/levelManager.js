@@ -1,6 +1,6 @@
 const LevelManager = new (function () {
 
-    this.unlockedLevels = 0;
+    this.unlockedLevels = 200; // for initial release to ensure everything can be reached before more tuned
     this.highScores = [];
 
     this.unlockNextLevel = function(currentLevelName)

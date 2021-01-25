@@ -181,7 +181,7 @@ const MainMenu = new (function () {
         let mapListCol = 0;
 
         this.BackButtonToMainMenu();
-        colorText("Debug:press L to unlock all levels", 200, 18, 18, "red")
+        // colorText("Debug:press L to unlock all levels", 200, 18, 18, "red")
         for(let i = 0; i < levelList.length; i++){
             let drawbig = false;
             if(isHoveringMapItem && i === mapPreviewHoverItem){drawbig = true;}
