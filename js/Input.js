@@ -41,6 +41,9 @@ function mouseUp(evt) {
 		case 'gameStory':
 			scene= 'game'
 			break;
+		case 'pauseMenu':
+			PauseMenu.mouseClicked();
+			break;
 	}
     
 }
@@ -53,9 +56,6 @@ function mouseclicked(evt) {
             draggingMouse = true; // this is a mouseDown event
             dragMouseX = mouseX;
 			dragMouseY = mouseY;
-			break;
-		case 'pauseMenu':
-			PauseMenu.mouseClicked();
 			break;
 	}
 	
